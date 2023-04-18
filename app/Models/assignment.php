@@ -16,7 +16,7 @@ class assignment extends Model
     protected $table = 'assignments';
 
     protected $fillable = [
-        'title', 'subject', 'url', 'classes_id', 'user_id', 'due_date', 'end_date'
+        'id', 'title', 'subject', 'url', 'classes_id', 'user_id', 'due_date', 'end_date'
     ];
 
     public function user()
@@ -32,4 +32,17 @@ class assignment extends Model
     {
         return $this->hasMany(submit::class);
     }
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * The "type" of the auto-incrementing ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
 }

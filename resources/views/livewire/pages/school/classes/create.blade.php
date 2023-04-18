@@ -1,3 +1,5 @@
+@section('pageTitle', 'Buat Pelajaran')
+
 <div>
     <div class="container-xl">
         <div class="row g-2 align-items-center mt-2">
@@ -11,7 +13,7 @@
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     <span class="d-none d-sm-inline">
-                        <a href="{{route('school.classes.index')}}" class="btn">
+                        <a href="{{route('school.classes.list')}}" class="btn">
                             Kembali
                         </a>
                     </span>

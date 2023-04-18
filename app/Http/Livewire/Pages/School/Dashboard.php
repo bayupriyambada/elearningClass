@@ -13,6 +13,7 @@ class Dashboard extends Component
             ->select("id", "name", "code", "user_id")
             ->withCount(['materials', 'assignments'])
             ->with("user:id,username")
+            ->orderByDesc("created_at")
             ->get();
         // dd($classes);
         return view('livewire.pages.school.dashboard', [

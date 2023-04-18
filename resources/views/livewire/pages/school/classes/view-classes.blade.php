@@ -26,7 +26,7 @@
                         </a>
                     </span>
                     <span class="d-none d-sm-inline">
-                        <a href="{{ route('school.classes.index') }}" class="btn btn-info">
+                        <a href="{{ route('school.classes.assignments.index',[$classes->id]) }}" class="btn btn-info">
                             Tugas
                         </a>
                     </span>

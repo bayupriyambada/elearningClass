@@ -7,6 +7,9 @@ use App\Http\Livewire\Pages\School\Classes\{Index, Create, Join, ListClasses, Vi
 use App\Http\Livewire\Pages\School\Classes\Materials\Create as MaterialsCreate;
 use App\Http\Livewire\Pages\School\Classes\Materials\Index as MaterialsIndex;
 use App\Http\Livewire\Pages\School\Classes\Materials\Edit as MaterialsEdit;
+use App\Http\Livewire\Pages\School\Classes\Assignments\Index as AssignmentsIndex;
+use App\Http\Livewire\Pages\School\Classes\Assignments\Create as AssignmentsCreate;
+use App\Http\Livewire\Pages\School\Classes\Assignments\Edit as AssignmentsEdit;
 use App\Http\Livewire\Pages\School\Dashboard;
 use Illuminate\Support\Facades\Route;
 
@@ -38,9 +41,14 @@ Route::middleware('auth')->group(function () {
             Route::get("/view/{classesId}", ViewClasses::class)->name("view");
 
             Route::prefix('/{classesId}/materials')->name('materials.')->group(function () {
-                Route::get("/", MaterialsIndex::class)->name("index");
+                Route::get("", MaterialsIndex::class)->name("index");
                 Route::get("/create", MaterialsCreate::class)->name("create");
                 Route::get("/{materialsId}/edit", MaterialsEdit::class)->name("edit");
+            });
+            Route::prefix('/{classesId}/assignments')->name('assignments.')->group(function () {
+                Route::get("", AssignmentsIndex::class)->name("index");
+                Route::get("/create", AssignmentsCreate::class)->name("create");
+                Route::get("/{assignmentsId}/edit", AssignmentsEdit::class)->name("edit");
             });
         });
     });
