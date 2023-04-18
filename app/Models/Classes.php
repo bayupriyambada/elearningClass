@@ -6,16 +6,17 @@ use App\Models\User;
 use App\Models\material;
 use App\Models\assignment;
 use App\Models\attendance;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Classes extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
     protected $table = 'classes';
 
     protected $fillable = [
-        'name', 'subject', 'code', 'user_id'
+        'id', 'name', 'subject', 'code', 'user_id'
     ];
 
     public function user()
@@ -35,4 +36,17 @@ class Classes extends Model
     {
         return $this->hasMany(assignment::class);
     }
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * The "type" of the auto-incrementing ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
 }

@@ -14,16 +14,17 @@ return new class extends Migration
     public function up()
     {
         Schema::create('attendances', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->timestamp('date_attendance');
             $table->boolean('isAbsensi')->default(0);
             $table->foreignId('user_id')
+            ->constrained()
+            ->onDelete('cascade');
+            $table->uuid('classes_id');
+            $table->foreign('classes_id')
+                ->references('id')
+                ->on('classes')
                 ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-            $table->foreignId('classes_id')
-                ->constrained()
-                ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->timestamps();
         });

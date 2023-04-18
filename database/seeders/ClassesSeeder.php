@@ -17,14 +17,9 @@ class ClassesSeeder extends Seeder
     public function run()
     {
         Classes::create([
-            'name' => 'Belajar PHP Dasar',
-            'subject' => 'php',
-            'code' => Str::random(10),
-            'user_id' => 2
-        ]);
-        Classes::create([
-            'name' => 'Belajar PHP Dasar #1',
-            'subject' => 'php',
+            'id' => Str::uuid(),
+            'name' => 'Belajar PHP',
+            'subject' => 'Belajar dari dasar',
             'code' => Str::random(10),
             'user_id' => 2
         ]);

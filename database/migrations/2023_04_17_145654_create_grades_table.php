@@ -14,10 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('grades', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('submit_id')
+            $table->uuid('id')->primary();
+            $table->uuid('submit_id');
+            $table->foreign('submit_id')
+                ->references('id')
+                ->on('submits')
                 ->constrained()
-                ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->string('feedback')->nullable();
             $table->integer('grade');

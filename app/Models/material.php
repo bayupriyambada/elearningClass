@@ -4,15 +4,16 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Classes;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class material extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $fillable = [
-        'title', 'subject', 'url', 'classes_id', 'user_id'
+        'id', 'title', 'subject', 'url', 'classes_id', 'user_id'
     ];
 
     public function user()
@@ -24,4 +25,18 @@ class material extends Model
     {
         return $this->belongsTo(Classes::class, 'classes_id', 'id');
     }
+
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * The "type" of the auto-incrementing ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
 }

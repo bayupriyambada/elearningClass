@@ -19,7 +19,10 @@ class RoleSeeder extends Seeder
             'name' => 'operator'
         ]);
         Role::create([
-            'name' => 'school'
+            'name' => 'teacher'
+        ]);
+        Role::create([
+            'name' => 'student'
         ]);
     }
 }

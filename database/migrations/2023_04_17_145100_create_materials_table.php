@@ -14,13 +14,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('materials', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('title');
             $table->string('subject');
             $table->string('url');
-            $table->foreignId('classes_id')
+            $table->uuid('classes_id');
+            $table->foreign('classes_id')
+                ->references('id')
+                ->on('classes')
                 ->constrained()
-                ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreignId('user_id')
                 ->constrained()

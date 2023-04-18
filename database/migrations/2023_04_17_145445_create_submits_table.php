@@ -14,13 +14,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('submits', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('subject');
             $table->string('url');
             $table->boolean('isSubmit');
-            $table->foreignId('assignment_id')
-                ->constrained()
-                ->onUpdate('cascade')
+            $table->uuid('assignment_id');
+            $table->foreign('assignment_id')
+            ->references('id')
+                ->on('assignments')
+            ->constrained()
                 ->onDelete('cascade');
             $table->foreignId('user_id')
                 ->constrained()

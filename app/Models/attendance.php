@@ -10,9 +10,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class attendance extends Model
 {
     use HasFactory;
+
+
     protected $fillable = [
         'date_attendance', 'isAbsensi', 'user_id', 'classes_id'
     ];
+
 
     public function users()
     {
@@ -21,6 +24,6 @@ class attendance extends Model
 
     public function class()
     {
-        return $this->belongsTo(Classes::class);
+        return $this->belongsTo(Classes::class, 'classes_id', 'id');
     }
 }

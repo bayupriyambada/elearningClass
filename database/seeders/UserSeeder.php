@@ -47,7 +47,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('school'),
             'registrationCode' => Date('Y') . Str::random(8),
             'avatar' => Date('Y') . Str::random(15) . 'png',
-            'role_id' => 2
+            'role_id' => 3
         ]);
     }
 }

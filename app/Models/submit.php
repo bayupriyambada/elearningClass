@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\grade;
 use App\Models\assignment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,5 +25,9 @@ class submit extends Model
     public function assignment()
     {
         return $this->belongsTo(assignment::class);
+    }
+    public function grade()
+    {
+        return $this->hasMany(grade::class);
     }
 }
