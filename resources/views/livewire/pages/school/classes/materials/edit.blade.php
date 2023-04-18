@@ -1,4 +1,4 @@
-@section('pageTitle', $classesId->name . ' | Buat Materi')
+@section('pageTitle', $classesId->name . ' | ' . $materials->title)
 <div>
     <div class="container-xl">
         <div class="row g-2 align-items-center mt-2">
@@ -15,7 +15,7 @@
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     <span class="d-none d-sm-inline">
-                        <a href="{{route('school.classes.materials.index', [encrypt($classesId->id)])}}" class="btn">
+                        <a href="{{route('school.classes.materials.index', [$classesId->id])}}" class="btn">
                             Kembali
                         </a>
                     </span>

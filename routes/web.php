@@ -3,7 +3,7 @@
 use App\Http\Livewire\Auth\LoginComponent;
 use App\Http\Livewire\Pages\DashboardComponent;
 use App\Http\Livewire\Pages\Profile;
-use App\Http\Livewire\Pages\School\Classes\{Index, Create, Join, ViewClasses};
+use App\Http\Livewire\Pages\School\Classes\{Index, Create, Join, ListClasses, ViewClasses};
 use App\Http\Livewire\Pages\School\Classes\Materials\Create as MaterialsCreate;
 use App\Http\Livewire\Pages\School\Classes\Materials\Index as MaterialsIndex;
 use App\Http\Livewire\Pages\School\Classes\Materials\Edit as MaterialsEdit;
@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
         Route::prefix('classes')->name('classes.')->group(function () {
             Route::get("", Index::class)->name("index");
             Route::get("/create", Create::class)->name("create");
+            Route::get("/list", ListClasses::class)->name("list");
             Route::get("/join", Join::class)->name("join");
             Route::get("/view/{classesId}", ViewClasses::class)->name("view");
 

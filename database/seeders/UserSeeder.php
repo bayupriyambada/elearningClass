@@ -3,12 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Support\Facades\Date;
 
 class UserSeeder extends Seeder
 {

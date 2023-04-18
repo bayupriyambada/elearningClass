@@ -27,10 +27,10 @@ class Create extends Component
                 'user_id' => auth()->user()->id
             ]);
             self::toast("success", "Berhasil menambahkan data pelajaran.");
-            redirect(route('school.classes.index'));
+            redirect(route('school.dashboard'));
         } catch (\Throwable $th) {
             self::toast("error", $th->getMessage());
-            redirect(route('school.classes.index'));
+            redirect(route('school.dashboard'));
         }
     }
     public function render()

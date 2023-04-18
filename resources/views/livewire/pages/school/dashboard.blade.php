@@ -1,20 +1,29 @@
+@section('pageTitle', 'Dasbor ' .auth()->user()->username)
+
 <div>
     <div class="container-xl">
         <div class="row g-2 align-items-center mt-2">
             <div class="col">
                 <!-- Page pre-title -->
                 <h2 class="page-title">
-                    Dasbor
+                    Dasbor {{auth()->user()->username}}
                 </h2>
             </div>
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
+                    @if (auth()->user()->role_id != 3 && auth()->user()->role_id !== 1)
+                    <span class="d-none d-sm-inline">
+                        <a href="{{ route('school.classes.list') }}" class="btn btn-yellow">
+                            Semua Kelas {{auth()->user()->name}}
+                        </a>
+                    </span>
                     <span class="d-none d-sm-inline">
                         <a href="{{ route('school.classes.create') }}" class="btn">
                             Buat Kelas
                         </a>
                     </span>
+                    @endif
                     <a href="{{ route('school.classes.join') }}" class="btn btn-primary d-none d-sm-inline-block">
                         <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"

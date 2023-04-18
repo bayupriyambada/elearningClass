@@ -18,11 +18,11 @@ class Edit extends Component
     public function mount($classesId, $materialsId)
     {
         $this->classesId = Classes::findOrFail($classesId);
-        $materials = material::findOrFail($materialsId);
-        $this->materialsId = $materials->id;
-        $this->title = $materials->title;
-        $this->subject = $materials->subject;
-        $this->url = $materials->url;
+        $this->materials = material::findOrFail($materialsId);
+        $this->materialsId = $this->materials->id;
+        $this->title = $this->materials->title;
+        $this->subject = $this->materials->subject;
+        $this->url = $this->materials->url;
     }
     protected $rules = [
         'title' => 'required|string|min:1',

@@ -15,7 +15,7 @@ class Index extends Component
     public $perPage = 10;
     public function mount($classesId)
     {
-        $this->classesId = Classes::select('id', 'name', 'code')->findOrFail($classesId);
+        $this->classesId = Classes::select('id', 'name')->findOrFail($classesId);
     }
     public function render()
     {
