@@ -6,7 +6,7 @@
             <div class="col">
                 <!-- Page pre-title -->
                 <div class="page-pretitle">
-                    Dibuat oleh: <b>{{ auth()->user()->username }}</b>
+                    Dibuat oleh: <b>{{ $classesId->user->username }}</b>
                 </div>
                 <h2 class="page-title">
                     Pelajaran: {{ $classesId->name }} | Materi: {{$materials->title}}
@@ -51,11 +51,9 @@
                 <div class="card">
                     <div class="card-header">
                         <span>
-                            Materi Embed:
+                            Buka Materi:
                             <br>
-                            <b><a href="{{url($materials->url)}}">{{$materials->url}}</a></b>
-                            <br>
-                            <iframe src="{{url($materials->url)}}" frameborder="0" height="500" width="auto"></iframe>
+                            <b><a href="{{url($materials->url)}}" target="_blank">{{$materials->url}}</a></b>
                         </span>
                     </div>
                 </div>

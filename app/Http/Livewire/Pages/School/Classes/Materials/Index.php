@@ -15,12 +15,13 @@ class Index extends Component
     public $perPage = 10;
     public function mount($classesId)
     {
-        $this->classesId = Classes::select('id', 'name')->findOrFail($classesId);
+        $this->classesId = Classes::with("user:id,username")->select('id', 'name', "user_id")->findOrFail($classesId);
     }
     public function render()
     {
         $materials = material::where("classes_id", $this->classesId->id)
-            ->where('user_id', auth()->user()->id)->select("id", "title", "url")
+            ->with("user:id,username")
+            ->select("id", "title", "url", "user_id")
             ->orderByDesc("created_at")
             ->paginate($this->perPage);
         return view('livewire.pages.school.classes.materials.index', [

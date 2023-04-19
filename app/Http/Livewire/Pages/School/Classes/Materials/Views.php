@@ -14,14 +14,16 @@ class Views extends Component
     public $title;
     public $subject;
     public $url;
+    public $user_id;
     public function mount($classesId, $materialsId)
     {
-        $this->classesId = Classes::findOrFail($classesId);
+        $this->classesId = Classes::with("user:id,username")->findOrFail($classesId);
         $this->materials = material::findOrFail($materialsId);
         $this->materialsId = $this->materials->id;
         $this->title = $this->materials->title;
         $this->subject = $this->materials->subject;
         $this->url = $this->materials->url;
+        $this->user_id = $this->materials->user_id;
     }
     public function render()
     {
