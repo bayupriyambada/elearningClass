@@ -1,3 +1,4 @@
+@section('pageTitle', 'Halaman Akun')
 <div>
     <div class="page page-center">
       <div class="container container-tight py-4">
@@ -5,7 +6,7 @@
         </div>
         <div class="card card-md">
           <div class="card-body">
-            <h2 class="h2 text-center mb-4">Masuk dengan akun anda.</h2>
+            <h2 class="h2 text-center mb-4">Masuk dengan akun <b><i>LearnToday</i></b></h2>
             <form wire:submit.prevent="loginHandle" autocomplete="off" novalidate>
               <div class="mb-3">
                 <label class="form-label">Alamat Email</label>
