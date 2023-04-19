@@ -211,7 +211,7 @@
                 </div>
             </div>
             @else
-                @livewire('pages.other.dashboard-component')
+            @livewire('pages.school.dashboard')
             @endif
         </div>
     </div>

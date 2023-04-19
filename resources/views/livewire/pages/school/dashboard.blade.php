@@ -76,5 +76,7 @@
             </div>
             @endforeach
         </div>
+
+        @livewire('pages.school.classes.daily-attendances')
     </div>
 </div>

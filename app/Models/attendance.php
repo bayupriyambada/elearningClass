@@ -4,16 +4,17 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Classes;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class attendance extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
 
     protected $fillable = [
-        'date_attendance', 'isAbsensi', 'user_id', 'classes_id'
+        'id', 'date_attendance', 'isAbsensi', 'user_id', 'classes_id'
     ];
 
 
@@ -26,4 +27,18 @@ class attendance extends Model
     {
         return $this->belongsTo(Classes::class, 'classes_id', 'id');
     }
+
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * The "type" of the auto-incrementing ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
 }
