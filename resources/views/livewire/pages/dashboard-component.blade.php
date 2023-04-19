@@ -1,3 +1,4 @@
+@section('pageTitle', 'Dasbor ' .auth()->user()->username)
 <div>
     <div class="page-body">
         <div class="container-xl">
@@ -11,7 +12,6 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <span class="bg-primary text-white avatar">
-                                                <!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
                                                     height="24" viewBox="0 0 24 24" stroke-width="2"
                                                     stroke="currentColor" fill="none" stroke-linecap="round"
