@@ -26,17 +26,6 @@ class material extends Model
         return $this->belongsTo(Classes::class, 'classes_id', 'id');
     }
 
-    /**
-     * Indicates if the IDs are auto-incrementing.
-     *
-     * @var bool
-     */
     public $incrementing = false;
-
-    /**
-     * The "type" of the auto-incrementing ID.
-     *
-     * @var string
-     */
     protected $keyType = 'string';
 }

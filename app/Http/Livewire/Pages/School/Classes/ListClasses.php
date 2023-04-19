@@ -8,15 +8,10 @@ use Livewire\WithPagination;
 
 class ListClasses extends Component
 {
-    // public $classesId;
     public $materialDeleteId;
     use WithPagination;
     public $perPage = 10;
-    // public function mount($classesId)
-    // {
-    //     $this->classesId = Classes::where('user_id', auth()->user()->id)
-    //         ->select('id', 'name')->findOrFail($classesId);
-    // }
+
     public function deleteData($listClassId)
     {
         $deleteData = Classes::find($listClassId);

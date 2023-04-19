@@ -14,8 +14,7 @@ class Dashboard extends Component
             ->withCount(['materials', 'assignments'])
             ->with("user:id,username")
             ->orderByDesc("created_at")
-            ->get();
-        // dd($classes);
+        ->get();
         return view('livewire.pages.school.dashboard', [
             'classes' => $classes
         ]);

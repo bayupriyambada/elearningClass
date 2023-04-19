@@ -34,20 +34,33 @@
                 </div>
             </div>
         </div>
-        <div class="row row-cards mt-3">
-
+        <div class="row row-cards mt-2">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Kamu sudah bergabung, klik tombol untuk absensi hari ini ya <b>{{auth()->user()->username}} 🙌</b> </h3>
+                        <h3 class="card-title">Anda {{$completedAbsensi ? "sudah" : "belum"}} melakukan absensi hari ini <b>{{auth()->user()->username}} 🙌</b> </h3>
                         <div class="card-actions btn-actions">
                             <a href="#"  wire:click.prevent="submitAttendances({{json_encode($classes->id)}})" class="btn {{ $completedAbsensi ? 'btn-ghost-dark disabled' : 'btn-red' }}">
-                                {{$completedAbsensi === 0 ? "Yuk Absensi" : "Sudah Absensi"}}
-                                {{-- {{$labelAbsen}} --}}
+                                {{$completedAbsensi ? "Telah absensi" : "Belum absensi"}}
                             </a>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row row-cards mt-2">
+            <div class="col-md-12">
+                <h2>Riwayat Absensi [10]</h2>
+                @foreach ($reportAttendance as $index => $item)
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">{{$index + 1}}. {{$item->users->username }} telah melakukan absensi pelajaran {{$classes->name}} </h3>
+                        <div class="card-actions btn-actions">
+                            {{Carbon\Carbon::parse($item->date_attendance)->format('l, d M Y')}}
+                        </div>
+                    </div>
+                </div>
+                @endforeach
             </div>
         </div>
     </div>

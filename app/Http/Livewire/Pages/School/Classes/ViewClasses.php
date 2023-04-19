@@ -13,8 +13,6 @@ class ViewClasses extends Component
     public $classes;
     public $classesName;
     public $classesSubject;
-
-
     // attendances public
     public $isAbsensi;
     public $attendances;
@@ -33,20 +31,18 @@ class ViewClasses extends Component
     public function submitAttendances()
     {
         try {
-            $waktuAbsen = Carbon::now();
-            // $jamMulai = Carbon::today()->setHour(8)->setMinute(0)->setSecond(0);
-            $jamSelesai = Carbon::today()->setHour(17)->setMinute(0)->setSecond(0);
+            $timeAttendances = Carbon::now();
+            $timeStart = Carbon::today()->setHour(7)->setMinute(20)->setSecond(0);
+            $timeEnd = Carbon::today()->setHour(17)->setMinute(0)->setSecond(0);
 
-            // if ($waktuAbsen->lt($jamMulai)) {
-            //     self::toast("info", "Waktu absensi dimulai pukul 08:00");
-            //     return;
-            // }
-
-            if ($waktuAbsen->gt($jamSelesai)) {
+            if ($timeAttendances->lt($timeStart)) {
+                self::toast("info", "Waktu absensi dimulai pukul 07:20");
+                return;
+            }
+            if ($timeAttendances->gt($timeEnd)) {
                 self::toast("info", "Waktu absensi berakhir pukul 17:00");
                 return;
             }
-
             if ($this->completedAbsensi) {
                 self::toast("info", "Anda sudah absensi hari ini! Kembali esok hari.");
                 return;
@@ -67,8 +63,9 @@ class ViewClasses extends Component
     }
     public function render()
     {
+        $attendancesId = attendance::with("users:id,username")->where("classes_id", $this->classes->id)->where("user_id", auth()->user()->id)->get();
         return view('livewire.pages.school.classes.view-classes', [
-            'labelAbsen' => $this->completedAbsensi === 0 ? "Yuk Absensi" : "Sudah Absensi",
+            'reportAttendance' => $attendancesId
         ]);
     }
     private function toast($toast, $message)

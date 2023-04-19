@@ -11,14 +11,17 @@ class Join extends Component
 
     public function joinClass()
     {
-        $join = Classes::where('code', $this->code)->first();
-        // dd($join);
-        if (!$join) {
-            self::toast("error", "Kode tidak ditemukan");
-            $this->code = '';
-        } else {
-            self::toast("success", "Kode ditemukan, beralih ke halaman..");
-            return redirect(route('school.classes.view', [$join->id]));
+        try {
+            $join = Classes::where('code', $this->code)->first();
+            if (!$join) {
+                self::toast("error", "Kode tidak ditemukan");
+                $this->code = '';
+            } else {
+                self::toast("success", "Kode ditemukan, beralih ke halaman..");
+                return redirect(route('school.classes.view', [$join->id]));
+            }
+        } catch (\Throwable $th) {
+            self::toast("error", $th->getMessage());
         }
     }
     public function render()
