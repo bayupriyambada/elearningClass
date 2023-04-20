@@ -36,7 +36,7 @@ Route::middleware('guest')->group(function () {
 });
 Route::middleware('auth')->group(function () {
     Route::get("/", DashboardComponent::class)->name("dashboard");
-    Route::get("/profile/{username}", Profile::class)->name("profile");
+    Route::get("/profile", Profile::class)->name("profile");
 
     Route::prefix('users')->name('users.')->group(function () {
         Route::prefix('students')->name('students.')->group(function () {

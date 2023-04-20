@@ -22,7 +22,7 @@
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <a href="{{route("profile", [auth()->user()->username])}}" class="dropdown-item">Profile</a>
+                    <a href="{{route("profile")}}" class="dropdown-item">Profile</a>
                     <div class="dropdown-divider"></div>
                     @livewire('auth.logout-component')
                 </div>
