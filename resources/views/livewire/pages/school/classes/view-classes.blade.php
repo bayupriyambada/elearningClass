@@ -50,13 +50,13 @@
         </div>
         <div class="row row-cards mt-2">
             <div class="col-md-12">
-                <h2>Riwayat Absensi [10]</h2>
+                <h2>Riwayat Absensi [{{$reportAttendance->count()}}]</h2>
                 @foreach ($reportAttendance as $index => $item)
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">{{$index + 1}}. {{$item->users->username }} telah melakukan absensi pelajaran {{$classes->name}} </h3>
+                        <h3 class="card-title">{{$index + 1}}. {{$item->isAbsensi === 0 ?"terlambat" : "berhasil" }} absensi </h3>
                         <div class="card-actions btn-actions">
-                            {{Carbon\Carbon::parse($item->date_attendance)->format('l, d M Y')}}
+                            {{Carbon\Carbon::parse($item->date_attendance)->format('l, d M Y || H:i')}}
                         </div>
                     </div>
                 </div>

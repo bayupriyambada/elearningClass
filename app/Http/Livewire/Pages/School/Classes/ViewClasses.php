@@ -14,9 +14,10 @@ class ViewClasses extends Component
     public $classesName;
     public $classesSubject;
     // attendances public
-    public $isAbsensi;
+    public bool $isAbsensi;
     public $attendances;
     public $completedAbsensi;
+    public $lateTime;
 
     public function mount($classesId)
     {
@@ -37,33 +38,42 @@ class ViewClasses extends Component
 
             if ($timeAttendances->lt($timeStart)) {
                 self::toast("info", "Waktu absensi dimulai pukul 07:20");
-                return;
+                $this->isAbsensi = 1;
             }
             if ($timeAttendances->gt($timeEnd)) {
+                $this->isAbsensi = 0;
                 self::toast("info", "Waktu absensi berakhir pukul 17:00");
-                return;
             }
             if ($this->completedAbsensi) {
                 self::toast("info", "Anda sudah absensi hari ini! Kembali esok hari.");
                 return;
             }
+            if ($timeAttendances->gte($timeStart) && $timeAttendances->lte($timeEnd)) {
+                $isAttendanceLate = false;
+                $message = "Yeay absensi pada pelajaran " . $this->classes->name . " berhasil";
+            } else {
+                $isAttendanceLate = true;
+                $this->lateTime = $timeEnd->diffInMinutes($timeAttendances);
+                $message = "Anda terlambat absensi selama " . $this->lateTime . " menit";
+            }
             attendance::create([
                 'id' => Str::uuid(),
                 'date_attendance' => Carbon::now(),
-                'isAbsensi' => 1,
+                'isAbsensi' => $isAttendanceLate ? 0 : 1,
                 'user_id' => auth()->user()->id,
                 'classes_id' => $this->classes->id,
             ]);
             $this->completedAbsensi = true;
-            self::toast("success", "Yeay absensi pada pelajaran " . $this->classes->name . " berhasil");
-            $this->emit("updateCompletedAttendances");
+            self::toast($isAttendanceLate ? "warning" : "success", $message);
         } catch (\Throwable $th) {
             self::toast("error", $th->getMessage());
         }
     }
     public function render()
     {
-        $attendancesId = attendance::with("users:id,username")->where("classes_id", $this->classes->id)->where("user_id", auth()->user()->id)->get();
+        $attendancesId = attendance::with("users:id,username")
+        ->orderByDesc("date_attendance")
+        ->where("classes_id", $this->classes->id)->where("user_id", auth()->user()->id)->get();
         return view('livewire.pages.school.classes.view-classes', [
             'reportAttendance' => $attendancesId
         ]);
