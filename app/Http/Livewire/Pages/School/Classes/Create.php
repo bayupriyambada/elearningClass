@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Pages\School\Classes;
 use App\Models\Classes;
 use Livewire\Component;
 use Illuminate\Support\Str;
+use App\Helpers\ToastHelpers;
 
 class Create extends Component
 {
@@ -18,7 +19,6 @@ class Create extends Component
     public function create()
     {
         $this->validate();
-
         try {
             Classes::create([
                 'name' => $this->name,
@@ -26,23 +26,15 @@ class Create extends Component
                 'code' => Str::random(10),
                 'user_id' => auth()->user()->id
             ]);
-            self::toast("success", "Berhasil menambahkan data pelajaran.");
+            ToastHelpers::success($this, "Berhasil menambahkan data pelajaran");
             redirect(route('school.classes.list'));
-        } catch (\Throwable $th) {
-            self::toast("error", $th->getMessage());
+        } catch (\Exception $e) {
+            ToastHelpers::error($this, $e->getMessage());
             redirect(route('school.classes.list'));
         }
     }
     public function render()
     {
         return view('livewire.pages.school.classes.create');
-    }
-
-    private function toast($toast, $message)
-    {
-        $this->dispatchBrowserEvent('alert', [
-            'type' => $toast,
-            'message' => $message
-        ]);
     }
 }

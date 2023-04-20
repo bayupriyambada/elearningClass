@@ -48,7 +48,7 @@
                             </span>
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="./docs/">
+                            <a class="dropdown-item" href="{{route("users.students.index")}}">
                                 Siswa
                             </a>
                             <a class="dropdown-item" href="./changelog.html">

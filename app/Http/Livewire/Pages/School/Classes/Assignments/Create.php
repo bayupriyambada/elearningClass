@@ -6,6 +6,7 @@ use App\Models\Classes;
 use Livewire\Component;
 use App\Models\assignment;
 use Illuminate\Support\Str;
+use App\Helpers\ToastHelpers;
 
 class Create extends Component
 {
@@ -43,20 +44,12 @@ class Create extends Component
                 'due_date' => $this->due_date,
                 'end_date' => $this->end_date
             ]);
-            self::toast("success", "Berhasil menambahkan tugas.");
+            ToastHelpers::success($this, "Berhasil menambahkan data tugas");
             redirect(route('school.classes.assignments.index', [$this->classesId->id]));
-        } catch (\Throwable $th) {
-            self::toast("error", $th->getMessage());
+        } catch (\Exception $e) {
+            ToastHelpers::error($this, $e->getMessage());
             redirect(route('school.classes.assignments.index', [$this->classesId->id]));
         }
-    }
-
-    private function toast($toast, $message)
-    {
-        $this->dispatchBrowserEvent('alert', [
-            'type' => $toast,
-            'message' => $message
-        ]);
     }
     public function render()
     {

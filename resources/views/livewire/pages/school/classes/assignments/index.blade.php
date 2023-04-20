@@ -16,15 +16,17 @@
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     <span class="d-none d-sm-inline">
-                        <a href="{{ route('school.classes.view', [$classesId->id]) }}" class="btn">
+                        <a href="{{ route('school.classes.list') }}" class="btn">
                             Kembali
                         </a>
                     </span>
                     <span class="d-none d-sm-inline">
+                        @if (auth()->user()->role_id != 3 && auth()->user()->role_id !== 1)
                         <a href="{{ route('school.classes.assignments.create', [$classesId->id]) }}"
                             class="btn btn-primary">
                             Tambah Tugas
                         </a>
+                        @endif
                     </span>
                 </div>
             </div>

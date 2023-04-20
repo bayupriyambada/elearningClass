@@ -34,9 +34,28 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"> {{ $iteration++ }}. {{ $class->name }}</h3>
+                            <h3 class="card-title"> {{ $iteration++ }}. {{ $class->name }} ||
+                                {{ $class->materials_count }} materi</h3>
                             <div class="card-actions btn-actions">
-                                <a href="{{route('school.classes.materials.index', [$class->id])}}" class="btn-action" title="Tambah materi {{ $class->name }}">
+                                <a href="{{ route('school.classes.assignments.index', [$class->id]) }}" class="btn-action"
+                                    title="Tambah tugas {{ $class->name }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="icon icon-tabler icon-tabler-clipboard-plus" width="24"
+                                        height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                        fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path
+                                            d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2">
+                                        </path>
+                                        <path
+                                            d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z">
+                                        </path>
+                                        <path d="M10 14h4"></path>
+                                        <path d="M12 12v4"></path>
+                                    </svg>
+                                </a>
+                                <a href="{{ route('school.classes.materials.index', [$class->id]) }}" class="btn-action"
+                                    title="Tambah materi {{ $class->name }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus"
                                         width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
                                         stroke="currentColor" fill="none" stroke-linecap="round"

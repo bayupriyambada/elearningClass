@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Pages\School\Classes\Materials;
 use App\Models\Classes;
 use Livewire\Component;
 use App\Models\material;
+use App\Helpers\ToastHelpers;
 
 class Edit extends Component
 {
@@ -41,22 +42,15 @@ class Edit extends Component
                 'user_id' => auth()->user()->id,
                 'classes_id' => $this->classesId->id
             ]);
-            self::toast("success", "Berhasil merubah data materi.");
+            ToastHelpers::success($this, "Berhasil memperbaharui data materi");
             redirect(route('school.classes.materials.index', [$this->classesId->id]));
-        } catch (\Throwable $th) {
-            self::toast("error", $th->getMessage());
+        } catch (\Exception $e) {
+            ToastHelpers::success($this, $e->getMessage());
             redirect(route('school.classes.materials.index', [$this->classesId->id]));
         }
     }
     public function render()
     {
         return view('livewire.pages.school.classes.materials.edit');
-    }
-    private function toast($toast, $message)
-    {
-        $this->dispatchBrowserEvent('alert', [
-            'type' => $toast,
-            'message' => $message
-        ]);
     }
 }

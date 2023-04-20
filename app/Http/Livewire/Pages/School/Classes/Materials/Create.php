@@ -6,6 +6,7 @@ use App\Models\Classes;
 use Livewire\Component;
 use App\Models\material;
 use Illuminate\Support\Str;
+use App\Helpers\ToastHelpers;
 
 class Create extends Component
 {
@@ -37,23 +38,15 @@ class Create extends Component
                 'user_id' => auth()->user()->id,
                 'classes_id' => $this->classesId->id
             ]);
-            self::toast("success", "Berhasil menambahkan data materi.");
+            ToastHelpers::success($this, "Berhasil menambahkan data materi");
             redirect(route('school.classes.materials.index', [$this->classesId->id]));
-        } catch (\Throwable $th) {
-            self::toast("error", $th->getMessage());
+        } catch (\Exception $e) {
+            ToastHelpers::error($this, $e->getMessage());
             redirect(route('school.classes.materials.index', [$this->classesId->id]));
         }
     }
     public function render()
     {
         return view('livewire.pages.school.classes.materials.create');
-    }
-
-    private function toast($toast, $message)
-    {
-        $this->dispatchBrowserEvent('alert', [
-            'type' => $toast,
-            'message' => $message
-        ]);
     }
 }

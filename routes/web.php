@@ -12,6 +12,12 @@ use App\Http\Livewire\Pages\School\Classes\Assignments\Index as AssignmentsIndex
 use App\Http\Livewire\Pages\School\Classes\Assignments\Create as AssignmentsCreate;
 use App\Http\Livewire\Pages\School\Classes\Assignments\Edit as AssignmentsEdit;
 use App\Http\Livewire\Pages\School\Dashboard;
+use App\Http\Livewire\Pages\Users\Students\Create as StudentsCreate;
+use App\Http\Livewire\Pages\Users\Students\Edit as StudentsEdit;
+use App\Http\Livewire\Pages\Users\Students\Index as StudentsIndex;
+use App\Http\Livewire\Pages\Users\Teacher\Create as TeacherCreate;
+use App\Http\Livewire\Pages\Users\Teacher\Edit as TeacherEdit;
+use App\Http\Livewire\Pages\Users\Teacher\Index as TeacherIndex;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +38,18 @@ Route::middleware('auth')->group(function () {
     Route::get("/", DashboardComponent::class)->name("dashboard");
     Route::get("/profile/{username}", Profile::class)->name("profile");
 
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::prefix('students')->name('students.')->group(function () {
+            Route::get("", StudentsIndex::class)->name("index");
+            Route::get("/create", StudentsCreate::class)->name("create");
+            Route::get("/{studentId}/edit", StudentsEdit::class)->name("edit");
+        });
+        Route::prefix('teacher')->name('teacher.')->group(function () {
+            Route::get("", TeacherIndex::class)->name("index");
+            Route::get("/create", TeacherCreate::class)->name("create");
+            Route::get("/{teacherId}/edit", TeacherEdit::class)->name("edit");
+        });
+    });
     Route::prefix('school')->name('school.')->group(function () {
         Route::get("/dashboard", Dashboard::class)->name("dashboard");
         Route::prefix('classes')->name('classes.')->group(function () {

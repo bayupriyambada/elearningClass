@@ -18,35 +18,31 @@ class LoginComponent extends Component
 
     public function loginHandle()
     {
-        $this->validate();
+        try {
+            $this->validate();
 
-        $credentials = [
-            'email' => $this->email,
-            'password' => $this->password
-        ];
+            $credentials = [
+                'email' => $this->email,
+                'password' => $this->password
+            ];
 
-        if (Auth::attempt($credentials)) {
-            if (auth()->user()->role->id === 1) {
-                self::toast("success", "Berhasil masuk ke dalam aplikasi");
-                return redirect(route("dashboard"));
+            if (Auth::attempt($credentials)) {
+                if (auth()->user()->role->id === 1) {
+                    ToastHelpers::success($this, "Berhasil masuk ke dalam aplikasi");
+                    return redirect(route("dashboard"));
+                } else {
+                    ToastHelpers::success($this, "Berhasil masuk ke dalam aplikasi");
+                    return redirect(route("school.dashboard"));
+                }
             } else {
-                self::toast("success", "Berhasil masuk ke dalam aplikasi");
-                return redirect(route("school.dashboard"));
+                ToastHelpers::error($this, "Terjadi kesalahan pada akun anda.");
             }
-        } else {
-            self::toast("erorr", "Terjadi kesalahan pada akun anda.");
+        } catch (\Exception $e) {
+            ToastHelpers::error($this, $e->getMessage());
         }
     }
     public function render()
     {
         return view('livewire.auth.login-component')->layout("layouts.auth");
-    }
-
-    private function toast($toast, $message)
-    {
-        $this->dispatchBrowserEvent('alert', [
-            'type' => $toast,
-            'message' => $message
-        ]);
     }
 }

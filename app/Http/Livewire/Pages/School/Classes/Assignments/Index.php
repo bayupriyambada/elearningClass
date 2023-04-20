@@ -6,6 +6,7 @@ use App\Models\Classes;
 use Livewire\Component;
 use App\Models\assignment;
 use Livewire\WithPagination;
+use App\Helpers\ToastHelpers;
 
 class Index extends Component
 {
@@ -30,15 +31,12 @@ class Index extends Component
 
     public function deleteData($materialDeleteId)
     {
-        $deleteData = assignment::find($materialDeleteId);
-        $deleteData->delete();
-        self::toast("success", "Berhasil menghapus data " . $deleteData->title);
-    }
-    private function toast($toast, $message)
-    {
-        $this->dispatchBrowserEvent('alert', [
-            'type' => $toast,
-            'message' => $message
-        ]);
+        try {
+            $deleteData = assignment::find($materialDeleteId);
+            $deleteData->delete();
+            ToastHelpers::success($this, "Berhasil menghapus data tugas " . $deleteData->title);
+        } catch (\Exception $e) {
+            ToastHelpers::error($this, $e->getMessage());
+        }
     }
 }

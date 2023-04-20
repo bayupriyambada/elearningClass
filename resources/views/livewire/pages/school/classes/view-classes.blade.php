@@ -49,9 +49,9 @@
             </div>
         </div>
         <div class="row row-cards mt-2">
+            <h2>Riwayat Absensi [{{$reportAttendance->count()}}]</h2>
+            @foreach ($reportAttendance as $index => $item)
             <div class="col-md-12">
-                <h2>Riwayat Absensi [{{$reportAttendance->count()}}]</h2>
-                @foreach ($reportAttendance as $index => $item)
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">{{$index + 1}}. {{$item->isAbsensi === 0 ?"terlambat" : "berhasil" }} absensi </h3>
@@ -60,8 +60,10 @@
                         </div>
                     </div>
                 </div>
-                @endforeach
             </div>
+            @endforeach
+
+            {{$reportAttendance->links()}}
         </div>
     </div>
 </div>
