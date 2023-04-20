@@ -44,7 +44,7 @@ Route::middleware('auth')->group(function () {
             Route::get("/create", StudentsCreate::class)->name("create");
             Route::get("/{studentId}/edit", StudentsEdit::class)->name("edit");
         });
-        Route::prefix('teacher')->name('teacher.')->group(function () {
+        Route::prefix('teachers')->name('teachers.')->group(function () {
             Route::get("", TeacherIndex::class)->name("index");
             Route::get("/create", TeacherCreate::class)->name("create");
             Route::get("/{teacherId}/edit", TeacherEdit::class)->name("edit");

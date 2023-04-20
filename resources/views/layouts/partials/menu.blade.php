@@ -51,7 +51,7 @@
                             <a class="dropdown-item" href="{{route("users.students.index")}}">
                                 Siswa
                             </a>
-                            <a class="dropdown-item" href="./changelog.html">
+                            <a class="dropdown-item" href="{{route("users.teachers.index")}}">
                                 Tenaga Didik
                             </a>
                         </div>
