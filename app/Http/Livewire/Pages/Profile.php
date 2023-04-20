@@ -65,11 +65,6 @@ class Profile extends Component
             }
         } catch (\Exception $e) {
             ToastHelpers::success($this, $e->getMessage());
-            if (auth()->user()->role_id === 1) {
-                redirect(route('dashboard'));
-            } else {
-                redirect(route('school.dashboard'));
-            }
         }
     }
     public function render()
