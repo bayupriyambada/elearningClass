@@ -12,14 +12,11 @@
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     <span class="d-none d-sm-inline">
-                        <a href="{{ route('dashboard') }}" class="btn">
-                            Kembali
-                        </a>
+                        <x-href colorButton="btn" url="{{ route('dashboard') }}" title="Kembali" />
                     </span>
                     <span class="d-none d-sm-inline">
-                        <a href="{{ route('users.teachers.create') }}" class="btn btn-primary">
-                            Tambah Data
-                        </a>
+                        <x-href colorButton="btn btn-primary" url="{{ route('users.teachers.create') }}"
+                            title="Tambah Data" />
                     </span>
                 </div>
             </div>
@@ -27,16 +24,25 @@
         <div class="row row-cards mt-2">
             <div class="col-md-12">
                 <div class="card">
-                  <div class="card-stamp">
-                    <div class="card-stamp-icon bg-yellow">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"></path><path d="M9 17v1a3 3 0 0 0 6 0v-1"></path></svg>
+                    <div class="card-stamp">
+                        <div class="card-stamp-icon bg-yellow">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path
+                                    d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6">
+                                </path>
+                                <path d="M9 17v1a3 3 0 0 0 6 0v-1"></path>
+                            </svg>
+                        </div>
                     </div>
-                  </div>
-                  <div class="card-body">
-                    <h3 class="card-title">Informasi</h3>
-                    <p class="text-muted">Perhatikan! Jika ingin menghapus, maka semua data pada tenaga didik tersebut juga terhapus.</p>
-                    <p class="text-muted">Kata sandi (reset): <b>password</b></p>
-                  </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Informasi</h3>
+                        <p class="text-muted">Perhatikan! Jika ingin menghapus, maka semua data pada tenaga didik
+                            tersebut juga terhapus.</p>
+                        <p class="text-muted">Kata sandi (reset): <b>password</b></p>
+                    </div>
                 </div>
             </div>
             <div class="col-12">
@@ -98,7 +104,7 @@
                                                     <button class="btn dropdown-toggle align-text-top"
                                                         data-bs-boundary="viewport" data-bs-toggle="dropdown"
                                                         aria-expanded="false">Aksi</button>
-                                                    <div class="dropdown-menu dropdown-menu-end" style="">
+                                                    <div class="dropdown-menu dropdown-menu-end">
                                                         <a class="dropdown-item" href="#"
                                                             wire:click="resetPassword({{ $item->id }})">
                                                             Reset Kata Sandi

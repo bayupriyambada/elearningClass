@@ -17,9 +17,7 @@
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     <span class="d-none d-sm-inline">
-                        <a href="{{ route('school.classes.materials.index', [$classesId->id]) }}" class="btn">
-                            Kembali
-                        </a>
+                        <x-href colorButton="btn" url="{{ route('school.classes.materials.index', [$classesId->id]) }}" title="Kembali" />
                     </span>
                 </div>
             </div>
@@ -53,7 +51,8 @@
                         <span>
                             Buka Materi:
                             <br>
-                            <b><a href="{{url($materials->url)}}" target="_blank">{{$materials->url}}</a></b>
+                            <b>
+                                <x-href colorButton="" target url="{{ url($materials->url) }}" title="{{$materials->url}}" />
                         </span>
                     </div>
                 </div>

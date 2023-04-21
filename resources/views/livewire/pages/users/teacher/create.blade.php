@@ -6,9 +6,7 @@
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     <span class="d-none d-sm-inline">
-                        <a href="{{ route("users.teachers.index") }}" class="btn">
-                            Kembali
-                        </a>
+                        <x-href colorButton="btn" url="{{ route('users.teachers.index') }}" title="Kembali" />
                     </span>
                 </div>
             </div>

@@ -11,7 +11,6 @@
                     Buat Materi
                 </h2>
             </div>
-            <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     <span class="d-none d-sm-inline">
@@ -26,16 +25,13 @@
             <div class="card-body">
                 <form wire:submit.prevent="create" autocomplete="off">
                     <div class="mb-3">
-                        <label for="text1" class="form-label required">Judul Materi</label>
-                        <input type="text" wire:model="title" class="form-control" name="example-text-input" placeholder="Eg: Web Programming">
+                        <x-input type="text" name="title" label="Judul Materi" required />
                     </div>
                     <div class="mb-3">
-                        <label for="text1" class="form-label">Deskripsi Materi (opsional)</label>
-                        <input type="text" wire:model="subject" class="form-control" name="example-text-input" placeholder="Eg: Web Programming adalah pelajaran mengoding">
+                        <x-input type="text" name="subject" label="Deskripsi (opsional)" />
                     </div>
                     <div class="mb-3">
-                        <label for="text1" class="form-label required">Url Materi</label>
-                        <input type="text" wire:model="url" class="form-control" name="example-text-input" placeholder="Eg: https://google.slides">
+                        <x-input type="text" name="url" label="Url (isikan -)" required />
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>

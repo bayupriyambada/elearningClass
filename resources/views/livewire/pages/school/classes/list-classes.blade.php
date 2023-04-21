@@ -13,14 +13,10 @@
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     <span class="d-none d-sm-inline">
-                        <a href="{{ route('school.dashboard') }}" class="btn">
-                            Kembali
-                        </a>
+                        <x-href colorButton="btn" url="{{ route('school.dashboard') }}" title="Kembali" />
                     </span>
                     <span class="d-none d-sm-inline">
-                        <a href="{{ route('school.classes.create') }}" class="btn btn-primary">
-                            Buat Kelas
-                        </a>
+                        <x-href colorButton="btn btn-primary" url="{{ route('school.classes.create') }}" title="Buat Kelas" />
                     </span>
                 </div>
 
@@ -37,8 +33,8 @@
                             <h3 class="card-title"> {{ $iteration++ }}. {{ $class->name }} ||
                                 {{ $class->materials_count }} materi</h3>
                             <div class="card-actions btn-actions">
-                                <a href="{{ route('school.classes.assignments.index', [$class->id]) }}" class="btn-action"
-                                    title="Tambah tugas {{ $class->name }}">
+                                <a href="{{ route('school.classes.assignments.index', [$class->id]) }}"
+                                    class="btn-action" title="Tambah tugas {{ $class->name }}">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                         class="icon icon-tabler icon-tabler-clipboard-plus" width="24"
                                         height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"

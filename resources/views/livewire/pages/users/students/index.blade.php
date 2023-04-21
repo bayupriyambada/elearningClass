@@ -12,14 +12,10 @@
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     <span class="d-none d-sm-inline">
-                        <a href="{{ route('dashboard') }}" class="btn">
-                            Kembali
-                        </a>
+                        <x-href colorButton="btn" url="{{ route('dashboard') }}" title="Kembali" />
                     </span>
                     <span class="d-none d-sm-inline">
-                        <a href="{{ route('users.students.create') }}" class="btn btn-primary">
-                            Tambah Data
-                        </a>
+                        <x-href colorButton="btn btn-primary" url="{{ route('users.students.create') }}" title="Tambah Data" />
                     </span>
                 </div>
             </div>
