@@ -16,12 +16,8 @@ class Index extends Component
     protected $queryString = ['search'];
     public $pagination = 12;
 
-    protected $user;
+    protected $listeners = ['render', '$refresh'];
 
-    public function __construct()
-    {
-        $this->user = User::query();
-    }
     public function updatingSearch()
     {
         $this->resetPage();
@@ -39,7 +35,7 @@ class Index extends Component
     public function resetPassword($dataId)
     {
         try {
-            $this->user->find($dataId)->update([
+            User::where("role_id", 2)->find($dataId)->update([
                 'password' => Hash::make('password')
             ]);
             ToastHelpers::success($this, "Berhasil reset kata sandi");
@@ -50,10 +46,9 @@ class Index extends Component
     }
     public function render()
     {
-        $userTeachers = $this->user->where("role_id", '=', 2)
+        $userTeachers = User::where("role_id", 2)
             ->orderByDesc("created_at")
             ->where('username', 'like', '%' . $this->search . '%')
-            ->where('email', 'like', '%' . $this->search . '%')
             ->paginate($this->pagination);
         return view('livewire.pages.users.teacher.index', [
             'userTeachers' => $userTeachers

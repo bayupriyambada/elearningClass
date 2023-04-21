@@ -3,7 +3,7 @@
         <div class="navbar navbar-light">
             <div class="container-xl">
                 <ul class="navbar-nav">
-                    <li class="nav-item active">
+                    <li class="nav-item {{ Request::routeIs('dashboard', 'school.dashboard') ? 'active' : '' }}">
                         <a class="nav-link" @if (auth()->user()->role->id === 1)
                             href="{{route('dashboard')}}"
                             @else
@@ -26,7 +26,7 @@
                         </a>
                     </li>
                     @if (auth()->user()->role->id === 1)
-                    <li class="nav-item dropdown">
+                    <li class="nav-item {{ Request::routeIs('users.*') ? 'active' : '' }} dropdown">
                         <a class="nav-link dropdown-toggle" href="#navbar-help" data-bs-toggle="dropdown"
                             data-bs-auto-close="outside" role="button" aria-expanded="false">
                             <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -48,10 +48,10 @@
                             </span>
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{route("users.students.index")}}">
+                            <a class="dropdown-item {{ Request::routeIs('users.students.index') ? 'active' : '' }}" href="{{route("users.students.index")}}">
                                 Siswa
                             </a>
-                            <a class="dropdown-item" href="{{route("users.teachers.index")}}">
+                            <a class="dropdown-item {{ Request::routeIs('users.teachers.index') ? 'active' : '' }}" href="{{route("users.teachers.index")}}">
                                 Tenaga Didik
                             </a>
                         </div>

@@ -8,8 +8,8 @@ use App\Helpers\ToastHelpers;
 
 class Edit extends Component
 {
-    public $studentId;
-    public $students;
+    public $teacherId;
+    public $teachers;
     public $username;
     public $fullname;
     public $email;
@@ -17,11 +17,12 @@ class Edit extends Component
 
     public function mount($dataId)
     {
-        $this->students = User::where('role_id', 3)->findOrFail($dataId);
-        $this->studentId = $this->students->id;
-        $this->username = $this->students->username;
-        $this->fullname = $this->students->fullname;
-        $this->email = $this->students->email;
+        dd($dataId);
+        // $this->teachers = User::where('role_id', 2)->findOrFail($dataId);
+        // $this->teacherId = $this->teachers->id;
+        // $this->username = $this->teachers->username;
+        // $this->fullname = $this->teachers->fullname;
+        // $this->email = $this->teachers->email;
     }
     protected $rules = [
         'username' => 'required|string|min:1',

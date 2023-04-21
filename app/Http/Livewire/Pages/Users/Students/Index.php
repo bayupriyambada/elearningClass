@@ -15,13 +15,7 @@ class Index extends Component
     public $search;
     protected $queryString = ['search'];
     public $pagination = 12;
-
     protected $user;
-
-    public function __construct()
-    {
-        $this->user = User::query();
-    }
     public function updatingSearch()
     {
         $this->resetPage();
@@ -29,9 +23,9 @@ class Index extends Component
     public function deleteData($dataId)
     {
         try {
-            $deleteData = $this->user->find($dataId);
+            $deleteData = User::where("role_id",  3)->find($dataId);
             $deleteData->delete();
-            ToastHelpers::success($this, "Berhasil menghapus data " . $deleteData->username);
+            ToastHelpers::success($this, "Berhasil menghapus data user" . $deleteData->username);
         } catch (\Exception $e) {
             ToastHelpers::success($this, $e->getMessage());
         }
@@ -50,10 +44,9 @@ class Index extends Component
     }
     public function render()
     {
-        $userStudents = $this->user->where("role_id", '=', 3)
+        $userStudents = User::where("role_id", 3)
             ->orderByDesc("created_at")
             ->where('username', 'like', '%' . $this->search . '%')
-            ->where('email', 'like', '%' . $this->search . '%')
             ->paginate($this->pagination);
         return view('livewire.pages.users.students.index', [
             "userStudents" => $userStudents

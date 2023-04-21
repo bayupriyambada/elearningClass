@@ -12,7 +12,7 @@
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     <span class="d-none d-sm-inline">
-                        <a href="{{ route("dashboard") }}" class="btn">
+                        <a href="{{ route('dashboard') }}" class="btn">
                             Kembali
                         </a>
                     </span>
@@ -27,14 +27,16 @@
         <div class="row row-cards mt-2">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="ribbon bg-red">Informasi Penting</div>
-                    <div class="card-body">
-                        <div class="card-title">
-                            Perhatikan! Jika ingin menghapus, maka semua data pada siswa tersebut juga terhapus.
-                            <br>
-                            Kata sandi default: <b>password</b>
-                        </div>
+                  <div class="card-stamp">
+                    <div class="card-stamp-icon bg-yellow">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"></path><path d="M9 17v1a3 3 0 0 0 6 0v-1"></path></svg>
                     </div>
+                  </div>
+                  <div class="card-body">
+                    <h3 class="card-title">Informasi</h3>
+                    <p class="text-muted">Perhatikan! Jika ingin menghapus, maka semua data pada siswa tersebut juga terhapus.</p>
+                    <p class="text-muted">Kata sandi (reset): <b>password</b></p>
+                  </div>
                 </div>
             </div>
             <div class="col-12">
@@ -44,8 +46,8 @@
                             <div class="text-muted">
                                 Show
                                 <div class="mx-2 d-inline-block">
-                                    <input type="number" min="0" wire:model="pagination" class="form-control form-control-sm" value="8"
-                                        size="3">
+                                    <input type="number" min="0" wire:model="pagination"
+                                        class="form-control form-control-sm" value="8" size="3">
                                 </div>
                                 entries
                             </div>
@@ -80,42 +82,49 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($userStudents as $index => $item)
-                                    <tr>
-                                        <td><span class="text-muted">{{ $index + 1 }}</span></td>
-                                        <td>{{ $item->username }}</td>
-                                        <td>{{ $item->fullname }}</td>
-                                        <td>{{ $item->email }}</td>
-                                        <td>{{ $item->registrationCode }}</td>
-                                        <td>
-                                            {{ $item->created_at->format('d M Y') }}
-                                        </td>
-                                        <td class="text-end">
-                                            <span class="dropdown">
-                                                <button class="btn dropdown-toggle align-text-top"
-                                                    data-bs-boundary="viewport" data-bs-toggle="dropdown"
-                                                    aria-expanded="false">Aksi</button>
-                                                <div class="dropdown-menu dropdown-menu-end" style="">
-                                                    <a class="dropdown-item" href="#" wire:click="resetPassword({{$item->id}})">
-                                                        Reset Kata Sandi
-                                                    </a>
-                                                    <a class="dropdown-item" href="{{route("users.students.edit", $item->id)}}">
-                                                        Ubah
-                                                    </a>
-                                                    <a class="dropdown-item" wire:click.prevent="deleteData({{json_encode($item->id)}})" href="#">
-                                                        Hapus
-                                                    </a>
-                                                </div>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                @empty
+                                @if ($userStudents->isNotEmpty())
+                                    @foreach ($userStudents as $index => $item)
+                                        <tr>
+                                            <td><span class="text-muted">{{ $index + 1 }}</span></td>
+                                            <td>{{ $item->username }}</td>
+                                            <td>{{ $item->fullname }}</td>
+                                            <td>{{ $item->email }}</td>
+                                            <td>{{ $item->registrationCode }}</td>
+                                            <td>
+                                                {{ $item->created_at->format('d M Y') }}
+                                            </td>
+                                            <td class="text-end">
+                                                <span class="dropdown">
+                                                    <button class="btn dropdown-toggle align-text-top"
+                                                        data-bs-boundary="viewport" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">Aksi</button>
+                                                    <div class="dropdown-menu dropdown-menu-end" style="">
+                                                        <a class="dropdown-item" href="#"
+                                                            wire:click="resetPassword({{ $item->id }})">
+                                                            Reset Kata Sandi
+                                                        </a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('users.students.edit', $item->id) }}">
+                                                            Ubah
+                                                        </a>
+                                                        <a class="dropdown-item"
+                                                            wire:click="deleteData({{ $item->id }})"
+                                                            href="javascript:void(0)">
+                                                            Hapus
+                                                        </a>
+                                                    </div>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
                                     <tr>
                                         <td colspan="7">
                                             <span class="text-center">Tidak ada data</span>
                                         </td>
                                     </tr>
-                                @endforelse
+                                @endif
+
                             </tbody>
                         </table>
                     </div>
