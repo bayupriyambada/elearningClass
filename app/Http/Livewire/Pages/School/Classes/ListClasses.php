@@ -26,7 +26,7 @@ class ListClasses extends Component
     {
         return view('livewire.pages.school.classes.list-classes', [
             'classesByUser' => Classes::where('user_id', auth()->user()->id)
-                ->withCount("materials")
+                ->withCount("materials", "assignments")
                 ->orderByDesc('created_at')->paginate(10)
         ]);
     }

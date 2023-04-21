@@ -3,8 +3,8 @@
 <div>
     <div class="container-xl">
         <div class="row g-2 align-items-center mt-2">
+
             <div class="col">
-                <!-- Page pre-title -->
                 <div class="page-pretitle">
                     Dibuat oleh: <b>{{ $classesId->user->username }}</b>
                 </div>
@@ -13,7 +13,6 @@
                 </h2>
 
             </div>
-            <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     <span class="d-none d-sm-inline">
@@ -35,6 +34,7 @@
                 </div>
             </div>
             <div class="col-md-12">
+
                 <div class="card">
                     <div class="card-header">
                         <span>
@@ -52,7 +52,7 @@
                             Buka Materi:
                             <br>
                             <b>
-                                <x-href colorButton="" target url="{{ url($materials->url) }}" title="{{$materials->url}}" />
+                                <x-href colorButton="" target url="{{ url($materials->url) }}" title="Buka materi dan pelajari." />
                         </span>
                     </div>
                 </div>

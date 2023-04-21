@@ -72,7 +72,7 @@ class ViewClasses extends Component
                 'classes_id' => $this->classes->id,
             ]);
             $this->completedAbsensi = true;
-            ToastHelpers::success($this, $isAttendanceLate ? "warning" : "success", $message);
+            ToastHelpers::success($this, $isAttendanceLate ? $message : $message);
         } catch (\Exception $e) {
             ToastHelpers::error($this, $e->getMessage());
         }

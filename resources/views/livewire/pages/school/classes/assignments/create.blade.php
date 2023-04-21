@@ -25,25 +25,22 @@
         <div class="card mt-3">
             <div class="card-body">
                 <form wire:submit.prevent="create" autocomplete="off">
-                    <div class="mb-3">
-                        <label for="text1" class="form-label required">Judul</label>
-                        <input type="text" wire:model="title" class="form-control" name="example-text-input" placeholder="Eg: Web Programming">
+                    <div class="row g-3 mb-3">
+                      <div class="col-md-12">
+                       <x-input type="text" name="title" label="Judul Tugas" required />
+                      </div>
+                      <div class="col-md-12">
+                        <x-input type="text" name="subject" label="Deskripsi (isikan -)" required />
+                      </div>
+                      <div class="col-md-12">
+                        <x-input type="text" name="url" label="Url (isikan -)" required />
                     </div>
-                    <div class="mb-3">
-                        <label for="text1" class="form-label">Deskripsi (opsional)</label>
-                        <input type="text" wire:model="subject" class="form-control" name="example-text-input" placeholder="Eg: Kumpulkan tugas semaksimal mungkin">
+                    <div class="col-md-6">
+                        <x-input type="datetime-local" name="due_date" label="Mulai Tugas" required />
                     </div>
-                    <div class="mb-3">
-                        <label for="text1" class="form-label required">Url</label>
-                        <input type="text" wire:model="url" class="form-control" name="example-text-input" placeholder="Eg: https://google.slides">
-                    </div>
-                    <div class="mb-3">
-                        <label for="text1" class="form-label required">Mulai Tugas</label>
-                        <input type="datetime-local" wire:model="due_date" class="form-control" name="example-text-input" placeholder="Eg: https://google.slides">
-                    </div>
-                    <div class="mb-3">
-                        <label for="text1" class="form-label required">Selesai Tugas</label>
-                        <input type="datetime-local" wire:model="end_date" class="form-control" name="example-text-input" placeholder="Eg: https://google.slides">
+                    <div class="col-md-6">
+                          <x-input type="datetime-local" name="end_date" label="Selesai Tugas" required />
+                      </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>

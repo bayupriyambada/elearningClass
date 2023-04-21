@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('submits', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('subject');
-            $table->string('url');
+            $table->string('subject_submit');
+            $table->string('assign_url');
             $table->boolean('isSubmit');
             $table->uuid('assignment_id');
             $table->foreign('assignment_id')

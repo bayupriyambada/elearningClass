@@ -2,13 +2,6 @@
 <div>
     <div class="container-xl">
         <div class="row g-2 align-items-center mt-2">
-            <div class="col">
-                <!-- Page pre-title -->
-                <h2 class="page-title">
-                    Tenaga Pendidik: <b>{{ auth()->user()->username }}</b>
-                </h2>
-
-            </div>
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
@@ -30,8 +23,8 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"> {{ $iteration++ }}. {{ $class->name }} ||
-                                {{ $class->materials_count }} materi</h3>
+                            <h3 class="card-title"> {{ $iteration++ }}. {{ $class->name }} [
+                                {{ $class->materials_count }} materi ] [ {{$class->assignments_count}} tugas ]</h3>
                             <div class="card-actions btn-actions">
                                 <a href="{{ route('school.classes.assignments.index', [$class->id]) }}"
                                     class="btn-action" title="Tambah tugas {{ $class->name }}">

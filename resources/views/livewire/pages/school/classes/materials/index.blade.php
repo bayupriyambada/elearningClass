@@ -16,16 +16,17 @@
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     <span class="d-none d-sm-inline">
-                        <a href="{{ route('school.classes.list') }}" class="btn">
-                            Kembali
-                        </a>
+                        @if (auth()->user()->role_id === 2 || auth()->user()->role_id === 1)
+                        <x-href colorButton="btn" url="{{ route('school.classes.list') }}" title="Kembali" />
+                        @else
+                        <x-href colorButton="btn" url="{{ route('school.classes.view' , [$classesId->id]) }}" title="Kembali" />
+                        @endif
                     </span>
                      @if (auth()->user()->role_id != 3 && auth()->user()->role_id !== 1)
                     <span class="d-none d-sm-inline">
-                        <a href="{{ route('school.classes.materials.create', [$classesId->id]) }}"
-                            class="btn btn-primary">
-                            Tambah Materi
-                        </a>
+                        <x-href colorButton="btn btn-primary"
+                        url="{{ route('school.classes.materials.create', [$classesId->id]) }}"
+                        title="Tambah Materi" />
                     </span>
                     @endif
                 </div>

@@ -3,8 +3,7 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center mt-2">
             <div class="col">
-                <!-- Page pre-title -->
-                <div class="page-pretitle">
+               <div class="page-pretitle">
                     Dibuat oleh: <b>{{ auth()->user()->username }}</b>
                 </div>
                 <h2 class="page-title">
@@ -16,16 +15,15 @@
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     <span class="d-none d-sm-inline">
-                        <a href="{{ route('school.classes.list') }}" class="btn">
-                            Kembali
-                        </a>
+                        @if (auth()->user()->role_id === 2 && auth()->user()->role_id === 1)
+                        <x-href colorButton="btn" url="{{ route('school.classes.list') }}" title="Kembali" />
+                        @else
+                        <x-href colorButton="btn" url="{{ route('school.classes.view' , [$classesId->id]) }}" title="Kembali" />
+                        @endif
                     </span>
                     <span class="d-none d-sm-inline">
                         @if (auth()->user()->role_id != 3 && auth()->user()->role_id !== 1)
-                        <a href="{{ route('school.classes.assignments.create', [$classesId->id]) }}"
-                            class="btn btn-primary">
-                            Tambah Tugas
-                        </a>
+                        <x-href colorButton="btn" url="{{ route('school.classes.assignments.create', [$classesId->id]) }}" title="Tambah Tugas" />
                         @endif
                     </span>
                 </div>
@@ -44,8 +42,8 @@
                                     Materi]</a>
                             </h3>
                             <div class="card-actions btn-actions">
-
-                                <a href="#" class="btn-action" title="Lihat {{ $assignment->title }}">
+                                <a href="{{ route('school.classes.assignments.view', [$classesId->id, $assignment->id]) }}"
+                                    class="btn-action" title="Lihat {{ $assignment->title }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye"
                                         width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
                                         stroke="currentColor" fill="none" stroke-linecap="round"
@@ -57,34 +55,42 @@
                                         </path>
                                     </svg>
                                 </a>
-                                <a href="{{ route('school.classes.assignments.edit', [$classesId->id, $assignment->id]) }}" class="btn-action" title="ubah {{$assignment->title}}">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="icon icon-tabler icon-tabler-edit" width="24" height="24"
-                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
-                                        <path
-                                            d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z">
-                                        </path>
-                                        <path d="M16 5l3 3"></path>
-                                    </svg>
-                                </a>
-                                <div class="dropdown">
-                                <button class="btn-action" data-bs-toggle="dropdown" aria-expanded="true">
-                                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
-                                        height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                        fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M18 6l-12 12"></path>
-                                        <path d="M6 6l12 12"></path>
-                                    </svg>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-end" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(0px, 38.6667px, 0px);" data-popper-placement="bottom-end">
-                                  <a class="dropdown-item" href="#" wire:click="deleteData({{json_encode($assignment->id)}})">
-                                    Hapus {{$assignment->title}}
-                                  </a>
-                                </div>
+                                @if (auth()->check() && auth()->user()->id === $assignment->user_id)
+                                    <a href="{{ route('school.classes.assignments.edit', [$classesId->id, $assignment->id]) }}"
+                                        class="btn-action" title="ubah {{ $assignment->title }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-edit" width="24" height="24"
+                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                            <path
+                                                d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z">
+                                            </path>
+                                            <path d="M16 5l3 3"></path>
+                                        </svg>
+                                    </a>
+                                    <div class="dropdown">
+                                        <button class="btn-action" data-bs-toggle="dropdown" aria-expanded="true">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                stroke="currentColor" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M18 6l-12 12"></path>
+                                                <path d="M6 6l12 12"></path>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-end"
+                                            style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(0px, 38.6667px, 0px);"
+                                            data-popper-placement="bottom-end">
+                                            <a class="dropdown-item" href="#"
+                                                wire:click="deleteData({{ $assignment->id }})">
+                                                Hapus {{ $assignment->title }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endif
                               </div>
                             </div>
                         </div>

@@ -1,35 +1,14 @@
 <?php
 
 use App\Http\Livewire\Auth\LoginComponent;
-use App\Http\Livewire\Pages\DashboardComponent;
-use App\Http\Livewire\Pages\Profile;
+use App\Http\Livewire\Pages\{Profile, DashboardComponent};
 use App\Http\Livewire\Pages\School\Classes\{Index, Create, Join, ListClasses, ViewClasses};
-use App\Http\Livewire\Pages\School\Classes\Materials\Create as MaterialsCreate;
-use App\Http\Livewire\Pages\School\Classes\Materials\Index as MaterialsIndex;
-use App\Http\Livewire\Pages\School\Classes\Materials\Edit as MaterialsEdit;
-use App\Http\Livewire\Pages\School\Classes\Materials\Views as MaterialsView;
-use App\Http\Livewire\Pages\School\Classes\Assignments\Index as AssignmentsIndex;
-use App\Http\Livewire\Pages\School\Classes\Assignments\Create as AssignmentsCreate;
-use App\Http\Livewire\Pages\School\Classes\Assignments\Edit as AssignmentsEdit;
+use App\Http\Livewire\Pages\School\Classes\Materials\{Views as MaterialsView, Edit as MaterialsEdit, Index as MaterialsIndex, Create as MaterialsCreate};
+use App\Http\Livewire\Pages\School\Classes\Assignments\{View as AssignmentsView, Edit as AssignmentsEdit, Create as AssignmentsCreate, Index as AssignmentsIndex};
+use App\Http\Livewire\Pages\Users\Students\{Create as StudentsCreate, Edit as StudentsEdit, Index as StudentsIndex};
+use App\Http\Livewire\Pages\Users\Teacher\{Create as TeacherCreate, Edit as TeacherEdit, Index as TeacherIndex};
 use App\Http\Livewire\Pages\School\Dashboard;
-use App\Http\Livewire\Pages\Users\Students\Create as StudentsCreate;
-use App\Http\Livewire\Pages\Users\Students\Edit as StudentsEdit;
-use App\Http\Livewire\Pages\Users\Students\Index as StudentsIndex;
-use App\Http\Livewire\Pages\Users\Teacher\Create as TeacherCreate;
-use App\Http\Livewire\Pages\Users\Teacher\Edit as TeacherEdit;
-use App\Http\Livewire\Pages\Users\Teacher\Index as TeacherIndex;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::middleware('guest')->group(function () {
     Route::get("login", LoginComponent::class)->name("login");
@@ -68,7 +47,8 @@ Route::middleware('auth')->group(function () {
             Route::prefix('/{classesId}/assignments')->name('assignments.')->group(function () {
                 Route::get("", AssignmentsIndex::class)->name("index");
                 Route::get("/create", AssignmentsCreate::class)->name("create");
-                Route::get("/{assignmentsId}/edit", AssignmentsEdit::class)->name("edit");
+                Route::get("/{assignmentId}/edit", AssignmentsEdit::class)->name("edit");
+                Route::get("/{assignmentId}/view", AssignmentsView::class)->name("view");
             });
         });
     });

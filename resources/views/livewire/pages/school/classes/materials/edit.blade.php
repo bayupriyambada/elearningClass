@@ -8,16 +8,14 @@
                   Pelajaran: <b>{{$classesId->name}}</b>
                 </div>
                 <h2 class="page-title">
-                    Buat Materi
+                    Ubah Materi: {{$materials->title}}
                 </h2>
             </div>
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     <span class="d-none d-sm-inline">
-                        <a href="{{route('school.classes.materials.index', [$classesId->id])}}" class="btn">
-                            Kembali
-                        </a>
+                        <x-href colorButton="btn" url="{{ route('school.classes.materials.index', [$classesId->id]) }}" title="Kembali" />
                     </span>
                 </div>
             </div>
@@ -34,7 +32,7 @@
                     <div class="mb-3">
                         <x-input type="text" name="url" label="Url (isikan -)" required />
                     </div>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="submit" class="btn btn-primary">Ubah Data</button>
                 </form>
             </div>
         </div>
