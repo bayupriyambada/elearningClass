@@ -16,14 +16,13 @@ class Create extends Component
     public $avatar;
 
     protected $rules = [
-        'username' => 'required|string|min:3|max:100',
+        'username' => 'required|string|min:3|max:100|unique:users,username',
         'fullname' => 'required|string|max:200',
         'email' => 'required|email|unique:users,email',
         'avatar' => 'nullable'
     ];
     public function create()
     {
-        $this->validate();
         try {
             User::create([
                 'username' => $this->username,

@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        // operator default uuid: b100d95b-271c-4569-9841-5c2e6f3d338f
         User::create([
             'fullname' => 'operator Sekolah',
             'username' => 'operator',
@@ -26,6 +27,7 @@ class UserSeeder extends Seeder
             'avatar' => Date('Y') . Str::random(15) . 'png',
             'role_id' => 1
         ]);
+        //  teacher default uuid: 0ed20c44-687a-4392-8360-8e64f1f28698
         User::create([
             'fullname' => 'Bayu Priyambada',
             'username' => 'bayupm',
@@ -36,6 +38,7 @@ class UserSeeder extends Seeder
             'avatar' => Date('Y') . Str::random(15) . 'png',
             'role_id' => 2
         ]);
+        // user default uuid: c4a04a83-4aef-49c0-b65a-d5fca528d151
         User::create([
             'fullname' => 'Student Working',
             'username' => 'student',

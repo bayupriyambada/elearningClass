@@ -15,14 +15,13 @@ class Edit extends Component
     public $email;
     public $avatar;
 
-    public function mount($dataId)
+    public function mount($teacherId)
     {
-        dd($dataId);
-        // $this->teachers = User::where('role_id', 2)->findOrFail($dataId);
-        // $this->teacherId = $this->teachers->id;
-        // $this->username = $this->teachers->username;
-        // $this->fullname = $this->teachers->fullname;
-        // $this->email = $this->teachers->email;
+        $this->teachers = User::where('role_id', 2)->findOrFail($teacherId);
+        $this->teacherId = $this->teachers->id;
+        $this->username = $this->teachers->username;
+        $this->fullname = $this->teachers->fullname;
+        $this->email = $this->teachers->email;
     }
     protected $rules = [
         'username' => 'required|string|min:1',
