@@ -8,7 +8,7 @@
                     Dibuat oleh: <b>{{ $classesId->user->username }}</b>
                 </div>
                 <h2 class="page-title">
-                    Pelajaran: {{ $classesId->name }}
+                    Pelajaran: {{ $classesId->name }} | Materi
                 </h2>
 
             </div>

@@ -4,7 +4,7 @@ use App\Http\Livewire\Auth\LoginComponent;
 use App\Http\Livewire\Pages\{Profile, DashboardComponent};
 use App\Http\Livewire\Pages\School\Classes\{Index, Create, Join, ListClasses, ViewClasses};
 use App\Http\Livewire\Pages\School\Classes\Materials\{Views as MaterialsView, Edit as MaterialsEdit, Index as MaterialsIndex, Create as MaterialsCreate};
-use App\Http\Livewire\Pages\School\Classes\Assignments\{View as AssignmentsView, Edit as AssignmentsEdit, Create as AssignmentsCreate, Index as AssignmentsIndex};
+use App\Http\Livewire\Pages\School\Classes\Assignments\{View as AssignmentsView, Edit as AssignmentsEdit, Create as AssignmentsCreate, Index as AssignmentsIndex, SubmitAssignment};
 use App\Http\Livewire\Pages\Users\Students\{Create as StudentsCreate, Edit as StudentsEdit, Index as StudentsIndex};
 use App\Http\Livewire\Pages\Users\Teacher\{Create as TeacherCreate, Edit as TeacherEdit, Index as TeacherIndex};
 use App\Http\Livewire\Pages\School\Dashboard;
@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function () {
                 Route::get("/create", AssignmentsCreate::class)->name("create");
                 Route::get("/{assignmentId}/edit", AssignmentsEdit::class)->name("edit");
                 Route::get("/{assignmentId}/view", AssignmentsView::class)->name("view");
+                Route::get("/{assignmentId}/submitAssignment", SubmitAssignment::class)->name("submit");
             });
         });
     });

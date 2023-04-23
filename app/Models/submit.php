@@ -21,7 +21,7 @@ class submit extends Model
     }
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id')->select("id", "username", "fullname");
+        return $this->belongsTo(User::class)->select("id", "username", "fullname");
     }
     public function assignment()
     {

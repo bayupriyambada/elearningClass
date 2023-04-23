@@ -1,4 +1,4 @@
-@section('pageTitle', $classesId->name . ' | ' . $assignment->title)
+@section('pageTitle', $classesId->name . ' | ' . $classesId->assignments[0]['title'])
 
 <div>
     <div class="container-xl">
@@ -9,11 +9,10 @@
                     Dibuat oleh: <b>{{ $classesId->user->username }}</b>
                 </div>
                 <h2 class="page-title">
-                    Pelajaran: {{ $classesId->name }} | Tugas: {{ $assignment->title }}
+                    Pelajaran: {{ $classesId->name }} | Tugas: {{ $title }}
                 </h2>
 
             </div>
-            <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     <span class="d-none d-sm-inline">
@@ -27,20 +26,20 @@
             <div class="card">
                 <div class="card-body">
                     <span>Tugas:</span>
-                    <span><b>{{ $assignment->title }}</b></span>
+                    <span><b>{{ $title }}</b></span>
                 </div>
             </div>
             <div class="card">
                 <div class="card-body">
                     <span>Deskripsi:</span>
-                    <span>{{ $assignment->subject ?? 'Tidak menuliskan deskripsi' }}</span>
+                    <span>{{ $subject ?? 'Tidak menuliskan deskripsi' }}</span>
                 </div>
             </div>
             <div class="card">
                 <div class="card-body">
                     <span>Buka Tugas:</span>
                     <span>
-                        <x-href colorButton="" target url="{{ url($assignment->url) }}"
+                        <x-href colorButton="" target url="{{ url($url) }}"
                             title="Buka tugas dan kerjakan." />
                     </span>
                 </div>
@@ -48,18 +47,20 @@
             <div class="card">
                 <div class="card-body">
                     <span>Batas Pengumpulan Tugas:</span>
+                    @if( Carbon\Carbon::now() > Carbon\Carbon::parse($end_date))
+                    <span class="text-danger">Telah berakhir</span>
+                    @else
                     <span class="text-success">
-                        {{ $assignment->due_date }} s/d {{ $assignment->end_date }}
-                        ({{ $countDate }} Hari)
+                        {{ $due_date }} s/d {{ $end_date }}
+                        Silahkan mengumpulkan
                     </span>
+                    @endif
                 </div>
             </div>
+            @if(Carbon\Carbon::now() <= Carbon\Carbon::parse($end_date))
             <div class="card">
                 <div class="card-body">
-                    @if ($isSubmitted)
-                    Sudah dikirimkan
-                    @else
-                    <form wire:submit.prevent="submitTask">
+                    <form autocomplete="off" wire:submit.prevent="submissionAssignment" x-on:form-submitted.window="location.reload()">
                         <div class="mb-3">
                             <div class="col-md-12 mb-3">
                                 <x-input type="text" name="subject_submit" label="Deskripsi Jawaban" required />
@@ -68,11 +69,11 @@
                                 <x-input type="text" name="assign_url" label="Url" required />
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Kirim jawaban</button>
+                        <button type="submit" class="btn btn-primary">{{$isSubmitted ? "Perbaharui Jawaban": "Kirim jawaban"}}</button>
                     </form>
-                    @endif
                 </div>
             </div>
+            @endif
         </div>
     </div>
 </div>

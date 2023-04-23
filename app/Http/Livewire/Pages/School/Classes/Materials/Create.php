@@ -19,6 +19,10 @@ class Create extends Component
     public function mount($classesId)
     {
         $this->classesId = Classes::findOrFail($classesId);
+        if (auth()->check() && auth()->user()->role_id = 1) {
+            redirect()->back();
+            ToastHelpers::success($this, "Akses dilarang");
+        }
     }
     protected $rules = [
         'title' => 'required|string|min:1',

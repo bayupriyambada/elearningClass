@@ -33,35 +33,52 @@ class View extends Component
     public $isSubmitted = false;
     public function mount($classesId, $assignmentId)
     {
-        $this->classesId = Classes::with("user:id,username")->findOrFail($classesId);
-        $this->assignment = assignment::with("submitAssignment", "submitAssignment.user")->findOrFail($assignmentId);
+        $this->classesId = Classes::with([
+            'user' => function ($query) {
+                $query->select('id', 'username');
+            },
+            'assignments' => function ($assign) use ($classesId) {
+                $assign
+                    ->where("classes_id", $classesId)
+                    ->select("id", "title", "subject", "classes_id", "url", "due_date", "end_date");
+            }
+        ])
+            ->select("id", "name", "user_id")
+            ->findOrFail($classesId);
+
+        $this->assignment = $this->classesId->assignments->where('id', $assignmentId)->first();
         $this->assignmentId = $this->assignment->id;
         $this->title = $this->assignment->title;
         $this->subject = $this->assignment->subject;
         $this->url = $this->assignment->url;
         $this->due_date = $this->assignment->due_date;
         $this->end_date = $this->assignment->end_date;
-        $this->countDate = Carbon::parse($this->due_date)->diffInDays($this->end_date);
-        $this->user_id = $this->assignment->user_id;
-
-        $this->submitAssignment = Submit::where("assignment_id", $this->assignment->id)
-            ->where("user_id", auth()->user()->id)
-            ->first();
-        $this->assign_url = $this->submitAssignment->assign_url ?? "";
-        $this->sent_assignment = $this->submitAssignment->sent_assignment ?? "";
-        $this->subject_submit = $this->submitAssignment->subject_submit ?? "";
-        $this->isSubmit = $this->submitAssignment->isSubmit ?? false;
+        $submitAssignment = $this->assignment->submitAssignment->where("user_id", auth()->user()->id)->where("assignment_id", $this->assignmentId)->first();
+        $this->assign_url = optional($submitAssignment)->assign_url ?? "";
+        $this->sent_assignment = optional($submitAssignment)->sent_assignment ?? "";
+        $this->subject_submit = optional($submitAssignment)->subject_submit ?? "";
+        $this->isSubmit = optional($submitAssignment)->isSubmit ?? false;
     }
 
     protected $rules = [
         'subject_submit' => 'required|string|min:1',
         'assign_url' => 'required',
     ];
-    public function submitTask()
+    public function updatedIsSubmitted($value)
+    {
+        if ($value) {
+            $this->submissionAssignment();
+            $this->dispatchBrowserEvent('form-submitted');
+        }
+    }
+    public function submissionAssignment()
     {
         try {
             $this->validate();
-            $status = $this->submitAssignment ? "update" : "create";
+            if (now() > $this->end_date) {
+                ToastHelpers::error($this, "Pengumpulan tugas telah berakhir");
+                return;
+            }
             $this->assignment->submitAssignment()->updateOrCreate(
                 ['assignment_id' => $this->assignment->id, 'user_id' => auth()->user()->id],
                 [
@@ -73,12 +90,9 @@ class View extends Component
                     'sent_assignment' => now(),
                 ]
             );
-            if ($status === "create") {
-                ToastHelpers::success($this, "Berhasil mengumpulkan tugas " . $this->assignment->title);
-            } else {
-                ToastHelpers::success($this, "Berhasil memperbaharui tugas " . $this->assignment->title);
-            }
+            ToastHelpers::success($this, "Berhasil mengirimkan tugas " . $this->assignment->title);
             $this->isSubmitted = true;
+            $this->dispatchBrowserEvent('form-submitted');
         } catch (\Exception $e) {
             ToastHelpers::error($this, $e->getMessage());
         }

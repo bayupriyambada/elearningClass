@@ -30,7 +30,7 @@ class assignment extends Model
     }
     public function submitAssignment()
     {
-        return $this->hasOne(submit::class);
+        return $this->hasMany(submit::class);
     }
 
     public $incrementing = false;

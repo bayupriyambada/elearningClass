@@ -57,12 +57,18 @@ class ViewClasses extends Component
                 return;
             }
             if ($timeAttendances->gte($timeStart) && $timeAttendances->lte($timeEnd)) {
+                $twentyFourHoursLater = $timeEnd->copy()->addHours(24);
+                if ($timeAttendances->gte($twentyFourHoursLater)) {
+                    ToastHelpers::info($this, "Anda tidak diperbolehkan absensi karena sudah lebih dari 24 jam dari waktu absensi berakhir.");
+                    $this->isAbsensi = 0;
+                    return;
+                }
                 $isAttendanceLate = false;
                 $message = "Yeay absensi pada pelajaran " . $this->classes->name . " berhasil";
             } else {
                 $isAttendanceLate = true;
-                $this->lateTime = $timeEnd->diffInMinutes($timeAttendances);
-                $message = "Anda terlambat absensi selama " . $this->lateTime . " menit";
+                $this->lateTime = $timeEnd->diff($timeAttendances)->format('%h jam %i menit');
+                $message = "Anda terlambat absensi selama " . $this->lateTime;
             }
             attendance::create([
                 'id' => Str::uuid(),

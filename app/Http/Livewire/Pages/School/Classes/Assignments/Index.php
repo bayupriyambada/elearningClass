@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\assignment;
 use Livewire\WithPagination;
 use App\Helpers\ToastHelpers;
+use App\Models\submit;
 
 class Index extends Component
 {
@@ -14,6 +15,8 @@ class Index extends Component
     public $materialDeleteId;
     use WithPagination;
     public $perPage = 10;
+    public $assignmentSubmit;
+    public $submitted = [];
     public function mount($classesId)
     {
         $this->classesId = Classes::select('id', 'name')->findOrFail($classesId);
@@ -21,13 +24,22 @@ class Index extends Component
     public function render()
     {
         $assignments = assignment::where("classes_id", $this->classesId->id)
-            ->with("user:id,username")
+            ->with("user:id,username", "submitAssignment.user")
             ->select("id", "title", "url", "user_id")
+            ->withCount("submitAssignment")
             ->orderByDesc("created_at")
             ->paginate($this->perPage);
         return view('livewire.pages.school.classes.assignments.index', [
             'assignments' => $assignments
         ]);
+    }
+
+    public function userSubmission($dataId)
+    {
+        $this->submitted = assignment::where("classes_id", $this->classesId->id)
+            ->with("submitAssignment.user")
+            ->orderByDesc("created_at")
+            ->find($dataId);
     }
 
     public function deleteData($materialDeleteId)
