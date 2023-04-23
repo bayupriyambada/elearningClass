@@ -16,6 +16,14 @@ class Create extends Component
         'name' => 'required|string|min:1',
         'subject' => 'nullable',
     ];
+
+    public function mount()
+    {
+        // dd(auth()->user()->role_id);
+        if (auth()->user()->role_id == 3) {
+            abort(403);
+        }
+    }
     public function create()
     {
         $this->validate();
