@@ -25,7 +25,7 @@ class Create extends Component
     {
         $this->validate();
         try {
-            User::create([
+            User::create(['id' => Str::uuid(),
                 'username' => $this->username,
                 'fullname' => $this->fullname,
                 'email' => $this->email,

@@ -24,7 +24,10 @@ return new class extends Migration
                 ->on('classes')
                 ->constrained()
                 ->onDelete('cascade');
-            $table->foreignId('user_id')
+            $table->uuid('user_id');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
                 ->constrained()
                 ->onDelete('cascade');
             $table->dateTime('due_date');

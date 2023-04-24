@@ -24,9 +24,11 @@ return new class extends Migration
                 ->on('assignments')
             ->constrained()
                 ->onDelete('cascade');
-            $table->foreignId('user_id')
+            $table->uuid('user_id');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
                 ->constrained()
-                ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->dateTime('sent_assignment');
             $table->timestamps();

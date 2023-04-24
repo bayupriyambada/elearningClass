@@ -18,6 +18,7 @@ class UserSeeder extends Seeder
     {
         // operator default uuid: b100d95b-271c-4569-9841-5c2e6f3d338f
         User::create([
+            'id' => 'b100d95b-271c-4569-9841-5c2e6f3d338f',
             'fullname' => 'operator Sekolah',
             'username' => 'operator',
             'email' => 'operator@school.com',
@@ -29,6 +30,7 @@ class UserSeeder extends Seeder
         ]);
         //  teacher default uuid: 0ed20c44-687a-4392-8360-8e64f1f28698
         User::create([
+            'id' => '0ed20c44-687a-4392-8360-8e64f1f28698',
             'fullname' => 'Bayu Priyambada',
             'username' => 'bayupm',
             'email' => 'bayupm@gmail.com',
@@ -40,6 +42,7 @@ class UserSeeder extends Seeder
         ]);
         // user default uuid: c4a04a83-4aef-49c0-b65a-d5fca528d151
         User::create([
+            'id' => 'c4a04a83-4aef-49c0-b65a-d5fca528d151',
             'fullname' => 'Student Working',
             'username' => 'student',
             'email' => 'student@gmail.com',

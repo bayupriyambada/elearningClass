@@ -22,11 +22,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()
-            ->count(50)->create();
+        // User::factory()
+        //     ->count(50)->create();
         // $this->call([]);
-        // $this->call(RoleSeeder::class);
-        // $this->call(UserSeeder::class);
+        $this->call(RoleSeeder::class);
+        $this->call(UserSeeder::class);
         // $this->call(ClassesSeeder::class);
 
         // $this->call(AttendancesSeeder::class);

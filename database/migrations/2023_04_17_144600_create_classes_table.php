@@ -18,9 +18,11 @@ return new class extends Migration
             $table->string('name');
             $table->string('subject');
             $table->string('code');
-            $table->foreignId('user_id')
+            $table->uuid('user_id');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
                 ->constrained()
-                ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->timestamps();
         });

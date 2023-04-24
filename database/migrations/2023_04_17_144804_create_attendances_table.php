@@ -17,9 +17,12 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->timestamp('date_attendance');
             $table->boolean('isAbsensi')->default(0);
-            $table->foreignId('user_id')
-            ->constrained()
-            ->onDelete('cascade');
+            $table->uuid('user_id');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->constrained()
+                ->onDelete('cascade');
             $table->uuid('classes_id');
             $table->foreign('classes_id')
                 ->references('id')

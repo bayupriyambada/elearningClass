@@ -25,6 +25,7 @@ class Create extends Component
     {
         try {
             User::create([
+                'id' => Str::uuid(),
                 'username' => $this->username,
                 'fullname' => $this->fullname,
                 'email' => $this->email,

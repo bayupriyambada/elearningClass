@@ -27,8 +27,8 @@ class LoginComponent extends Component
             ];
 
             if (Auth::attempt($credentials)) {
-                if (auth()->user()->role->id === 1) {
-                    ToastHelpers::success($this, "Berhasil masuk ke dalam aplikasi");
+                if (auth()->user()->role_id === 1) {
+                    ToastHelpers::success($this, "Operator berhasil masuk aplikasi");
                     return redirect(route("dashboard"));
                 } else {
                     ToastHelpers::success($this, "Berhasil masuk ke dalam aplikasi");

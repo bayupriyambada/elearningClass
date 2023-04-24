@@ -11,14 +11,16 @@ use App\Models\attendance;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasUuids;
 
     protected $fillable = [
+        "id",
         'username',
         'fullname',
         'email',
@@ -63,4 +65,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(submit::class);
     }
+
+    public $incrementing = false;
+    protected $keyType = 'string';
 }
