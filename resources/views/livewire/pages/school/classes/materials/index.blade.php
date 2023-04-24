@@ -10,38 +10,34 @@
                 <h2 class="page-title">
                     Pelajaran: {{ $classesId->name }} | Materi
                 </h2>
-
             </div>
-            <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     <span class="d-none d-sm-inline">
                         @if (auth()->user()->role_id === 2 || auth()->user()->role_id === 1)
-                        <x-href colorButton="btn" url="{{ route('school.classes.list') }}" title="Kembali" />
+                            <x-href colorButton="btn" url="{{ route('school.classes.list') }}" title="Kembali" />
                         @else
-                        <x-href colorButton="btn" url="{{ route('school.classes.view' , [$classesId->id]) }}" title="Kembali" />
+                            <x-href colorButton="btn" url="{{ route('school.classes.view', [$classesId->id]) }}"
+                                title="Kembali" />
                         @endif
                     </span>
-                     @if (auth()->user()->role_id != 3 && auth()->user()->role_id !== 1)
-                    <span class="d-none d-sm-inline">
-                        <x-href colorButton="btn btn-primary"
-                        url="{{ route('school.classes.materials.create', [$classesId->id]) }}"
-                        title="Tambah Materi" />
-                    </span>
+                    @if (auth()->user()->role_id != 3 && auth()->user()->role_id !== 1)
+                        <span class="d-none d-sm-inline">
+                            <x-href colorButton="btn btn-primary"
+                                url="{{ route('school.classes.materials.create', [$classesId->id]) }}"
+                                title="Tambah Materi" />
+                        </span>
                     @endif
                 </div>
             </div>
         </div>
         <div class="row row-cards mt-2">
-            @php
-                $iteration = ($materials->currentPage() - 1) * $materials->perPage() + 1;
-            @endphp
 
             @forelse ($materials as $material)
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"> {{ $iteration++ }}. {{ $material->title }}
+                            <h3 class="card-title"> {{ $loop->iteration }}. {{ $material->title }}
                                 <a href="{{ url($material->url) }}" class="text-primary" target="_blank">[Lihat
                                     Materi]</a>
                             </h3>
@@ -108,7 +104,11 @@
                     </div>
                 </div>
             @endforelse
-            {{ $materials->links() }}
+            @if ($showLoadMoreButton)
+            <div>
+                <button wire:click="loadData" type="button" class="btn btn-primary">Buka {{$amount}} data...</button>
+            </div>
+            @endif
         </div>
     </div>
 </div>
