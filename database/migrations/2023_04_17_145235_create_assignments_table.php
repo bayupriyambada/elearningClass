@@ -30,8 +30,8 @@ return new class extends Migration
                 ->on('users')
                 ->constrained()
                 ->onDelete('cascade');
-            $table->dateTime('due_date');
-            $table->dateTime('end_date');
+            $table->date('due_date');
+            $table->date('end_date');
             $table->timestamps();
         });
     }

@@ -31,7 +31,7 @@
                     <div class="mb-3">
                         <x-input type="text" name="url" label="Url (isikan -)" required />
                     </div>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="submit" class="btn btn-primary">Simpan Data</button>
                 </form>
             </div>
         </div>

@@ -1,10 +1,7 @@
 <link href="{{asset('assets/dist/css/tabler.min.css')}}" rel="stylesheet"/>
-{{-- <link href="{{asset('assets/dist/css/toastr.min.css')}}" rel="stylesheet"/>
-<script src="{{asset('assets/dist/js/toastr.min.js')}}"></script> --}}
-{{-- <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> --}}
-
- <style>
+{{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> --}}
+<link href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css" rel="stylesheet">
+<style>
     @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
     /* @import url('https://rsms.me/inter/inter.css'); */
     :root {

@@ -34,7 +34,7 @@ class Create extends Component
         $this->validate();
 
         try {
-            assignment::create([
+            $test = assignment::create([
                 'id' => Str::uuid(),
                 'title' => $this->title,
                 'subject' => $this->subject,
@@ -47,6 +47,7 @@ class Create extends Component
             ToastHelpers::success($this, "Berhasil menambahkan data tugas");
             redirect(route('school.classes.assignments.index', [$this->classesId->id]));
         } catch (\Exception $e) {
+            dd($e->getMessage());
             ToastHelpers::error($this, $e->getMessage());
             redirect(route('school.classes.assignments.index', [$this->classesId->id]));
         }
