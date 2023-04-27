@@ -5,7 +5,7 @@
         <div class="row g-2 align-items-center mt-2">
             <div class="col">
                 <h2 class="page-title">
-                    Dasbor {{ auth()->user()->username }}
+                    Dasbor Anda
                 </h2>
             </div>
             <!-- Page title actions -->

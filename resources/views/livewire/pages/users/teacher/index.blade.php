@@ -39,8 +39,8 @@
                     </div>
                     <div class="card-body">
                         <h3 class="card-title">Informasi</h3>
-                        <p class="text-muted">Perhatikan! Jika ingin menghapus, maka semua data pada tenaga didik
-                            tersebut juga terhapus.</p>
+                        <p class="text-muted">Perhatikan! Jika ingin menghapus, maka semua data pada tenaga didik tersebut juga
+                            terhapus.</p>
                         <p class="text-muted">Kata sandi (reset): <b>password</b></p>
                     </div>
                 </div>
@@ -49,16 +49,7 @@
                 <div class="card">
                     <div class="card-body border-bottom py-3">
                         <div class="d-flex">
-                            <div class="text-muted">
-                                Show
-                                <div class="mx-2 d-inline-block">
-                                    <input type="number" min="0" wire:model="pagination"
-                                        class="form-control form-control-sm" value="8" size="3">
-                                </div>
-                                entries
-                            </div>
-                            <div class="ms-auto text-muted">
-                                Search:
+                            <div class="col-auto ms-auto d-print-none">
                                 <div class="ms-2 d-inline-block">
                                     <input type="search" wire:model="search" placeholder="Cari username, email"
                                         class="form-control form-control-sm" aria-label="Cari pengguna">
@@ -88,8 +79,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if ($userTeachers->isNotEmpty())
-                                    @foreach ($userTeachers as $index => $item)
+                                @if ($teachers !== null && $teachers->isNotEmpty())
+                                    @foreach ($teachers as $index => $item)
                                         <tr>
                                             <td><span class="text-muted">{{ $index + 1 }}</span></td>
                                             <td>{{ $item->username }}</td>
@@ -104,7 +95,7 @@
                                                     <button class="btn dropdown-toggle align-text-top"
                                                         data-bs-boundary="viewport" data-bs-toggle="dropdown"
                                                         aria-expanded="false">Aksi</button>
-                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                    <div class="dropdown-menu dropdown-menu-end" style="">
                                                         <a class="dropdown-item" href="#"
                                                             wire:click="resetPassword({{ $item->id }})">
                                                             Reset Kata Sandi
@@ -134,9 +125,12 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="card-footer d-flex align-items-center">
-                        {{ $userTeachers->links() }}
-                    </div>
+                    @if (is_array($teachers) && count($teachers) >= $pagination)
+                        <div class="m-2">
+                            <button wire:click="loadData" type="button" class="btn btn-primary">Buka
+                                {{ $pagination }} data...</button>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

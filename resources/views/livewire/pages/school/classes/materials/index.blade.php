@@ -55,42 +55,35 @@
                                         </path>
                                     </svg>
                                 </a>
-                                @if (auth()->check() && auth()->user()->id === $material->user_id)
-                                    <a href="{{ route('school.classes.materials.edit', [$classesId->id, $material->id]) }}"
-                                        class="btn-action" title="ubah {{ $material->title }}">
+                                <div class="dropdown">
+                                    <button class="btn-action" data-bs-toggle="dropdown" aria-expanded="true">
                                         <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="icon icon-tabler icon-tabler-edit" width="24" height="24"
-                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                            stroke-linecap="round" stroke-linejoin="round">
+                                            class="icon icon-tabler icon-tabler-dots-vertical" width="24"
+                                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
-                                            <path
-                                                d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z">
-                                            </path>
-                                            <path d="M16 5l3 3"></path>
+                                            <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                            <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                            <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
                                         </svg>
-                                    </a>
-                                    <div class="dropdown">
-                                        <button class="btn-action" data-bs-toggle="dropdown" aria-expanded="true">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
-                                                height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                stroke="currentColor" fill="none" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                <path d="M18 6l-12 12"></path>
-                                                <path d="M6 6l12 12"></path>
-                                            </svg>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-end"
-                                            style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(0px, 38.6667px, 0px);"
-                                            data-popper-placement="bottom-end">
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-end"
+                                        style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(0px, 38.6667px, 0px);"
+                                        data-popper-placement="bottom-end">
+
+                                        @if (auth()->check() && auth()->user()->id === $material->user_id)
+                                            <a class="dropdown-item"
+                                                href="{{ route('school.classes.materials.edit', [$classesId->id, $material->id]) }}">
+                                                Ubah
+                                            </a>
                                             <a class="dropdown-item" href="#"
                                                 wire:click="deleteData({{ json_encode($material->id) }})">
-                                                Hapus {{ $material->title }}
+                                                Hapus
                                             </a>
-                                        </div>
+                                        @endif
+
                                     </div>
-                                @endif
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -105,9 +98,10 @@
                 </div>
             @endforelse
             @if ($showLoadMoreButton)
-            <div>
-                <button wire:click="loadData" type="button" class="btn btn-primary">Buka {{$amount}} data...</button>
-            </div>
+                <div>
+                    <button wire:click="loadData" type="button" class="btn btn-primary">Buka {{ $amount }}
+                        data...</button>
+                </div>
             @endif
         </div>
     </div>

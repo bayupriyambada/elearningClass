@@ -26,5 +26,4 @@
     @livewireScripts
     @include('layouts.partials.inc.js')
 </body>
-
 </html>

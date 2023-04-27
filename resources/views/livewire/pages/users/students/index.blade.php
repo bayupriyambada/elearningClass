@@ -15,7 +15,8 @@
                         <x-href colorButton="btn" url="{{ route('dashboard') }}" title="Kembali" />
                     </span>
                     <span class="d-none d-sm-inline">
-                        <x-href colorButton="btn btn-primary" url="{{ route('users.students.create') }}" title="Tambah Data" />
+                        <x-href colorButton="btn btn-primary" url="{{ route('users.students.create') }}"
+                            title="Tambah Data" />
                     </span>
                 </div>
             </div>
@@ -23,32 +24,32 @@
         <div class="row row-cards mt-2">
             <div class="col-md-12">
                 <div class="card">
-                  <div class="card-stamp">
-                    <div class="card-stamp-icon bg-yellow">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"></path><path d="M9 17v1a3 3 0 0 0 6 0v-1"></path></svg>
+                    <div class="card-stamp">
+                        <div class="card-stamp-icon bg-yellow">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path
+                                    d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6">
+                                </path>
+                                <path d="M9 17v1a3 3 0 0 0 6 0v-1"></path>
+                            </svg>
+                        </div>
                     </div>
-                  </div>
-                  <div class="card-body">
-                    <h3 class="card-title">Informasi</h3>
-                    <p class="text-muted">Perhatikan! Jika ingin menghapus, maka semua data pada siswa tersebut juga terhapus.</p>
-                    <p class="text-muted">Kata sandi (reset): <b>password</b></p>
-                  </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Informasi</h3>
+                        <p class="text-muted">Perhatikan! Jika ingin menghapus, maka semua data pada siswa tersebut juga
+                            terhapus.</p>
+                        <p class="text-muted">Kata sandi (reset): <b>password</b></p>
+                    </div>
                 </div>
             </div>
             <div class="col-12">
                 <div class="card">
                     <div class="card-body border-bottom py-3">
                         <div class="d-flex">
-                            <div class="text-muted">
-                                Show
-                                <div class="mx-2 d-inline-block">
-                                    <input type="number" min="0" wire:model="pagination"
-                                        class="form-control form-control-sm" value="8" size="3">
-                                </div>
-                                entries
-                            </div>
-                            <div class="ms-auto text-muted">
-                                Search:
+                            <div class="col-auto ms-auto d-print-none">
                                 <div class="ms-2 d-inline-block">
                                     <input type="search" wire:model="search" placeholder="Cari username, email"
                                         class="form-control form-control-sm" aria-label="Cari pengguna">
@@ -78,8 +79,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if ($userStudents->isNotEmpty())
-                                    @foreach ($userStudents as $index => $item)
+                                @if ($students !== null && $students->isNotEmpty())
+                                    @foreach ($students as $index => $item)
                                         <tr>
                                             <td><span class="text-muted">{{ $index + 1 }}</span></td>
                                             <td>{{ $item->username }}</td>
@@ -124,9 +125,12 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="card-footer d-flex align-items-center">
-                        {{ $userStudents->links() }}
-                    </div>
+                    @if (is_array($students) && count($students) >= $pagination)
+                        <div class="m-2">
+                            <button wire:click="loadData" type="button" class="btn btn-primary">Buka
+                                {{ $pagination }} data...</button>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

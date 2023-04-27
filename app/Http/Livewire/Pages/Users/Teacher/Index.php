@@ -4,23 +4,49 @@ namespace App\Http\Livewire\Pages\Users\Teacher;
 
 use App\Models\User;
 use Livewire\Component;
-use Livewire\WithPagination;
 use App\Helpers\ToastHelpers;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 
 class Index extends Component
 {
-    use WithPagination;
-    protected $paginationTheme = 'bootstrap';
-    public $search;
-    protected $queryString = ['search'];
+    public $search = '';
+    public $page = 1;
     public $pagination = 12;
+    public int $offset = 0;
+    public Collection $teachers;
+    public bool $showLoadMoreButton;
 
-    protected $listeners = ['render', '$refresh'];
-
-    public function updatingSearch()
+    public function mount()
     {
-        $this->resetPage();
+        $this->loadData();
+    }
+    public function loadData($search = '')
+    {
+        $users = User::query()
+            ->roleTeachers()
+            ->where('username', 'like', '%' . $search . '%')
+            ->orderByDesc("created_at")
+            ->offset(($this->page - 1) * $this->pagination)
+            ->limit($this->pagination)->get();
+        $this->teachers = isset($this->teachers) ? $this->teachers->merge($users) : $users;
+        $this->offset += $this->pagination;
+        $this->showLoadMoreButton = User::roleTeachers()->count() > $this->offset;
+    }
+    public function resetList()
+    {
+        $this->teachers = collect([]);
+        $this->page = 1;
+    }
+    public function updatedSearch($value)
+    {
+        $this->resetList();
+        $this->loadData($value);
+    }
+    public function loadMore()
+    {
+        $this->page++;
+        $this->loadData($this->search);
     }
     public function deleteData($dataId)
     {
@@ -35,7 +61,7 @@ class Index extends Component
     public function resetPassword($dataId)
     {
         try {
-            User::where("role_id", 2)->find($dataId)->update([
+            User::roleTeachers()->find($dataId)->update([
                 'password' => Hash::make('password')
             ]);
             ToastHelpers::success($this, "Berhasil reset kata sandi");
@@ -46,12 +72,6 @@ class Index extends Component
     }
     public function render()
     {
-        $userTeachers = User::where("role_id", 2)
-            ->orderByDesc("created_at")
-            ->where('username', 'like', '%' . $this->search . '%')
-            ->paginate($this->pagination);
-        return view('livewire.pages.users.teacher.index', [
-            'userTeachers' => $userTeachers
-        ]);
+        return view('livewire.pages.users.teacher.index');
     }
 }

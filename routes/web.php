@@ -8,6 +8,7 @@ use App\Http\Livewire\Pages\School\Classes\Assignments\{View as AssignmentsView,
 use App\Http\Livewire\Pages\Users\Students\{Create as StudentsCreate, Edit as StudentsEdit, Index as StudentsIndex};
 use App\Http\Livewire\Pages\Users\Teacher\{Create as TeacherCreate, Edit as TeacherEdit, Index as TeacherIndex};
 use App\Http\Livewire\Pages\School\Dashboard;
+use App\Http\Livewire\Pages\Users\Attendances\Index as AttendancesIndex;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -27,6 +28,9 @@ Route::middleware('auth')->group(function () {
             Route::get("", TeacherIndex::class)->name("index");
             Route::get("/create", TeacherCreate::class)->name("create");
             Route::get("/{teacherId}/edit", TeacherEdit::class)->name("edit");
+        });
+        Route::prefix('attendances')->name('attendances.')->group(function () {
+            Route::get("", AttendancesIndex::class)->name("index");
         });
     });
     Route::prefix('school')->name('school.')->group(function () {

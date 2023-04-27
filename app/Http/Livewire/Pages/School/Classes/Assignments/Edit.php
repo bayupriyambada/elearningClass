@@ -31,10 +31,12 @@ class Edit extends Component
     }
     protected $rules = [
         'title' => 'required|string|min:1',
-        'subject' => 'nullable',
-        'url' => 'required',
+        'subject' => 'nullable|string',
+        'url' => 'required|string',
+        'due_date' => 'required|date|after_or_equal:today',
+        'end_date' => 'required|after:due_date',
     ];
-    public function updateData()
+    public function updateForm()
     {
         $this->validate();
 

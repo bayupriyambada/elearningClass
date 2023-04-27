@@ -66,6 +66,15 @@ class User extends Authenticatable
         return $this->hasMany(submit::class);
     }
 
+    public function scopeRoleTeachers()
+    {
+        return $this->where('role_id', 2);
+    }
+    public function scopeRoleStudents()
+    {
+        return $this->where('role_id', 3);
+    }
+
     public $incrementing = false;
     protected $keyType = 'string';
 }

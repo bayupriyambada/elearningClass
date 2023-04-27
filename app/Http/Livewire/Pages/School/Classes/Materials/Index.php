@@ -13,8 +13,6 @@ class Index extends Component
 {
     public $classesId;
     public $materialDeleteId;
-    use WithPagination;
-    public $perPage = 10;
     public int $amount = 10;
     public int $offset = 0;
     public Collection $materials;

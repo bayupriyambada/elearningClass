@@ -14,8 +14,6 @@ class Index extends Component
 {
     public $classesId;
     public $materialDeleteId;
-    // use WithPagination;
-    // public $perPage = 10;
     public $assignmentSubmit;
     public $submitted = [];
     public int $amount = 10;
