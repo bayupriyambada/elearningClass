@@ -42,7 +42,7 @@
                             <x-input type="text" name="end_date" id="end_date" label="Tanggal Selesai" required />
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Simpan Data</button>
+                    <button type="submit" class="btn btn-primary">Tambah Data</button>
                 </form>
             </div>
         </div>

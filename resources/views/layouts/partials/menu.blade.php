@@ -54,8 +54,8 @@
                                     href="{{ route('users.teachers.index') }}">
                                     Tenaga Didik
                                 </a>
-                                <a class="dropdown-item {{ Request::routeIs('users.teachers.index') ? 'active' : '' }}"
-                                    href="{{ route('users.teachers.index') }}">
+                                <a class="dropdown-item {{ Request::routeIs('users.attendances.index') ? 'active' : '' }}"
+                                    href="{{ route('users.attendances.index') }}">
                                     Absensi Siswa & Tenaga Didik
                                 </a>
                             </div>

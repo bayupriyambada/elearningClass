@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Pages\School\Classes\Materials;
 use App\Models\Classes;
 use Livewire\Component;
 use App\Models\material;
-use Livewire\WithPagination;
 use App\Helpers\ToastHelpers;
 use Illuminate\Support\Collection;
 

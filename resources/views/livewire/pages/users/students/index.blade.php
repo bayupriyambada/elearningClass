@@ -135,4 +135,7 @@
             </div>
         </div>
     </div>
+
+    {{-- modal delete --}}
+    {{-- modal delete --}}
 </div>

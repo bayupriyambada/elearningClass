@@ -13,10 +13,8 @@
 <body>
     <script src="{{ asset('assets/dist/js/demo-theme.min.js?1674944402') }}"></script>
     <div class="page">
-        <!-- Navbar -->
         @include('layouts.partials.navbar')
         <div class="page-wrapper">
-            <!-- Page body -->
             <div class="page-wrapper">
                 {{ $slot }}
             </div>

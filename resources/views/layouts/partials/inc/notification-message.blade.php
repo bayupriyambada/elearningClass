@@ -5,17 +5,22 @@
         showConfirmButton: false,
         showCloseButton: true,
         timer: 3000,
-        timerProgressBar:true,
+        timerProgressBar: true,
         didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)
             toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
     });
 
-    window.addEventListener('alert',({detail:{type,message}})=>{
+    window.addEventListener('alert', ({
+        detail: {
+            type,
+            message
+        }
+    }) => {
         Toast.fire({
-            icon:type,
-            title:message
+            icon: type,
+            title: message
         })
     })
 </script>
