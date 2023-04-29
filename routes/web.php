@@ -2,9 +2,11 @@
 
 use App\Http\Livewire\Auth\LoginComponent;
 use App\Http\Livewire\Pages\{Profile, DashboardComponent};
+use App\Http\Livewire\Pages\LessonCategories\Index as LessonCategoriesIndex;
 use App\Http\Livewire\Pages\School\Classes\{Index, Create, Edit, Join, ListClasses, ViewClasses};
 use App\Http\Livewire\Pages\School\Classes\Materials\{Views as MaterialsView, Edit as MaterialsEdit, Index as MaterialsIndex, Create as MaterialsCreate};
 use App\Http\Livewire\Pages\School\Classes\Assignments\{View as AssignmentsView, Edit as AssignmentsEdit, Create as AssignmentsCreate, Index as AssignmentsIndex, SubmitAssignment};
+use App\Http\Livewire\Pages\School\Classes\SubLesson\Index as SubLessonIndex;
 use App\Http\Livewire\Pages\Users\Students\{Create as StudentsCreate, Edit as StudentsEdit, Index as StudentsIndex};
 use App\Http\Livewire\Pages\Users\Teacher\{Create as TeacherCreate, Edit as TeacherEdit, Index as TeacherIndex};
 use App\Http\Livewire\Pages\School\Dashboard;
@@ -33,10 +35,13 @@ Route::middleware('auth')->group(function () {
             Route::get("", AttendancesIndex::class)->name("index");
         });
     });
+    Route::get("/lesson-categories", LessonCategoriesIndex::class)->name("lesson.index");
+
     Route::prefix('school')->name('school.')->group(function () {
         Route::get("/dashboard", Dashboard::class)->name("dashboard");
         Route::prefix('classes')->name('classes.')->group(function () {
             Route::get("", Index::class)->name("index");
+            Route::get("{lessonId}/sub-lesson", SubLessonIndex::class)->name("sub.index");
             Route::get("/create", Create::class)->name("create");
             Route::get("/{classesId}/edit", Edit::class)->name("edit");
             Route::get("/list", ListClasses::class)->name("list");

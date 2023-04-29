@@ -1,11 +1,11 @@
-@section('pageTitle', 'List Pelajaran')
+@section('pageTitle', 'Pelajaran ' . $lesson->lessonCategory->name)
 <div>
     <div class="container-xl">
         <div class="row g-2 align-items-center mt-2">
             <div class="col">
                 <!-- Page pre-title -->
                 <h2 class="page-title">
-                    Pelajaran Anda
+                    Pelajaran Anda : {{ $lesson->lessonCategory->name }}
                 </h2>
             </div>
             <!-- Page title actions -->
@@ -15,19 +15,19 @@
                         <x-href colorButton="btn" url="{{ route('school.dashboard') }}" title="Kembali" />
                     </span>
                     <span class=" d-sm-inline">
-                        <a href="#" wire:click.prevent="createForm" class="btn btn-primary">Tambah Pelajaran</a>
+                        <a href="#" wire:click.prevent="createForm" class="btn btn-primary">Tambah Sub
+                            Pelajaran</a>
                     </span>
                 </div>
 
             </div>
         </div>
         <div class="row row-cards mt-2">
-            @forelse ($lessonByUser as $index => $lesson)
+            @forelse ($subLessons as $index => $lesson)
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"> {{ $index + 1 }}. {{ $lesson->lessonCategory->name }} <span
-                                    class="text-red"><b>{{ $lesson->passcode }}</b></span></h3>
+                            <h3 class="card-title"> {{ $index + 1 }}. {{ $lesson->lesson }}</h3>
                             <div class="card-actions btn-actions">
                                 <div class="dropdown">
                                     <button class="btn-action" data-bs-toggle="dropdown" aria-expanded="true">
@@ -44,18 +44,7 @@
                                     <div class="dropdown-menu dropdown-menu-end"
                                         style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(0px, 38.6667px, 0px);"
                                         data-popper-placement="bottom-end">
-                                        <a class="dropdown-item"
-                                            href="{{ route('school.classes.sub.index', [$lesson->id]) }}">
-                                            <span>Tambah</span>
-                                        </a>
-                                        <a class="dropdown-item"
-                                            href="{{ route('school.classes.assignments.index', [$lesson->id]) }}">
-                                            <span>Tambah Tugas <b>[{{ $lesson->assignments_count }}]</b></span>
-                                        </a>
-                                        <a class="dropdown-item"
-                                            href="{{ route('school.classes.materials.index', [$lesson->id]) }}">
-                                            <span>Tambah Materi <b>[{{ $lesson->materials_count }}]</b></span>
-                                        </a>
+
                                         <a class="dropdown-item" href="#"
                                             wire:click="edit({{ json_encode($lesson->id) }})">
                                             Edit
@@ -79,38 +68,27 @@
                     </div>
                 </div>
             @endforelse
-            {{ $lessonByUser->links() }}
+            {{ $subLessons->links() }}
         </div>
     </div>
-
     {{-- modal create / update --}}
     <div class="modal modal-blur fade show" id="modal" tabindex="-1"
         @if ($showModal) style="display:block" @endif aria-modal="true" role="dialog">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Modal Pelajaran</h5>
+                    <h5 class="modal-title">{{ $subLessonId ? 'Ubah' : 'Tambah' }} Kategori Pelajaran</h5>
                     <button type="button" wire:click="close" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
                 <form wire:submit.prevent="save">
                     <div class="modal-body">
-                        {{-- <div class="mb-3">
-                            <x-input type="text" name="classes.name" label="Nama Pelajaran" required />
+                        <div class="mb-3">
+                            <x-input type="text" name="subLesson.title" label="Kategori Pelajaran" required />
                         </div>
-                        <div class="mb-3">
-                            <x-input type="text" name="classes.subject" label="Deskripsi Pelajaran" required />
-                        </div> --}}
-                        <div class="mb-3">
-                            <label for="exampleFormControlSelect2">Example select</label>
-                            <select wire:ignore.self wire:model.defer="classes.lesson_categories_id" class="form-control select2"
-                            data-dropdown-css-class="select2-dropdown--above" data-dropdown-parent="#modal"
-                             id="selected">
-                                <option value="">Select an option</option>
-                                @foreach ($lessonCategories as $item)
-                                <option value="{{$item->id}}">{{$item->name}}</option>
-                                @endforeach
-                            </select>
+                        <div class="mb-3" wire:ignore>
+                            <textarea data-description="@this" wire:model.defer="subLesson.content"
+                                class="form-control @error('subLesson.content') is-invalid @enderror" id="description" name="description"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -118,7 +96,7 @@
                             Cancel
                         </button>
                         <button type="submit" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
-                            {{ $classesId ? 'Simpan Perubahan' : 'Simpan' }}
+                            {{ $subLessonId ? 'Simpan Perubahan' : 'Simpan' }}
                         </button>
                     </div>
                 </form>
@@ -145,9 +123,8 @@
                             d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75">
                         </path>
                     </svg>
-                    <h3>Apa anda yakin?</h3>
                     <div class="text-muted">
-                        Jika yakin, maka data {{ $name }} tidak akan kembali (hapus permanen)
+                        Anda yakin ingin menghapus {{ $name }} ? Data dihapus secara permanen.
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -169,29 +146,50 @@
         </div>
     </div>
     {{-- modal delete --}}
-    @push('js')
-        <script>
-            document.addEventListener("livewire:load", () => {
-                let el = $('#selected')
-                initSelect()
-                Livewire.hook('message.processed', (message, component) => {
-                    initSelect()
-                })
-                // Only needed if doing save without redirect
-                /* Livewire.on('setCategoriesSelect', values => {
-                    el.val(values).trigger('change.select2')
-                })*/
-                el.on('change', function(e) {
-                    @this.set('classes.lesson_categories_id', el.select2("val"))
-                })
-
-                function initSelect() {
-                    el.select2({
-                        placeholder: '{{ __('Select your option') }}',
-                        allowClear: !el.attr('required'),
-                    })
-                }
-            })
-        </script>
-    @endpush
 </div>
+@push('js')
+    <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/plugins/code-block/plugin.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/31.1.0/classic/ckeditor.js"></script>
+    <script>
+        var ready = (callback) => {
+            if (document.readyState != "loading") callback();
+            else document.addEventListener("DOMContentLoaded", callback);
+        }
+        ready(() => {
+            ClassicEditor
+                .create(document.querySelector('#description'), {
+                    codeBlock: {
+                        languages: [{
+                            language: 'python',
+                            label: 'Python'
+                        }]
+                    },
+                    toolbar: {
+                        items: [
+                            'heading', '|',
+                            'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript',
+                            'bulletedList', 'numberedList', 'todoList', '|',
+                            'undo', 'redo',
+                            '-',
+                            'link', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock',
+                            'htmlEmbed', '|',
+                            'codeBlockLanguage', '|', // Mengganti textPartLanguage dengan codeBlockLanguage
+                            'sourceEditing'
+                        ],
+                        shouldNotGroupWhenFull: true
+                    },
+                })
+                .then(editor => {
+                    editor.model.document.on('change:data', () => {
+                        @this.set('subLesson.content', editor.getData());
+                    })
+                    Livewire.on('reinit', () => {
+                        editor.setData('', '')
+                    })
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        })
+    </script>
+@endpush

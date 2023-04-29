@@ -1,33 +1,31 @@
-@section('pageTitle', 'List Pelajaran')
+@section('pageTitle', 'Data Kategori Pelajaran')
 <div>
     <div class="container-xl">
         <div class="row g-2 align-items-center mt-2">
             <div class="col">
-                <!-- Page pre-title -->
                 <h2 class="page-title">
-                    Pelajaran Anda
+                    Data Kategori Pelajaran
                 </h2>
+
             </div>
             <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
-                    <span class=" d-sm-inline">
-                        <x-href colorButton="btn" url="{{ route('school.dashboard') }}" title="Kembali" />
+                    <span class="d-none d-sm-inline">
+                        <x-href colorButton="btn" url="{{ route('dashboard') }}" title="Kembali" />
                     </span>
-                    <span class=" d-sm-inline">
+                    <span class="d-none d-sm-inline">
                         <a href="#" wire:click.prevent="createForm" class="btn btn-primary">Tambah Pelajaran</a>
                     </span>
                 </div>
-
             </div>
         </div>
         <div class="row row-cards mt-2">
-            @forelse ($lessonByUser as $index => $lesson)
+            @forelse ($lessons as $index => $lesson)
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"> {{ $index + 1 }}. {{ $lesson->lessonCategory->name }} <span
-                                    class="text-red"><b>{{ $lesson->passcode }}</b></span></h3>
+                            <h3 class="card-title"> {{ $index + 1 }}. {{ $lesson->name }}</h3>
                             <div class="card-actions btn-actions">
                                 <div class="dropdown">
                                     <button class="btn-action" data-bs-toggle="dropdown" aria-expanded="true">
@@ -44,25 +42,13 @@
                                     <div class="dropdown-menu dropdown-menu-end"
                                         style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(0px, 38.6667px, 0px);"
                                         data-popper-placement="bottom-end">
-                                        <a class="dropdown-item"
-                                            href="{{ route('school.classes.sub.index', [$lesson->id]) }}">
-                                            <span>Tambah</span>
-                                        </a>
-                                        <a class="dropdown-item"
-                                            href="{{ route('school.classes.assignments.index', [$lesson->id]) }}">
-                                            <span>Tambah Tugas <b>[{{ $lesson->assignments_count }}]</b></span>
-                                        </a>
-                                        <a class="dropdown-item"
-                                            href="{{ route('school.classes.materials.index', [$lesson->id]) }}">
-                                            <span>Tambah Materi <b>[{{ $lesson->materials_count }}]</b></span>
-                                        </a>
                                         <a class="dropdown-item" href="#"
                                             wire:click="edit({{ json_encode($lesson->id) }})">
-                                            Edit
+                                            Ubah
                                         </a>
                                         <a class="dropdown-item" href="#"
                                             wire:click="confirmDelete({{ json_encode($lesson->id) }})">
-                                            Delete
+                                            Hapus
                                         </a>
                                     </div>
                                 </div>
@@ -79,38 +65,23 @@
                     </div>
                 </div>
             @endforelse
-            {{ $lessonByUser->links() }}
+            {{ $lessons->links() }}
         </div>
     </div>
-
     {{-- modal create / update --}}
     <div class="modal modal-blur fade show" id="modal" tabindex="-1"
         @if ($showModal) style="display:block" @endif aria-modal="true" role="dialog">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Modal Pelajaran</h5>
+                    <h5 class="modal-title">{{ $lessonCategoryId ? 'Ubah' : 'Tambah' }} Kategori Pelajaran</h5>
                     <button type="button" wire:click="close" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
                 <form wire:submit.prevent="save">
                     <div class="modal-body">
-                        {{-- <div class="mb-3">
-                            <x-input type="text" name="classes.name" label="Nama Pelajaran" required />
-                        </div>
                         <div class="mb-3">
-                            <x-input type="text" name="classes.subject" label="Deskripsi Pelajaran" required />
-                        </div> --}}
-                        <div class="mb-3">
-                            <label for="exampleFormControlSelect2">Example select</label>
-                            <select wire:ignore.self wire:model.defer="classes.lesson_categories_id" class="form-control select2"
-                            data-dropdown-css-class="select2-dropdown--above" data-dropdown-parent="#modal"
-                             id="selected">
-                                <option value="">Select an option</option>
-                                @foreach ($lessonCategories as $item)
-                                <option value="{{$item->id}}">{{$item->name}}</option>
-                                @endforeach
-                            </select>
+                            <x-input type="text" name="lessonCategory.name" label="Kategori Pelajaran" required />
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -118,7 +89,7 @@
                             Cancel
                         </button>
                         <button type="submit" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
-                            {{ $classesId ? 'Simpan Perubahan' : 'Simpan' }}
+                            {{ $lessonCategoryId ? 'Simpan Perubahan' : 'Simpan' }}
                         </button>
                     </div>
                 </form>
@@ -145,9 +116,8 @@
                             d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75">
                         </path>
                     </svg>
-                    <h3>Apa anda yakin?</h3>
                     <div class="text-muted">
-                        Jika yakin, maka data {{ $name }} tidak akan kembali (hapus permanen)
+                        Anda yakin ingin menghapus {{$name}} ? Data dihapus secara permanen.
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -169,29 +139,4 @@
         </div>
     </div>
     {{-- modal delete --}}
-    @push('js')
-        <script>
-            document.addEventListener("livewire:load", () => {
-                let el = $('#selected')
-                initSelect()
-                Livewire.hook('message.processed', (message, component) => {
-                    initSelect()
-                })
-                // Only needed if doing save without redirect
-                /* Livewire.on('setCategoriesSelect', values => {
-                    el.val(values).trigger('change.select2')
-                })*/
-                el.on('change', function(e) {
-                    @this.set('classes.lesson_categories_id', el.select2("val"))
-                })
-
-                function initSelect() {
-                    el.select2({
-                        placeholder: '{{ __('Select your option') }}',
-                        allowClear: !el.attr('required'),
-                    })
-                }
-            })
-        </script>
-    @endpush
 </div>

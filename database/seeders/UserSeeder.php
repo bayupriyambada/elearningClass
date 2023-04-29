@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('operator'),
             'registrationCode' => Date('Y') . Str::random(8),
-            'avatar' => Date('Y') . Str::random(15) . 'png',
+            'isBlocked' => 0,
             'role_id' => 1
         ]);
         //  teacher default uuid: 0ed20c44-687a-4392-8360-8e64f1f28698
@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('school'),
             'registrationCode' => Date('Y') . Str::random(8),
-            'avatar' => Date('Y') . Str::random(15) . 'png',
+            'isBlocked' => 0,
             'role_id' => 2
         ]);
         // user default uuid: c4a04a83-4aef-49c0-b65a-d5fca528d151
@@ -49,7 +49,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('school'),
             'registrationCode' => Date('Y') . Str::random(8),
-            'avatar' => Date('Y') . Str::random(15) . 'png',
+            'isBlocked' => 0,
             'role_id' => 3
         ]);
     }

@@ -13,11 +13,7 @@
                 <div class="btn-list">
                     @if (auth()->user()->role_id != 3 && auth()->user()->role_id !== 1)
                         <span class="d-none d-sm-inline">
-                            <x-href colorButton="btn btn-success" url="{{ route('school.classes.create') }}"
-                                title="Buat kelas anda" />
-                        </span>
-                        <span class="d-none d-sm-inline">
-                            <x-href colorButton="btn btn-yellow" url="{{ route('school.classes.list') }}"
+                            <x-href colorButton="btn btn-yellow" url="{{ route('school.classes.index') }}"
                                 title="Semua kelas anda" />
                         </span>
                     @endif
@@ -52,4 +48,5 @@
             @endforeach
         </div>
     </div>
+
 </div>

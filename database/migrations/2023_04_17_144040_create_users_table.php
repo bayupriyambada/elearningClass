@@ -21,13 +21,14 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('registrationCode');
-            $table->string('avatar')->nullable();
             $table->string('phone')->nullable();
+            $table->boolean('isBlocked')->default(0);
             $table->string('address')->nullable();
-            $table->foreignId('role_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+            $table->integer('role_id');
+            // $table->foreignId('role_id')
+            //     ->constrained()
+            //     ->onUpdate('cascade')
+            //     ->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });
