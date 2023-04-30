@@ -30,7 +30,7 @@
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <span>Dibuat oleh: {{ $subLesson->user->username }}</span>
+                            <span>Status: <b>{{$subLesson->isStatus}}</b> | Dibuat oleh: <b>{{ $subLesson->user->username }}</b></span>
                         </div>
                     </div>
                     <div class="card">

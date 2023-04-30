@@ -8,6 +8,7 @@ use App\Http\Livewire\Pages\School\Classes\Materials\{Views as MaterialsView, Ed
 use App\Http\Livewire\Pages\School\Classes\Assignments\{View as AssignmentsView, Edit as AssignmentsEdit, Create as AssignmentsCreate, Index as AssignmentsIndex, SubmitAssignment};
 use App\Http\Livewire\Pages\School\Classes\SubLesson\Index as SubLessonIndex;
 use App\Http\Livewire\Pages\School\Classes\SubLesson\ListSub;
+use App\Http\Livewire\Pages\School\Classes\SubLesson\Show;
 use App\Http\Livewire\Pages\School\Classes\SubLesson\View as SubLessonView;
 use App\Http\Livewire\Pages\Users\Students\{Create as StudentsCreate, Edit as StudentsEdit, Index as StudentsIndex};
 use App\Http\Livewire\Pages\Users\Teacher\{Create as TeacherCreate, Edit as TeacherEdit, Index as TeacherIndex};
@@ -46,6 +47,7 @@ Route::middleware('auth')->group(function () {
             Route::get("{lessonId}/sub-lesson", SubLessonIndex::class)->name("sub.index");
             Route::get("{lessonId}/sub-lesson/list", ListSub::class)->name("sub.list");
             Route::get("{lessonId}/sub-lesson/view/{subLessonId}", SubLessonView::class)->name("sub.view");
+            Route::get("{lessonId}/sub-lesson/show/{subLessonId}/lesson", Show::class)->name("sub.show");
             // Route::get("{lessonId}/sub-lesson/view", SubLessonView::class)->name("sub.view");
             Route::get("/create", Create::class)->name("create");
             Route::get("/{classesId}/edit", Edit::class)->name("edit");
