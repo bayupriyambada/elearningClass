@@ -26,7 +26,6 @@ class User extends Authenticatable
         'email',
         'password',
         'registrationCode',
-        'avatar',
         'phone',
         'address',
         'role_id',
@@ -73,6 +72,11 @@ class User extends Authenticatable
     public function scopeRoleStudents()
     {
         return $this->where('role_id', 3);
+    }
+
+    public function taskLessons()
+    {
+        return $this->hasMany(TaskSubLesson::class);
     }
 
     public $incrementing = false;

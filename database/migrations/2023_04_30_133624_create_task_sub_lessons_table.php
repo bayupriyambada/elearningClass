@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sub_lessons', function (Blueprint $table) {
+        Schema::create('task_sub_lessons', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('title');
-            $table->text('content');
-            $table->uuid('lesson_id');
-            $table->foreign('lesson_id')
+            $table->string('url_submit')->nullable();
+            $table->uuid('sub_lesson_id');
+            $table->foreign('sub_lesson_id')
                 ->references('id')
-                ->on('lessons')
+                ->on('sub_lessons')
                 ->constrained()
                 ->onDelete('cascade');
             $table->uuid('user_id');
@@ -29,8 +28,8 @@ return new class extends Migration
                 ->on('users')
                 ->constrained()
                 ->onDelete('cascade');
-            $table->string("isPublish");
-            $table->string("isStatus")->default('material');
+            $table->string('information')->nullable();
+            $table->string('grade')->nullable();
             $table->timestamps();
         });
     }
@@ -42,6 +41,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sub_lessons');
+        Schema::dropIfExists('task_sub_lessons');
     }
 };

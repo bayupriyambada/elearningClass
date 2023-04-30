@@ -12,7 +12,7 @@
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     <span class=" d-sm-inline">
-                        <x-href colorButton="btn" url="{{ route('school.dashboard') }}" title="Kembali" />
+                        <x-href colorButton="btn" url="{{ route('school.classes.index') }}" title="Kembali" />
                     </span>
                     <span class=" d-sm-inline">
                         <a href="#" wire:click.prevent="createForm" class="btn btn-primary">Tambah Sub
@@ -23,38 +23,65 @@
             </div>
         </div>
         <div class="row row-cards mt-2">
-            @forelse ($subLessons as $index => $lesson)
+            @forelse ($subLessons as $index => $subLesson)
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"> {{ $index + 1 }}. {{ $lesson->lesson }}</h3>
+                            <h3 class="card-title"> {{ $index + 1 }}. {{ $subLesson->title }}
+                                @if ($subLesson->isPublish === 'draft')
+                                    <span class="badge bg-red">Draf</span>
+                                @elseif ($subLesson->isPublish === 'publish')
+                                    <span class="badge bg-blue">Diterbitkan</span>
+                                @endif
+                            </h3>
                             <div class="card-actions btn-actions">
-                                <div class="dropdown">
-                                    <button class="btn-action" data-bs-toggle="dropdown" aria-expanded="true">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="icon icon-tabler icon-tabler-dots-vertical" width="24"
-                                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                            <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                            <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                        </svg>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-end"
-                                        style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(0px, 38.6667px, 0px);"
-                                        data-popper-placement="bottom-end">
+                                <a href="#" class="btn-action" title="Lihat {{ $subLesson->title }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye"
+                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
+                                        <path
+                                            d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6">
+                                        </path>
+                                    </svg>
+                                </a>
+                                @if (auth()->user()->role_id !== 3)
+                                    <div class="dropdown">
+                                        <button class="btn-action" data-bs-toggle="dropdown" aria-expanded="true">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-dots-vertical" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                stroke="currentColor" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                                <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                                <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                            </svg>
+                                        </button>
 
-                                        <a class="dropdown-item" href="#"
-                                            wire:click="edit({{ json_encode($lesson->id) }})">
-                                            Edit
-                                        </a>
-                                        <a class="dropdown-item" href="#"
-                                            wire:click="confirmDelete({{ json_encode($lesson->id) }})">
-                                            Delete
-                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end"
+                                            style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(0px, 38.6667px, 0px);"
+                                            data-popper-placement="bottom-end">
+
+                                            <a class="dropdown-item"
+                                                wire:click="previewSubLesson({{ json_encode($lesson->id) }}, {{ json_encode($subLesson->id) }})"
+                                                href="#">
+                                                Lihat Detail
+                                            </a>
+                                            <a class="dropdown-item" href="#"
+                                                wire:click="edit({{ json_encode($subLesson->id) }})">
+                                                Ubah
+                                            </a>
+                                            <a class="dropdown-item" href="#"
+                                                wire:click="confirmDelete({{ json_encode($subLesson->id) }})">
+                                                Hapus
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -90,6 +117,38 @@
                             <textarea data-description="@this" wire:model.defer="subLesson.content"
                                 class="form-control @error('subLesson.content') is-invalid @enderror" id="description" name="description"></textarea>
                         </div>
+                        <div class="mb-3">
+                            <div class="form-label required">Terbit</div>
+                            <div>
+                                <label class="form-check form-check-inline">
+                                    <input class="form-check-input" wire:model="subLesson.isPublish" value="draft"
+                                        type="radio" name="radios-inline"
+                                        {{ $isPublish == 'draft' ? 'checked' : '' }}>
+                                    <span class="form-check-label">Draf</span>
+                                </label>
+                                <label class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" wire:model="subLesson.isPublish"
+                                        value="publish" name="radios-inline"
+                                        {{ $isPublish == 'publish' ? 'checked' : '' }}>
+                                    <span class="form-check-label">Diterbitkan</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-label required">Materi / Tugas</div>
+                            <div>
+                                <label class="form-check form-check-inline">
+                                    <input class="form-check-input" wire:model="subLesson.isStatus" value="material"
+                                        type="radio" {{ $isStatus == 'material' ? 'checked' : '' }}>
+                                    <span class="form-check-label">Materi</span>
+                                </label>
+                                <label class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" wire:model="subLesson.isStatus"
+                                        value="task" {{ $isStatus == 'task' ? 'checked' : '' }}>
+                                    <span class="form-check-label">Tugas</span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" wire:click="close" class="btn" data-bs-dismiss="modal">
@@ -124,7 +183,7 @@
                         </path>
                     </svg>
                     <div class="text-muted">
-                        Anda yakin ingin menghapus {{ $name }} ? Data dihapus secara permanen.
+                        Anda yakin ingin menghapus {{ $title }} ? Data dihapus secara permanen.
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -158,12 +217,6 @@
         ready(() => {
             ClassicEditor
                 .create(document.querySelector('#description'), {
-                    codeBlock: {
-                        languages: [{
-                            language: 'python',
-                            label: 'Python'
-                        }]
-                    },
                     toolbar: {
                         items: [
                             'heading', '|',
@@ -183,8 +236,11 @@
                     editor.model.document.on('change:data', () => {
                         @this.set('subLesson.content', editor.getData());
                     })
-                    Livewire.on('reinit', () => {
-                        editor.setData('', '')
+                    Livewire.on('reinit', (data) => {
+                        if (data === null) {
+                            editor.setData("", "")
+                        }
+                        editor.setData(data.subLesson.content);
                     })
                 })
                 .catch(error => {

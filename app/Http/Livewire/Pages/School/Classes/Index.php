@@ -27,17 +27,11 @@ class Index extends Component
     protected $rules = [
         'classes.lesson_categories_id' => 'required',
     ];
-    // protected $rules = [
-    //     'classes.name' => 'required|string|min:1|max:255',
-    //     'classes.subject' => 'nullable|string',
-    // ];
-
     public function edit($classesId)
     {
         $this->showModal = true;
         $this->classesId = $classesId;
         $this->classes = Lesson::find($classesId);
-        // $this->classes = Classes::find($classesId);
     }
 
     public function createForm()

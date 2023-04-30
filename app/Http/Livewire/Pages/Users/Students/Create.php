@@ -13,13 +13,11 @@ class Create extends Component
     public $username;
     public $fullname;
     public $email;
-    public $avatar;
 
     protected $rules = [
         'username' => 'required|string|min:3|max:100',
         'fullname' => 'required|string|max:200',
         'email' => 'required|email|unique:users,email',
-        'avatar' => 'nullable'
     ];
     public function create()
     {
@@ -31,7 +29,6 @@ class Create extends Component
                 'email' => $this->email,
                 'registrationCode' => Date('Y') . Str::random(8),
                 'role_id' => 3,
-                'avatar' => $this->avatar,
                 'password' => Hash::make("password")
             ]);
             ToastHelpers::success($this, "Berhasil menambahkan data siswa");

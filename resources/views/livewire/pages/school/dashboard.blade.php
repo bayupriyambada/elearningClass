@@ -17,8 +17,7 @@
                                 title="Semua kelas anda" />
                         </span>
                     @endif
-                    <x-href colorButton="btn btn-primary" url="{{ route('school.classes.join') }}"
-                        title="Gabung Kelas" />
+                    <a href="#" wire:click.prevent="createForm" class="btn btn-primary">Gabung Kelas</a>
                 </div>
             </div>
         </div>
@@ -49,4 +48,33 @@
         </div>
     </div>
 
+    {{-- modal join lesson --}}
+    <div class="modal modal-blur fade show" id="modal" tabindex="-1"
+        @if ($showModal) style="display:block" @endif aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Gabung Kelas</h5>
+                    <button type="button" wire:click="close" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <form wire:submit.prevent="joinLesson">
+                    <div class="modal-body">
+                        <div class="col-md-12 mb-3">
+                            <input type="text" wire:model="passcode" minlength="0" maxlength="10" class="form-control required" placeholder="Masukkan kode akses">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" wire:click="close" class="btn" data-bs-dismiss="modal">
+                            Batal
+                        </button>
+                        <button type="submit" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
+                            Gabung Kelas
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{-- modal join lesson --}}
 </div>
