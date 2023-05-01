@@ -22,6 +22,9 @@ class Index extends Component
     public $isPublish;
     public $isStatus;
 
+    public $selectedSubLesson = [];
+    public bool $bulkDisabled = true;
+
     use WithPagination;
     public function mount($lessonId)
     {
@@ -66,7 +69,7 @@ class Index extends Component
                 SubLesson::create([
                     'id' => Str::uuid(),
                     'title' => ucwords($this->subLesson['title']),
-                    'content' => ucwords($this->subLesson['content']),
+                    'content' => $this->subLesson['content'],
                     'isPublish' => $this->subLesson['isPublish'],
                     'isStatus' => $this->subLesson['isStatus'],
                     'user_id' => auth()->user()->id,
@@ -75,6 +78,9 @@ class Index extends Component
                 ToastHelpers::success($this, "Berhasil menambahkan sub pelajaran");
             }
             $this->showModal = false;
+            $this->reset([
+                'id', "title", "content", "isPublish", "isStatus"
+            ]);
         } catch (\Exception $e) {
             ToastHelpers::error($this, $e->getMessage());
         }
@@ -83,6 +89,10 @@ class Index extends Component
     public function close()
     {
         $this->showModal = false;
+        $this->subLesson = null;
+        $this->subLessonId = null;
+        $this->reset(['subLesson']);
+        $this->emit('reinit', null);
     }
 
     public function confirmDelete($subLessonId)
@@ -100,14 +110,25 @@ class Index extends Component
     {
         $this->subLesson = SubLesson::find($this->subLessonId);
         $this->subLesson->delete();
-        ToastHelpers::success($this, "Berhasil hapus sub pelajaran: " . $this->subLesson->title);
+        ToastHelpers::success($this, "Berhasil menghapus sub pelajaran: " . $this->subLesson->title);
         $this->showModalDelete = false;
     }
+    public function deleteSelected()
+    {
+        SubLesson::query()
+            ->whereIn('id', $this->selectedSubLesson)
+            ->delete();
+        $this->selectedSubLesson = [];
+        ToastHelpers::success($this, "Berhasil menghapus sub pelajaran");
+    }
+
     public function render()
     {
+        $this->bulkDisabled = count($this->selectedSubLesson) < 1;
         return view('livewire.pages.school.classes.sub-lesson.index', [
             'subLessons' => SubLesson::with("lesson.lessonCategory")
                 ->where("lesson_id", $this->lesson->id)
+                ->orderBy("created_at", "asc")
                 ->get()
         ]);
     }

@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\JoinLesson;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 class Lesson extends Model
 {
@@ -12,9 +13,9 @@ class Lesson extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    protected $fillable = ['id', 'lesson_categories_id', 'user_id', 'passcode'];
+    protected $fillable = ['id', 'lesson_categories_id', 'user_id', 'passcode', "version"];
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
@@ -26,5 +27,10 @@ class Lesson extends Model
     public function subLesson()
     {
         return $this->hasMany(SubLesson::class);
+    }
+
+    public function joinLesson()
+    {
+        return $this->hasMany(JoinLesson::class);
     }
 }

@@ -29,7 +29,9 @@ return new class extends Migration
                 ->constrained()
                 ->onDelete('cascade');
             $table->string('information')->nullable();
-            $table->string('grade')->nullable();
+            $table->string('grade')->default(0)->nullable();
+            $table->boolean('rated')->default(0);
+            $table->timestamp('time_rated')->nullable();
             $table->timestamps();
         });
     }

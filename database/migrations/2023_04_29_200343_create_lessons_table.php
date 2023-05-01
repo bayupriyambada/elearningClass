@@ -28,6 +28,7 @@ return new class extends Migration
                 ->constrained()
                 ->onDelete('cascade');
             $table->string('passcode');
+            $table->string("version")->default(1);
             $table->timestamps();
         });
     }

@@ -27,7 +27,8 @@
                         <div class="card-header">
                             <span>{{ $index + 1 }}. <a href="{{ URL($task->url_submit) }}" target="_blank"
                                     class="text-blue">
-                                    {{ $task->url_submit }}</a></span>
+                                    {{ Str::substr($task->url_submit, 0, 50) . '...' }}</a> -
+                                {{ $task->user->username }} [<b>{{ $task->grade ?? 0 }}</b>]</span>
                             <div class="card-actions btn-actions">
                                 <a href="#" wire:click="modalTask({{ json_encode($task->id) }})" class="btn"
                                     title="Berikan Nilai">
@@ -62,25 +63,24 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="inputNumber" class="form-label required">Nilai</label>
-                            <input type="number"
-                            wire:model="taskLesson.grade"
+                            <input type="number" wire:model="taskLesson.grade"
                                 onkeydown="if(event.keyCode === 69 || event.keyCode === 190 || event.keyCode === 189 || event.keyCode === 109) return false;"
                                 min="1" max="100" id="inputNumber" class="form-control"
                                 placeholder="1 / 100" required>
                         </div>
                         <div class="mb-3">
                             <label for="feedback" class="form-label required">Keterangan Nilai</label>
-                            <input wire:model="taskLesson.information" type="text" minlength="1" maxlength="255" id="feedback" class="form-control"
-                                placeholder="Berikan keterangan tugas" required>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" wire:click="close" class="btn" data-bs-dismiss="modal">
-                            Cancel
-                        </button>
-                        <button type="submit" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
-                            Berikan Nilai
-                        </button>
-                    </div>
+                            <input wire:model="taskLesson.information" type="text" minlength="1" maxlength="255"
+                                id="feedback" class="form-control" placeholder="Berikan keterangan tugas" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" wire:click="close" class="btn" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
+                                Berikan Nilai
+                            </button>
+                        </div>
                 </form>
             </div>
         </div>

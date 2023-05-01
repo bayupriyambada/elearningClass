@@ -6,6 +6,8 @@ use App\Helpers\ToastHelpers;
 use App\Models\Classes;
 use App\Models\JoinLesson;
 use App\Models\Lesson;
+use App\Models\SubLesson;
+use App\Models\TaskSubLesson;
 use Livewire\Component;
 
 class Dashboard extends Component
@@ -50,14 +52,22 @@ class Dashboard extends Component
     }
     public function render()
     {
-        $classes = Classes::where('user_id', auth()->user()->id)
-            ->select("id", "name", "code", "user_id")
-            ->withCount(['materials', 'assignments'])
-            ->with("user:id,username")
+
+        $joinLessonCheck = JoinLesson::where("user_id", auth()->user()->id)
+            ->whereHas("lesson", function ($q) {
+                $q->select("id", "lesson_categories_id")
+                ->with(["lessonCategory:id,name", "user:id,username"]);
+            })
+            ->get();
+        $classes = Lesson::where('user_id', auth()->user()->id)
+            ->with(["user:id,username", "lessonCategory"])
+            ->withCount("subLesson")
             ->orderByDesc("created_at")
         ->get();
+        // dd($classes);
         return view('livewire.pages.school.dashboard', [
-            'classes' => $classes
+            'classes' => $classes,
+            'joinLessonCheck' => $joinLessonCheck,
         ]);
     }
 }

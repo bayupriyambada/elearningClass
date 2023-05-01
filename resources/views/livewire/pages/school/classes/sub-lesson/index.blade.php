@@ -3,14 +3,19 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center mt-2">
             <div class="col">
-                <!-- Page pre-title -->
                 <h2 class="page-title">
                     Pelajaran Anda : {{ $lesson->lessonCategory->name }}
                 </h2>
             </div>
-            <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
+                    <span class=" d-sm-inline">
+                        <button wire:click.prevent="deleteSelected"
+                            onclick="confirm('Are you sure?') || event.stopImmediatePropagation()" class="btn btn-danger"
+                            @if ($bulkDisabled) disabled @endif>
+                            Pilih Dihapus [{{ count($selectedSubLesson) }}]
+                        </button>
+                    </span>
                     <span class=" d-sm-inline">
                         <x-href colorButton="btn" url="{{ route('school.classes.index') }}" title="Kembali" />
                     </span>
@@ -28,15 +33,13 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title"> {{ $index + 1 }}.
-                                [<b>{{ $subLesson->isStatus === 'material' ? 'materi' : 'tugas' }}</b>]
+                                <span class="card-subtitle">[<b>{{ $subLesson->isStatus === 'material' ? 'materi' : 'tugas' }}
+                                        / {{ $subLesson->isPublish }}</b>]</span>
                                 {{ $subLesson->title }}
-                                @if ($subLesson->isPublish === 'draft')
-                                    <span class="badge bg-red">Draf</span>
-                                @elseif ($subLesson->isPublish === 'publish')
-                                    <span class="badge bg-blue">Diterbitkan</span>
-                                @endif
                             </h3>
                             <div class="card-actions btn-actions">
+                                <input type="checkbox" wire:model="selectedSubLesson" value="{{ $subLesson->id }}"
+                                    class="form-check-input mt-2" style="margin-right: 10px">
                                 <div class="dropdown">
                                     <button class="btn-action" data-bs-toggle="dropdown" aria-expanded="true">
                                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -103,7 +106,7 @@
                             <x-input type="text" name="subLesson.title" label="Kategori Pelajaran" required />
                         </div>
                         <div class="mb-3" wire:ignore>
-                            <textarea data-description="@this" wire:model.defer="subLesson.content"
+                            <textarea data-description="@this" wire:model="subLesson.content"
                                 class="form-control @error('subLesson.content') is-invalid @enderror" id="description" name="description"></textarea>
                         </div>
                         <div class="mb-3">
@@ -203,6 +206,7 @@
             if (document.readyState != "loading") callback();
             else document.addEventListener("DOMContentLoaded", callback);
         }
+
         ready(() => {
             ClassicEditor
                 .create(document.querySelector('#description'), {
@@ -215,7 +219,7 @@
                             '-',
                             'link', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock',
                             'htmlEmbed', '|',
-                            'codeBlockLanguage', '|', // Mengganti textPartLanguage dengan codeBlockLanguage
+                            'codeBlockLanguage', '|',
                             'sourceEditing'
                         ],
                         shouldNotGroupWhenFull: true
@@ -223,18 +227,21 @@
                 })
                 .then(editor => {
                     editor.model.document.on('change:data', () => {
-                        @this.set('subLesson.content', editor.getData());
-                    })
+                        let content = editor.getData();
+                        @this.set('subLesson.content', content);
+                    });
+
                     Livewire.on('reinit', (data) => {
                         if (data === null) {
-                            editor.setData("", "")
+                            editor.setData("");
+                        } else {
+                            editor.setData(data.subLesson.content);
                         }
-                        editor.setData(data.subLesson.content);
-                    })
+                    });
                 })
                 .catch(error => {
                     console.error(error);
                 });
-        })
+        });
     </script>
 @endpush

@@ -55,7 +55,7 @@ class View extends Component
 
             $this->validate();
 
-            $this->existsTaskId = TaskSubLesson::where("user_id", auth()->user()->id)->first();
+            $this->existsTaskId = TaskSubLesson::where("sub_lesson_id", $this->subLesson->id)->where("user_id", auth()->user()->id)->first();
             if (!is_null($this->existsTaskId)) {
                 $this->existsTaskId->update([
                     'url_submit' => $this->submitTask['url_submit'],

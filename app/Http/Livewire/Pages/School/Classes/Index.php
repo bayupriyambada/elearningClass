@@ -9,7 +9,6 @@ use Livewire\WithPagination;
 use App\Helpers\ToastHelpers;
 use App\Models\Lesson;
 use App\Models\lesson_categories;
-use PhpParser\Builder\Class_;
 
 class Index extends Component
 {
@@ -22,7 +21,11 @@ class Index extends Component
 
     public $materialDeleteId;
     use WithPagination;
-    public $perPage = 10;
+    public $perPage = 12;
+    protected $paginationTheme = 'bootstrap';
+
+    public $selectedLesson = [];
+    public bool $bulkDisabled = true;
 
     protected $rules = [
         'classes.lesson_categories_id' => 'required',
@@ -47,26 +50,20 @@ class Index extends Component
             $this->validate();
 
             if (!is_null($this->classesId)) {
-                $existingCategory = Lesson::where('lesson_categories_id', $this->classes['lesson_categories_id'])->first();
-                if ($existingCategory) {
-                    ToastHelpers::info($this, "Tidak dapat mengubah ke pelajaran yang sama");
-                } else {
-                    $this->classes->save();
-                }
+                $this->classes->save();
                 ToastHelpers::success($this, "Berhasil memperbaharui pelajaran");
             } else {
-                $existingCategory = Lesson::where('lesson_categories_id', $this->classes['lesson_categories_id'])->first();
-                if ($existingCategory) {
-                    ToastHelpers::info($this, "Telah mempunyai pelajaran yang sama");
-                } else {
-                    Lesson::create([
-                        'id' => Str::uuid(),
-                        'lesson_categories_id' => $this->classes['lesson_categories_id'],
-                        'passcode' => Str::random(10),
-                        'user_id' => auth()->user()->id
-                    ]);
-                    ToastHelpers::success($this, "Berhasil menambahkan pelajaran");
-                }
+                $latestVersion = Lesson::where('lesson_categories_id', $this->classes['lesson_categories_id'])
+                    ->max("version");
+
+                Lesson::create([
+                    'id' => Str::uuid(),
+                    'lesson_categories_id' => $this->classes['lesson_categories_id'],
+                    'passcode' => Str::random(10),
+                    'user_id' => auth()->user()->id,
+                    'version' => (int) $latestVersion + 1
+                ]);
+                ToastHelpers::success($this, "Berhasil menambahkan pelajaran");
             }
             $this->showModal = false;
         } catch (\Exception $e) {
@@ -96,20 +93,30 @@ class Index extends Component
     {
         $this->classes = Lesson::find($this->classesId);
         $this->classes->delete();
-        ToastHelpers::success($this, "Berhasil hapus pelajaran");
+        ToastHelpers::success($this, "Berhasil menghapus pelajaran");
         $this->showModalDelete = false;
+    }
+
+    public function deleteSelected()
+    {
+        Lesson::query()
+            ->whereIn('id', $this->selectedLesson)
+            ->delete();
+        $this->selectedLesson = [];
+        ToastHelpers::success($this, "Berhasil menghapus pelajaran");
     }
 
     public function render()
     {
+        $this->bulkDisabled = count($this->selectedLesson) < 1;
         $lessonCategories = lesson_categories::latest()->get();
         $lessonByUser = Lesson::where("user_id", auth()->user()->id)
             ->with("lessonCategory")
-            ->orderByDesc("created_at")->paginate(12);
+        ->orderByDesc("created_at")->paginate($this->perPage);
         return view('livewire.pages.school.classes.index', [
             'classesByUser' => Classes::where('user_id', auth()->user()->id)
                 ->withCount("materials", "assignments")
-                ->orderByDesc('created_at')->paginate(10),
+            ->orderByDesc('created_at')->paginate(12),
             'lessonCategories' => $lessonCategories,
             'lessonByUser' => $lessonByUser,
         ]);

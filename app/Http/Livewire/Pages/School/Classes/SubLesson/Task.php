@@ -51,7 +51,12 @@ class Task extends Component
             $this->validate();
 
             if (!is_null($this->taskLessonId)) {
-                $this->taskLesson->save();
+                $this->taskLesson->update([
+                    'taskLesson.information' => $this->taskLesson['information'],
+                    'taskLesson.grade' => $this->taskLesson['grade'],
+                    'rated' => 1,
+                    'time_rated' => now()
+                ]);
                 ToastHelpers::success($this, "Berhasil memberikan penilaian tugas");
             }
             $this->showModal = false;

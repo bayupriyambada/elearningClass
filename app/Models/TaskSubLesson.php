@@ -12,7 +12,7 @@ class TaskSubLesson extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $fillable = ['id', 'url_submit', 'sub_lesson_id', 'user_id', 'information', 'grade'];
+    protected $fillable = ['id', 'url_submit', 'sub_lesson_id', 'user_id', 'information', 'grade', 'rated', 'time_rated'];
     public $incrementing = false;
     protected $keyType = 'string';
 

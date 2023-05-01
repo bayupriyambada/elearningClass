@@ -12,6 +12,13 @@
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     <span class=" d-sm-inline">
+                        <button wire:click.prevent="deleteSelected"
+                            onclick="confirm('Are you sure?') || event.stopImmediatePropagation()" class="btn btn-danger"
+                            @if ($bulkDisabled) disabled @endif>
+                            Pilih Dihapus [{{count($selectedLesson)}}]
+                        </button>
+                    </span>
+                    <span class=" d-sm-inline">
                         <x-href colorButton="btn" url="{{ route('school.dashboard') }}" title="Kembali" />
                     </span>
                     <span class=" d-sm-inline">
@@ -22,13 +29,22 @@
             </div>
         </div>
         <div class="row row-cards mt-2">
-            @forelse ($lessonByUser as $index => $lesson)
+            <?php $index = 1 + ($lessonByUser->currentPage() - 1) * $lessonByUser->perPage(); ?>
+            @forelse ($lessonByUser as $lesson)
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"> {{ $index + 1 }}. {{ $lesson->lessonCategory->name }} <span
-                                    class="text-red"><b>{{ $lesson->passcode }}</b></span></h3>
+
+                            <div class="col g-2">
+                                <h3 class="card-title ml-2"> {{ $index++ }}. {{ $lesson->lessonCategory->name }}
+                                    <span class="text-red card-subtitle"><b>{{ $lesson->passcode }}</b></span>
+                                    <span class="card-subtitle">v.{{ $lesson->version }}</span>
+                                </h3>
+                            </div>
+
                             <div class="card-actions btn-actions">
+                                <input type="checkbox" wire:model="selectedLesson" value="{{ $lesson->id }}"
+                                    class="form-check-input mt-2" style="margin-right: 10px">
                                 <div class="dropdown">
                                     <button class="btn-action" data-bs-toggle="dropdown" aria-expanded="true">
                                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -48,14 +64,6 @@
                                             href="{{ route('school.classes.sub.index', [$lesson->id]) }}">
                                             <span>Tambah Sub Materi</span>
                                         </a>
-                                        {{-- <a class="dropdown-item"
-                                            href="{{ route('school.classes.assignments.index', [$lesson->id]) }}">
-                                            <span>Tambah Tugas <b>[{{ $lesson->assignments_count }}]</b></span>
-                                        </a>
-                                        <a class="dropdown-item"
-                                            href="{{ route('school.classes.materials.index', [$lesson->id]) }}">
-                                            <span>Tambah Materi <b>[{{ $lesson->materials_count }}]</b></span>
-                                        </a> --}}
                                         <a class="dropdown-item" href="#"
                                             wire:click="edit({{ json_encode($lesson->id) }})">
                                             Ubah
@@ -97,12 +105,12 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="exampleFormControlSelect2">Example select</label>
-                            <select wire:ignore.self wire:model.defer="classes.lesson_categories_id" class="form-control select2"
-                            data-dropdown-css-class="select2-dropdown--above" data-dropdown-parent="#modal"
-                             id="selected">
+                            <select wire:ignore.self wire:model.defer="classes.lesson_categories_id"
+                                class="form-control select2" data-dropdown-css-class="select2-dropdown--above"
+                                data-dropdown-parent="#modal" id="selected">
                                 <option value="">Select an option</option>
                                 @foreach ($lessonCategories as $item)
-                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
                         </div>
