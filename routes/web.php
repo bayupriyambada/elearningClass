@@ -3,7 +3,7 @@
 use App\Http\Livewire\Auth\LoginComponent;
 use App\Http\Livewire\Pages\{Profile, DashboardComponent};
 use App\Http\Livewire\Pages\LessonCategories\Index as LessonCategoriesIndex;
-use App\Http\Livewire\Pages\School\Classes\{Index, Create, Edit, ListClasses, ViewClasses};
+use App\Http\Livewire\Pages\School\Classes\{Index};
 use App\Http\Livewire\Pages\School\Classes\Materials\{Views as MaterialsView, Edit as MaterialsEdit, Index as MaterialsIndex, Create as MaterialsCreate};
 use App\Http\Livewire\Pages\School\Classes\Assignments\{View as AssignmentsView, Edit as AssignmentsEdit, Create as AssignmentsCreate, Index as AssignmentsIndex, SubmitAssignment};
 use App\Http\Livewire\Pages\School\Classes\SubLesson\Index as SubLessonIndex;
@@ -50,10 +50,6 @@ Route::middleware('auth')->group(function () {
             Route::get("{lessonId}/subLesson/preview/{subLessonId}", Show::class)->name("sub.show");
             Route::get("{lessonId}/subLesson/task/{subLessonId}/answer", Task::class)->name("sub.task");
             Route::get("{lessonId}/tracking-rank", Ranking::class)->name("tracking.rank");
-            // Route::get("/create", Create::class)->name("create");
-            // Route::get("/{classesId}/edit", Edit::class)->name("edit");
-            // Route::get("/list", ListClasses::class)->name("list");
-            // Route::get("/view/{classesId}", ViewClasses::class)->name("view");
 
             Route::prefix('/{classesId}/materials')->name('materials.')->group(function () {
                 Route::get("", MaterialsIndex::class)->name("index");
