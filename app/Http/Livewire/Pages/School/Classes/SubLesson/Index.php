@@ -78,9 +78,6 @@ class Index extends Component
                 ToastHelpers::success($this, "Berhasil menambahkan sub pelajaran");
             }
             $this->showModal = false;
-            $this->reset([
-                'id', "title", "content", "isPublish", "isStatus"
-            ]);
         } catch (\Exception $e) {
             ToastHelpers::error($this, $e->getMessage());
         }

@@ -96,7 +96,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">{{ $subLessonId ? 'Ubah' : 'Tambah' }} Kategori Pelajaran</h5>
+                    <h5 class="modal-title">{{ $subLessonId ? 'Ubah' : 'Tambah' }} Sub Pelajaran</h5>
                     <button type="button" wire:click="close" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
