@@ -7,7 +7,6 @@ use Livewire\Component;
 use App\Models\SubLesson;
 use Illuminate\Support\Str;
 use App\Helpers\ToastHelpers;
-use App\Models\lesson_categories;
 use App\Models\TaskSubLesson;
 
 class View extends Component
@@ -72,7 +71,6 @@ class View extends Component
                 ToastHelpers::success($this, "berhasil mengirimkan tugas");
             }
 
-            // $this->submitTask = $this->existsTaskId ?? TaskSubLesson::where("user_id", auth()->user()->id)->first();
             $this->buttonLabel = "Perbaharui Tugas";
             $this->readOnly = true;
         } catch (\Exception $e) {

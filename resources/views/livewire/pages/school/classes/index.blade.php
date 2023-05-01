@@ -46,23 +46,23 @@
                                         data-popper-placement="bottom-end">
                                         <a class="dropdown-item"
                                             href="{{ route('school.classes.sub.index', [$lesson->id]) }}">
-                                            <span>Tambah</span>
+                                            <span>Tambah Sub Materi</span>
                                         </a>
-                                        <a class="dropdown-item"
+                                        {{-- <a class="dropdown-item"
                                             href="{{ route('school.classes.assignments.index', [$lesson->id]) }}">
                                             <span>Tambah Tugas <b>[{{ $lesson->assignments_count }}]</b></span>
                                         </a>
                                         <a class="dropdown-item"
                                             href="{{ route('school.classes.materials.index', [$lesson->id]) }}">
                                             <span>Tambah Materi <b>[{{ $lesson->materials_count }}]</b></span>
-                                        </a>
+                                        </a> --}}
                                         <a class="dropdown-item" href="#"
                                             wire:click="edit({{ json_encode($lesson->id) }})">
-                                            Edit
+                                            Ubah
                                         </a>
                                         <a class="dropdown-item" href="#"
                                             wire:click="confirmDelete({{ json_encode($lesson->id) }})">
-                                            Delete
+                                            Hapus
                                         </a>
                                     </div>
                                 </div>
@@ -95,12 +95,6 @@
                 </div>
                 <form wire:submit.prevent="save">
                     <div class="modal-body">
-                        {{-- <div class="mb-3">
-                            <x-input type="text" name="classes.name" label="Nama Pelajaran" required />
-                        </div>
-                        <div class="mb-3">
-                            <x-input type="text" name="classes.subject" label="Deskripsi Pelajaran" required />
-                        </div> --}}
                         <div class="mb-3">
                             <label for="exampleFormControlSelect2">Example select</label>
                             <select wire:ignore.self wire:model.defer="classes.lesson_categories_id" class="form-control select2"
@@ -177,10 +171,6 @@
                 Livewire.hook('message.processed', (message, component) => {
                     initSelect()
                 })
-                // Only needed if doing save without redirect
-                /* Livewire.on('setCategoriesSelect', values => {
-                    el.val(values).trigger('change.select2')
-                })*/
                 el.on('change', function(e) {
                     @this.set('classes.lesson_categories_id', el.select2("val"))
                 })

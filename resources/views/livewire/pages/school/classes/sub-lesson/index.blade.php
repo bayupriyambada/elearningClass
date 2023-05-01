@@ -35,53 +35,40 @@
                                 @endif
                             </h3>
                             <div class="card-actions btn-actions">
-                                <a href="#" class="btn-action" title="Lihat {{ $subLesson->title }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye"
-                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
-                                        stroke="currentColor" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
-                                        <path
-                                            d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6">
-                                        </path>
-                                    </svg>
-                                </a>
-                                @if (auth()->user()->role_id !== 3)
-                                    <div class="dropdown">
-                                        <button class="btn-action" data-bs-toggle="dropdown" aria-expanded="true">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="icon icon-tabler icon-tabler-dots-vertical" width="24"
-                                                height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                stroke="currentColor" fill="none" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                                <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                                <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                            </svg>
-                                        </button>
+                                <div class="dropdown">
+                                    <button class="btn-action" data-bs-toggle="dropdown" aria-expanded="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-dots-vertical" width="24"
+                                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                            <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                            <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                        </svg>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-end"
+                                        style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(0px, 38.6667px, 0px);"
+                                        data-popper-placement="bottom-end">
 
-                                        <div class="dropdown-menu dropdown-menu-end"
-                                            style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(0px, 38.6667px, 0px);"
-                                            data-popper-placement="bottom-end">
-
-                                            <a class="dropdown-item"
-                                                wire:click="previewSubLesson({{ json_encode($lesson->id) }}, {{ json_encode($subLesson->id) }})"
-                                                href="#">
-                                                Lihat Detail
-                                            </a>
-                                            <a class="dropdown-item" href="#"
-                                                wire:click="edit({{ json_encode($subLesson->id) }})">
-                                                Ubah
-                                            </a>
-                                            <a class="dropdown-item" href="#"
-                                                wire:click="confirmDelete({{ json_encode($subLesson->id) }})">
-                                                Hapus
-                                            </a>
-                                        </div>
+                                        <a class="dropdown-item"
+                                            href="{{route("school.classes.sub.show", [$lesson->id, $subLesson->id])}}">
+                                            Pengumpulan Tugas
+                                        </a>
+                                        <a class="dropdown-item"
+                                            href="{{route("school.classes.sub.show", [$lesson->id, $subLesson->id])}}">
+                                            Lihat Detail
+                                        </a>
+                                        <a class="dropdown-item" href="#"
+                                            wire:click="edit({{ json_encode($subLesson->id) }})">
+                                            Ubah
+                                        </a>
+                                        <a class="dropdown-item" href="#"
+                                            wire:click="confirmDelete({{ json_encode($subLesson->id) }})">
+                                            Hapus
+                                        </a>
                                     </div>
-                                @endif
+                                </div>
                             </div>
                         </div>
                     </div>

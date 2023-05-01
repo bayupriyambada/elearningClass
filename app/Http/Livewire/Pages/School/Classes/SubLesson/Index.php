@@ -26,22 +26,8 @@ class Index extends Component
     public function mount($lessonId)
     {
         $this->lesson = Lesson::with("lessonCategory")
-        ->where("user_id", auth()->user()->id)
+            ->where("user_id", auth()->user()->id)
             ->findOrFail($lessonId);
-    }
-    public function previewSubLesson($lessonId, $subLessonId)
-    {
-        $subLesson = SubLesson::findOrFail($subLessonId);
-        $subLessonId = request()->query('subLessonId', $subLesson->id);
-        $isPublish = $subLesson->isPublish === "draft" ? request()->query('draft', 'draft') : request()->query('publish', 'publish');
-        $isStatus = $subLesson->isStatus === "material" ? request()->query('material', 'material') : request()->query('task', 'task');
-
-        return redirect()->route('school.classes.sub.view', [
-            'lessonId' => $lessonId,
-            'subLessonId' => $subLessonId,
-            'isPublish' => $isPublish,
-            'isStatus' => $isStatus,
-        ]);
     }
 
     protected $rules = [
@@ -121,6 +107,7 @@ class Index extends Component
     {
         return view('livewire.pages.school.classes.sub-lesson.index', [
             'subLessons' => SubLesson::with("lesson.lessonCategory")
+                ->where("lesson_id", $this->lesson->id)
                 ->orderByDesc('created_at')->paginate(12)
         ]);
     }

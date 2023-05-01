@@ -8,15 +8,14 @@
                 </h2>
 
             </div>
-            <!-- Page title actions -->
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                     <span class="d-none d-sm-inline">
                         <x-href colorButton="btn" url="{{ route('dashboard') }}" title="Kembali" />
                     </span>
                     <span class="d-none d-sm-inline">
-                        <x-href colorButton="btn btn-primary" url="{{ route('users.teachers.create') }}"
-                            title="Tambah Data" />
+                        <a href="#" wire:click.prevent="createForm" class="btn btn-primary">Tambah
+                            Tenaga Didik</a>
                     </span>
                 </div>
             </div>
@@ -38,10 +37,9 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <h3 class="card-title">Informasi</h3>
-                        <p class="text-muted">Perhatikan! Jika ingin menghapus, maka semua data pada tenaga didik tersebut juga
-                            terhapus.</p>
-                        <p class="text-muted">Kata sandi (reset): <b>password</b></p>
+                        <p class="text-muted">
+                            Perhatian! Tindakan penghapusan data tidak dapat dikembalikan. Pastikan Anda yakin sebelum
+                            menghapus data. Kata sandi baru atau reset adalah <b>password</b></p>
                     </div>
                 </div>
             </div>
@@ -51,7 +49,7 @@
                         <div class="d-flex">
                             <div class="col-auto ms-auto d-print-none">
                                 <div class="ms-2 d-inline-block">
-                                    <input type="search" wire:model="search" placeholder="Cari username, email"
+                                    <input type="search" wire:model="search" placeholder="Cari username"
                                         class="form-control form-control-sm" aria-label="Cari pengguna">
                                 </div>
                             </div>
@@ -79,60 +77,134 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if ($teachers !== null && $teachers->isNotEmpty())
-                                    @foreach ($teachers as $index => $item)
-                                        <tr>
-                                            <td><span class="text-muted">{{ $index + 1 }}</span></td>
-                                            <td>{{ $item->username }}</td>
-                                            <td>{{ $item->fullname }}</td>
-                                            <td>{{ $item->email }}</td>
-                                            <td>{{ $item->registrationCode }}</td>
-                                            <td>
-                                                {{ $item->created_at->format('d M Y') }}
-                                            </td>
-                                            <td class="text-end">
-                                                <span class="dropdown">
-                                                    <button class="btn dropdown-toggle align-text-top"
-                                                        data-bs-boundary="viewport" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">Aksi</button>
-                                                    <div class="dropdown-menu dropdown-menu-end" style="">
-                                                        <a class="dropdown-item" href="#"
-                                                            wire:click="resetPassword({{ $item->id }})">
-                                                            Reset Kata Sandi
-                                                        </a>
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('users.teachers.edit', $item->id) }}">
-                                                            Ubah
-                                                        </a>
-                                                        <a class="dropdown-item"
-                                                            wire:click="deleteData({{ $item->id }})"
-                                                            href="javascript:void(0)">
-                                                            Hapus
-                                                        </a>
-                                                    </div>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @else
+                                <?php $index = 1 + ($userTeachers->currentPage() - 1) * $userTeachers->perPage(); ?>
+                                @forelse ($userTeachers as $item)
+                                    <tr>
+                                        <td><span class="text-muted">{{ $index++ }}</span></td>
+                                        <td>{{ $item->username }}</td>
+                                        <td>{{ $item->fullname }}</td>
+                                        <td>{{ $item->email }}</td>
+                                        <td>{{ $item->registrationCode }}</td>
+                                        <td>
+                                            {{ $item->created_at->format('d M Y') }}
+                                        </td>
+                                        <td class="text-end">
+                                            <span class="dropdown">
+                                                <button class="btn dropdown-toggle align-text-top"
+                                                    data-bs-boundary="viewport" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">Aksi</button>
+                                                <div class="dropdown-menu dropdown-menu-end" style="">
+                                                    <a class="dropdown-item" href="#"
+                                                        wire:click="resetPassword({{ json_encode($item->id) }})">
+                                                        Atur Ulang Sandi
+                                                    </a>
+                                                    <a class="dropdown-item" href="#"
+                                                        wire:click="edit({{ json_encode($item->id) }})">
+                                                        Ubah
+                                                    </a>
+                                                    <a class="dropdown-item" href="#"
+                                                        wire:click="confirmDelete({{ json_encode($item->id) }})">
+                                                        Hapus
+                                                    </a>
+                                                </div>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                @empty
                                     <tr>
                                         <td colspan="7">
                                             <span class="text-center">Tidak ada data</span>
                                         </td>
                                     </tr>
-                                @endif
+                                @endforelse
 
                             </tbody>
                         </table>
                     </div>
-                    @if (is_array($teachers) && count($teachers) >= $pagination)
-                        <div class="m-2">
-                            <button wire:click="loadData" type="button" class="btn btn-primary">Buka
-                                {{ $pagination }} data...</button>
-                        </div>
-                    @endif
+                    <div class="mt-2">
+                        {{ $userTeachers->links() }}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    {{-- modal create / update --}}
+    <div class="modal modal-blur fade show" id="modal" tabindex="-1"
+        @if ($showModal) style="display:block" @endif aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ $userTeacherId ? 'Ubah' : 'Tambah' }} Tenaga Didik</h5>
+                    <button type="button" wire:click="close" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <form wire:submit.prevent="save" autocomplete="off">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <x-input type="text" name="userTeacher.username" label="Nama panggilan" required />
+                        </div>
+                        <div class="mb-3">
+                            <x-input type="text" name="userTeacher.fullname" label="Nama lengkap" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label required">Alamat Email</label>
+                            <input type="text" id="email" class="form-control" wire:model="userTeacher.email" {{$userTeacherId? "disabled" : ""}} placeholder="Masukkan alamat email" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" wire:click="close" class="btn" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
+                            {{ $userTeacherId ? 'Perbaharui' : 'Simpan' }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{-- modal create / update --}}
+
+    {{-- modal confirm --}}
+    <div class="modal modal-blur @if ($showModalConfirm) fade show @endif" id="modal-danger" tabindex="-1"
+        role="dialog" aria-modal="false" @if ($showModalConfirm) style="display:block" @endif>
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" wire:click.prevent="closeConfirm" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+                <div class="modal-status bg-danger"></div>
+                <div class="modal-body text-center py-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24"
+                        height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M12 9v2m0 4v.01"></path>
+                        <path
+                            d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75">
+                        </path>
+                    </svg>
+                    <div class="text-muted">
+                        {{ $text }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="w-100">
+                        <div class="row">
+                            <div class="col">
+                                <button type="button" wire:click="closeConfirm" class="btn w-100">Batalkan</button>
+                            </div>
+                            <div class="col">
+                                <a href="#" wire:click.prevent="modalAction" class="btn btn-danger w-100"
+                                    data-bs-dismiss="modal">
+                                    Ya Lakukan
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- modal confirm --}}
 </div>

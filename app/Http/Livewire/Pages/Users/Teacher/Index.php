@@ -4,74 +4,156 @@ namespace App\Http\Livewire\Pages\Users\Teacher;
 
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Support\Str;
 use App\Helpers\ToastHelpers;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
     public $search = '';
-    public $page = 1;
     public $pagination = 12;
-    public int $offset = 0;
-    public Collection $teachers;
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+    public $showModal = false;
+    public $showModalConfirm = false;
+    public $text = '';
+    public $userTeacherId;
+    public $userTeacher;
+    public $username;
+
     public bool $showLoadMoreButton;
 
-    public function mount()
+    public function updatingSearch()
     {
-        $this->loadData();
+        $this->resetPage();
     }
-    public function loadData($search = '')
+
+    protected function rules()
     {
-        $users = User::query()
-            ->roleTeachers()
-            ->where('username', 'like', '%' . $search . '%')
-            ->orderByDesc("created_at")
-            ->offset(($this->page - 1) * $this->pagination)
-            ->limit($this->pagination)->get();
-        $this->teachers = isset($this->teachers) ? $this->teachers->merge($users) : $users;
-        $this->offset += $this->pagination;
-        $this->showLoadMoreButton = User::roleTeachers()->count() > $this->offset;
+        return [
+            'userTeacher.username' => 'required|string|min:1|max:255',
+            'userTeacher.fullname' => 'required|string|min:1|max:300',
+            'userTeacher.email' => 'required|string|email|unique:users,email,' . $this->userTeacherId
+        ];
     }
-    public function resetList()
+
+    protected $messages = [
+        'userTeacher.email.unique' => "Email ini telah dipakai"
+    ];
+
+    public function edit($userTeacherId)
     {
-        $this->teachers = collect([]);
-        $this->page = 1;
+        $this->showModal = true;
+        $this->userTeacherId = $userTeacherId;
+        $this->userTeacher = User::roleTeachers()->find($userTeacherId);
     }
-    public function updatedSearch($value)
+
+    public function createForm()
     {
-        $this->resetList();
-        $this->loadData($value);
+        $this->showModal = true;
+        $this->userTeacher = null;
+        $this->userTeacherId = null;
     }
-    public function loadMore()
-    {
-        $this->page++;
-        $this->loadData($this->search);
-    }
-    public function deleteData($dataId)
+
+    public function save()
     {
         try {
-            $deleteData = $this->user->find($dataId);
-            $deleteData->delete();
-            ToastHelpers::success($this, "Berhasil menghapus data " . $deleteData->username);
-        } catch (\Exception $e) {
-            ToastHelpers::success($this, $e->getMessage());
-        }
-    }
-    public function resetPassword($dataId)
-    {
-        try {
-            User::roleTeachers()->find($dataId)->update([
-                'password' => Hash::make('password')
-            ]);
-            ToastHelpers::success($this, "Berhasil reset kata sandi");
-            return redirect(back());
+            $this->validate();
+
+            if (!is_null($this->userTeacherId)) {
+                $this->userTeacher->save();
+                ToastHelpers::success($this, "Berhasil memperbaharui data tenaga didik");
+            } else {
+                User::create([
+                    'id' => Str::uuid(),
+                    'username' => Str::lower($this->userTeacher['username']),
+                    'fullname' => ucwords($this->userTeacher['fullname']),
+                    'email' => $this->userTeacher['email'],
+                    'registrationCode' => Date('Y') . Str::random(8),
+                    'role_id' => 3,
+                    'email_verified_at' => now(),
+                    'password' => Hash::make("password")
+                ]);
+                ToastHelpers::success($this, "Berhasil menambahkan tenaga didik baru");
+            }
+            $this->showModal = false;
         } catch (\Exception $e) {
             ToastHelpers::error($this, $e->getMessage());
         }
     }
+
+    public function close()
+    {
+        $this->showModal = false;
+    }
+
+    public function confirmDelete($userTeacherId)
+    {
+        $this->showModalConfirm = true;
+        $this->userTeacherId = $userTeacherId;
+        $this->userTeacher = User::roleTeachers()->find($userTeacherId);
+        $this->username = $this->userTeacher['username'];
+        $this->text = 'Apakah anda ingin menghapus siswa dengan nama ' . $this->username . ' ?';
+    }
+
+    public function closeConfirm()
+    {
+        $this->showModalConfirm = false;
+    }
+
+    public function deleted()
+    {
+        try {
+            $this->userTeacher = User::roleTeachers()->find($this->userTeacherId);
+            $this->userTeacher->delete();
+            ToastHelpers::success($this, "Berhasil hapus siswa : " . $this->userTeacher->username);
+            $this->showModalConfirm = false;
+        } catch (\Exception $e) {
+            ToastHelpers::error($this, $e->getMessage());
+        }
+    }
+
+
+    public function resetPassword($userTeacherId)
+    {
+        $this->showModalConfirm = true;
+        $this->userTeacherId = $userTeacherId;
+        $this->userTeacher = User::roleTeachers()->find($userTeacherId);
+        $this->username = $this->userTeacher['username'];
+        $this->text = 'Apakah anda ingin atur ulang sandi tenaga didik dengan nama ' . $this->username . ' ?';
+    }
+    public function resetPass()
+    {
+        try {
+            $this->userTeacher = User::roleTeachers()->find($this->userTeacherId);
+            $this->userTeacher->update([
+                'password' => Hash::make('password')
+            ]);
+            ToastHelpers::success($this, "Berhasil atur ulang sandi tenaga didik : " . $this->userTeacher->username);
+            $this->showModalConfirm = false;
+        } catch (\Exception $e) {
+            ToastHelpers::error($this, $e->getMessage());
+        }
+    }
+
+    public function modalAction()
+    {
+        if ($this->text == 'Apakah anda ingin menghapus tenaga didik dengan nama ' . $this->username . ' ?') {
+            $this->deleted();
+        } else {
+            $this->resetPass();
+        }
+    }
+
     public function render()
     {
-        return view('livewire.pages.users.teacher.index');
+        return view('livewire.pages.users.teacher.index', [
+            'userTeachers' => User::query()
+                ->roleTeachers()
+                ->where('username', 'like', '%' . $this->search . '%')
+                ->orderByDesc("created_at")
+                ->paginate(20)
+        ]);
     }
 }

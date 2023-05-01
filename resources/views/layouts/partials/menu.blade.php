@@ -54,8 +54,8 @@
                                 </span>
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item {{ Request::routeIs('lesson.index') ? 'active' : '' }}"
-                                    href="{{ route('lesson.index') }}">
+                                <a class="dropdown-item {{ Request::routeIs('categories.lesson.index') ? 'active' : '' }}"
+                                    href="{{ route('categories.lesson.index') }}">
                                     Kategori Pelajaran
                                 </a>
                             </div>
