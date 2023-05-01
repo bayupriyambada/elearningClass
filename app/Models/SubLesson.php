@@ -12,11 +12,11 @@ class SubLesson extends Model
     use HasFactory, HasUuids;
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['id', 'lesson_id', 'user_id', 'title', 'content', 'isPublish'];
+    protected $fillable = ['id', 'lesson_id', 'user_id', 'title', 'content', 'isPublish', 'isStatus'];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function lesson()

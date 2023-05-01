@@ -31,8 +31,7 @@ class ListSub extends Component
     {
         return view('livewire.pages.school.classes.sub-lesson.list-sub', [
             'subLessons' => SubLesson::with("lesson.lessonCategory")
-                ->where("lesson_id", $this->lesson->id)
-                ->orderByDesc('created_at')->paginate(12)
+                ->where("lesson_id", $this->lesson->id)->get()
         ]);
     }
 }

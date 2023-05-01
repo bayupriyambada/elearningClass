@@ -108,7 +108,7 @@ class Index extends Component
         return view('livewire.pages.school.classes.sub-lesson.index', [
             'subLessons' => SubLesson::with("lesson.lessonCategory")
                 ->where("lesson_id", $this->lesson->id)
-                ->orderByDesc('created_at')->paginate(12)
+                ->get()
         ]);
     }
 }

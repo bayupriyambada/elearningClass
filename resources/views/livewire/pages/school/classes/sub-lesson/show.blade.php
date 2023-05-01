@@ -17,7 +17,6 @@
                             title="Kembali" />
                     </span>
                 </div>
-
             </div>
         </div>
         <div class="row justify-content-center mt-2">

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use App\Models\SubLesson;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -17,7 +18,7 @@ class TaskSubLesson extends Model
 
     public function user()
     {
-        return $this->belongsTo(SubLesson::class);
+        return $this->belongsTo(User::class)->select("id", "username");
     }
     public function subLesson()
     {

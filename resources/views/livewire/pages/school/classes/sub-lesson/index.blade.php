@@ -27,7 +27,9 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"> {{ $index + 1 }}. {{ $subLesson->title }}
+                            <h3 class="card-title"> {{ $index + 1 }}.
+                                [<b>{{ $subLesson->isStatus === 'material' ? 'materi' : 'tugas' }}</b>]
+                                {{ $subLesson->title }}
                                 @if ($subLesson->isPublish === 'draft')
                                     <span class="badge bg-red">Draf</span>
                                 @elseif ($subLesson->isPublish === 'publish')
@@ -50,13 +52,14 @@
                                     <div class="dropdown-menu dropdown-menu-end"
                                         style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(0px, 38.6667px, 0px);"
                                         data-popper-placement="bottom-end">
-
+                                        @if ($subLesson->isStatus === 'task')
+                                            <a class="dropdown-item"
+                                                href="{{ route('school.classes.sub.task', [$lesson->id, $subLesson->id]) }}">
+                                                Pengumpulan Tugas
+                                            </a>
+                                        @endif
                                         <a class="dropdown-item"
-                                            href="{{route("school.classes.sub.show", [$lesson->id, $subLesson->id])}}">
-                                            Pengumpulan Tugas
-                                        </a>
-                                        <a class="dropdown-item"
-                                            href="{{route("school.classes.sub.show", [$lesson->id, $subLesson->id])}}">
+                                            href="{{ route('school.classes.sub.show', [$lesson->id, $subLesson->id]) }}">
                                             Lihat Detail
                                         </a>
                                         <a class="dropdown-item" href="#"
@@ -82,7 +85,6 @@
                     </div>
                 </div>
             @endforelse
-            {{ $subLessons->links() }}
         </div>
     </div>
     {{-- modal create / update --}}

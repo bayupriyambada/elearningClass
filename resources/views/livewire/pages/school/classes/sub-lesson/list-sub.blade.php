@@ -23,7 +23,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"> {{ $index + 1 }}. {{ $subLesson->title }}
+                            <h3 class="card-title"> {{ $index + 1 }}. [<b>{{$subLesson->isStatus === "material" ? "materi": "tugas"}}</b>] {{ $subLesson->title }}
                             </h3>
                             <div class="card-actions btn-actions">
                                 <a href="{{ route('school.classes.sub.view', [$lesson->id, $subLesson->id]) }}"
@@ -52,7 +52,6 @@
                     </div>
                 </div>
             @endforelse
-            {{ $subLessons->links() }}
         </div>
     </div>
 </div>
