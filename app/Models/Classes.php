@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use App\Models\User;
-use App\Models\material;
-use App\Models\assignment;
 use App\Models\attendance;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -26,15 +24,6 @@ class Classes extends Model
     public function attendances()
     {
         return $this->hasMany(attendance::class);
-    }
-
-    public function materials()
-    {
-        return $this->hasMany(material::class);
-    }
-    public function assignments()
-    {
-        return $this->hasMany(assignment::class);
     }
     public $incrementing = false;
     protected $keyType = 'string';

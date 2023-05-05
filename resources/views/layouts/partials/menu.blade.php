@@ -5,7 +5,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item {{ Request::routeIs('dashboard', 'school.dashboard') ? 'active' : '' }}">
                         <a class="nav-link"
-                            @if (auth()->user()->role->id === 1) href="{{ route('dashboard') }}"
+                            @if (auth()->user()->role_id === 1) href="{{ route('dashboard') }}"
                             @else
                             href="{{ route('school.dashboard') }}" @endif>
                             <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -23,7 +23,7 @@
                             </span>
                         </a>
                     </li>
-                    @if (auth()->user()->role->id === 1)
+                    @if (auth()->user()->role_id === 1)
                         <li class="nav-item {{ Request::routeIs('users.*') ? 'active' : '' }} dropdown">
                             <a class="nav-link dropdown-toggle" href="#navbar-help" data-bs-toggle="dropdown"
                                 data-bs-auto-close="outside" role="button" aria-expanded="false">

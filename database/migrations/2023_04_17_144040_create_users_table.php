@@ -25,10 +25,6 @@ return new class extends Migration
             $table->boolean('isBlocked')->default(0);
             $table->string('address')->nullable();
             $table->integer('role_id');
-            // $table->foreignId('role_id')
-            //     ->constrained()
-            //     ->onUpdate('cascade')
-            //     ->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

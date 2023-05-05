@@ -115,7 +115,6 @@ class Index extends Component
         ->orderByDesc("created_at")->paginate($this->perPage);
         return view('livewire.pages.school.classes.index', [
             'classesByUser' => Classes::where('user_id', auth()->user()->id)
-                ->withCount("materials", "assignments")
             ->orderByDesc('created_at')->paginate(12),
             'lessonCategories' => $lessonCategories,
             'lessonByUser' => $lessonByUser,

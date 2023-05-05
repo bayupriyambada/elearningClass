@@ -27,7 +27,7 @@
 
             </div>
         </div>
-        <div class="row row-cards mt-2">
+        <div class="row g-2 row-cards mt-2">
             @forelse ($subLessons as $index => $subLesson)
                 <div class="col-md-12">
                     <div class="card">

@@ -148,6 +148,11 @@ class Index extends Component
         }
     }
 
+    public function importData()
+    {
+        // $data = Excel
+    }
+
     public function render()
     {
         return view('livewire.pages.users.students.index', [

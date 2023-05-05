@@ -14,6 +14,10 @@
                         <x-href colorButton="btn" url="{{ route('dashboard') }}" title="Kembali" />
                     </span>
                     <span class="d-none d-sm-inline">
+                        <a href="#" wire:click.prevent="createForm" class="btn btn-success">Import
+                            Siswa</a>
+                    </span>
+                    <span class="d-none d-sm-inline">
                         <a href="#" wire:click.prevent="createForm" class="btn btn-primary">Tambah
                             Siswa</a>
                     </span>

@@ -59,8 +59,13 @@
                     <button type="button" wire:click="close" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <form wire:submit.prevent="saveTask">
+                <form wire:submit.prevent="saveTask" autocomplete="off">
                     <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="feedback" class="form-label required">Jawaban </label>
+                            <input wire:model="urlSubmit" type="text" readonly disabled
+                                id="feedback" class="form-control" placeholder="Berikan keterangan tugas">
+                        </div>
                         <div class="mb-3">
                             <label for="inputNumber" class="form-label required">Nilai</label>
                             <input type="number" wire:model="taskLesson.grade"
@@ -73,14 +78,15 @@
                             <input wire:model="taskLesson.information" type="text" minlength="1" maxlength="255"
                                 id="feedback" class="form-control" placeholder="Berikan keterangan tugas" required>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" wire:click="close" class="btn" data-bs-dismiss="modal">
-                                Cancel
-                            </button>
-                            <button type="submit" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
-                                Berikan Nilai
-                            </button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" wire:click="close" class="btn" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
+                            Berikan Nilai
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

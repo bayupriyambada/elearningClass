@@ -26,9 +26,8 @@ class Ranking extends Component
             ->where("isStatus", "task")
             ->with(["taskLesson" => function ($q) {
                 $q->where("user_id", auth()->user()->id)
-                    ->whereNotNull("grade") // hanya ambil taskLesson yang sudah di-input grade
-                    ->orderByDesc("time_rated")
-                    ->with("user");
+            ->with("user")
+            ->max("grade");
             }])
             ->get();
 
@@ -41,52 +40,53 @@ class Ranking extends Component
                     $username = $user['username'];
                     $grade = $task['grade'];
 
-                    if ($grade > 0) { // hanya memproses grade yang bukan default 0
-                        if (isset($users[$userId])) {
-                            $users[$userId]['grades'][] = $grade;
-                        } else {
-                            $users[$userId] = [
-                                'username' => $username,
-                                'grades' => [$grade]
-                            ];
-                        }
+                    if (isset($users[$userId])) {
+                        $users[$userId]['grades'][] = $grade;
+                    } else {
+                        $users[$userId] = [
+                            'username' => $username,
+                            'grades' => [$grade]
+                        ];
                     }
                 }
             }
         }
-
         $usersRank = [];
+        $totalSubLessons = count($subLessons);
         foreach ($users as $userId => $userData) {
             $grades = $userData['grades'];
-            $average = array_sum($grades) / count($grades);
+            $average = array_sum($grades) / $totalSubLessons;
             $total = array_sum($grades);
-
-            $rank = 1;
-            foreach ($users as $comparedUserId => $comparedUserData) {
-                if ($comparedUserId !== $userId) {
-                    $comparedGrades = $comparedUserData['grades'];
-                    $comparedAverage = array_sum($comparedGrades) / count($comparedGrades);
-
-                    if ($average < $comparedAverage) {
-                        $rank++;
-                    }
-                }
-            }
 
             $usersRank[] = [
                 'userId' => $userId,
                 'username' => $userData['username'],
                 'average' => ceil($average),
-                'rank' => $rank,
-                'totalSubLesson' => count($grades),
-                'total' => $total
+                'totalSublesson' => $totalSubLessons,
+                'total' => $total,
             ];
         }
 
-        // sort array usersRank berdasarkan waktu submit terakhir
-        usort($usersRank, function ($a, $b) {
-            return $a['taskLesson'][0]['time_rated'] <=> $b['taskLesson'][0]['time_rated'];
-        });
+        usort(
+            $usersRank,
+            function ($a, $b) {
+                if ($b['average'] == $a['average']) {
+                    return 0;
+                }
+                return ($b['average'] < $a['average']) ? -1 : 1;
+            }
+        );
+
+        // beri peringkat pada setiap user
+        $rank = 0;
+        $prevAverage = null;
+        foreach ($usersRank as &$userRank) {
+            if ($userRank['average'] != $prevAverage) {
+                $prevAverage = $userRank['average'];
+                $rank++;
+            }
+            $userRank['rank'] = $rank;
+        }
 
         $currentUserRank = null;
         if (Auth::check()) {
@@ -99,6 +99,7 @@ class Ranking extends Component
                 }
             }
         }
+
         return view('livewire.pages.school.classes.sub-lesson.ranking', [
             'subLessons' => $subLessons,
             'usersRank' => $usersRank,

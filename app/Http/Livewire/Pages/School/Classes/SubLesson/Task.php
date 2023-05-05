@@ -14,6 +14,7 @@ class Task extends Component
     public $subLesson;
     public $taskLessonId;
     public $taskLesson;
+    public $urlSubmit;
 
     public $showModal = false;
     public function mount($lessonId, $subLessonId)
@@ -35,6 +36,7 @@ class Task extends Component
         $this->showModal = true;
         $this->taskLessonId = $taskLessonId;
         $this->taskLesson = TaskSubLesson::find($taskLessonId);
+        $this->urlSubmit = $this->taskLesson->url_submit;
     }
 
     protected function rules()

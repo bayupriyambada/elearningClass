@@ -31,6 +31,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->string("isPublish");
             $table->string("isStatus")->default('material');
+            $table->boolean("isOpen")->default(1);
             $table->timestamps();
         });
     }

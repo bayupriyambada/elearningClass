@@ -2,7 +2,7 @@
 <div>
     <div class="page-body">
         <div class="container-xl">
-            @if (auth()->user()->role->id === 1)
+            @if (auth()->user()->role_id === 1)
                 <div class="row row-deck row-cards">
                     <div class="col-12">
                         <div class="row row-cards">
@@ -64,33 +64,6 @@
                                     <div class="card-body">
                                         <div class="row align-items-center">
                                             <div class="col-auto">
-                                                <span class="bg-green text-white avatar">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon"
-                                                        width="24" height="24" viewBox="0 0 24 24"
-                                                        stroke-width="2" stroke="currentColor" fill="none"
-                                                        stroke-linecap="round" stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                        <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                                        <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                                        <path d="M17 17h-11v-14h-2" />
-                                                        <path d="M6 5l14 1l-1 7h-13" />
-                                                    </svg>
-                                                </span>
-                                            </div>
-                                            <div class="col">
-                                                <div class="font-weight-medium">
-                                                    {{ $materialCount }} Materi
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="card card-sm">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-auto">
                                                 <span class="bg-twitter text-white avatar">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon"
                                                         width="24" height="24" viewBox="0 0 24 24"
@@ -105,31 +78,6 @@
                                             <div class="col">
                                                 <div class="font-weight-medium">
                                                     {{ $attendancesCount }} Absensi
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-3">
-                                <div class="card card-sm">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-auto">
-                                                <span class="bg-facebook text-white avatar">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon"
-                                                        width="24" height="24" viewBox="0 0 24 24"
-                                                        stroke-width="2" stroke="currentColor" fill="none"
-                                                        stroke-linecap="round" stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                        <path
-                                                            d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
-                                                    </svg>
-                                                </span>
-                                            </div>
-                                            <div class="col">
-                                                <div class="font-weight-medium">
-                                                    {{ $assignmentCount }} Tugas
                                                 </div>
                                             </div>
                                         </div>
