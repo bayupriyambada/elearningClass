@@ -47,7 +47,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Tidak ada data</h3>
+                            <span class="card-subtitle">Saat ini belum mempunyai materi / tugas.</span>
                         </div>
                     </div>
                 </div>

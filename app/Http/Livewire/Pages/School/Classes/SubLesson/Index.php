@@ -72,6 +72,7 @@ class Index extends Component
                     'content' => $this->subLesson['content'],
                     'isPublish' => $this->subLesson['isPublish'],
                     'isStatus' => $this->subLesson['isStatus'],
+                    'isOpen' => 1,
                     'user_id' => auth()->user()->id,
                     'lesson_id' => $this->lesson->id,
                 ]);

@@ -47,7 +47,7 @@ Route::middleware('auth')->group(function () {
             Route::get("{lessonId}/sub-lesson/view/{subLessonId}", SubLessonView::class)->name("sub.view");
             Route::get("{lessonId}/subLesson/preview/{subLessonId}", Show::class)->name("sub.show");
             Route::get("{lessonId}/subLesson/task/{subLessonId}/answer", Task::class)->name("sub.task");
-            Route::get("{lessonId}/tracking-rank", Ranking::class)->name("tracking.rank");
+            Route::get("{lessonId}/track-assessment/task", Ranking::class)->name("tracking.rank");
         });
     });
 });

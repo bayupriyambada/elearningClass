@@ -10,10 +10,10 @@
             </div>
             <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
-                    <span class="d-none d-sm-inline">
+                    <span class="d-sm-inline">
                         <x-href colorButton="btn" url="{{ route('dashboard') }}" title="Kembali" />
                     </span>
-                    <span class="d-none d-sm-inline">
+                    <span class="d-sm-inline">
                         <a href="#" wire:click.prevent="createForm" class="btn btn-primary">Tambah
                             Tenaga Didik</a>
                     </span>
@@ -40,6 +40,7 @@
                         <p class="text-muted">
                             Perhatian! Tindakan penghapusan data tidak dapat dikembalikan. Pastikan Anda yakin sebelum
                             menghapus data. Kata sandi baru atau reset adalah <b>password</b></p>
+                        <p class="text-muted">Email dibuat secara otomatis dengan nama panggilan 10 karakter + random 3 karakter.</p>
                     </div>
                 </div>
             </div>
@@ -146,10 +147,6 @@
                         </div>
                         <div class="mb-3">
                             <x-input type="text" name="userTeacher.fullname" label="Nama lengkap" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label required">Alamat Email</label>
-                            <input type="text" id="email" class="form-control" wire:model="userTeacher.email" {{$userTeacherId? "disabled" : ""}} placeholder="Masukkan alamat email" required>
                         </div>
                     </div>
                     <div class="modal-footer">

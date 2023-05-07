@@ -32,14 +32,13 @@ class Index extends Component
     protected function rules()
     {
         return [
-            'userTeacher.username' => 'required|string|min:1|max:255',
+            'userTeacher.username' => 'required|string|min:1|max:20',
             'userTeacher.fullname' => 'required|string|min:1|max:300',
-            'userTeacher.email' => 'required|string|email|unique:users,email,' . $this->userTeacherId
         ];
     }
 
     protected $messages = [
-        'userTeacher.email.unique' => "Email ini telah dipakai"
+        "userTeacher.username.max" => "Nama panggilan hanya diperbolehkan maksimal 30 karakter",
     ];
 
     public function edit($userTeacherId)
@@ -69,9 +68,9 @@ class Index extends Component
                     'id' => Str::uuid(),
                     'username' => Str::lower($this->userTeacher['username']),
                     'fullname' => ucwords($this->userTeacher['fullname']),
-                    'email' => $this->userTeacher['email'],
+                    'email' => Str::lower($this->userTeacher['username'] . Str::random(3)) . "@teacher.com",
                     'registrationCode' => Date('Y') . Str::random(8),
-                    'role_id' => 3,
+                    'role_id' => 2,
                     'email_verified_at' => now(),
                     'password' => Hash::make("password")
                 ]);

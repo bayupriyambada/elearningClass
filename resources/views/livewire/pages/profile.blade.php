@@ -8,7 +8,7 @@
                     <form wire:submit.prevent="updateProfile">
                         <div class="row g-3">
                           <div class="col-md-4">
-                            <x-input type="text" name="username" label="Nama Panggilan" required />
+                            <x-input type="text" name="username" label="Nama Panggilan" required disabled/>
                           </div>
                           <div class="col-md-4">
                             <x-input type="text" name="fullname" label="Nama Lengkap" required />

@@ -36,7 +36,7 @@ class Index extends Component
         return [
             'userStudent.username' => 'required|string|min:1|max:255',
             'userStudent.fullname' => 'required|string|min:1|max:300',
-            'userStudent.email' => 'required|string|email|unique:users,email,' . $this->userStudentId
+            // 'userStudent.email' => 'required|string|email|unique:users,email,' . $this->userStudentId
         ];
     }
 
@@ -56,6 +56,7 @@ class Index extends Component
         $this->showModal = true;
         $this->userStudent = null;
         $this->userStudentId = null;
+
     }
 
     public function save()
@@ -71,7 +72,7 @@ class Index extends Component
                     'id' => Str::uuid(),
                     'username' => Str::lower($this->userStudent['username']),
                     'fullname' => ucwords($this->userStudent['fullname']),
-                    'email' => $this->userStudent['email'],
+                    'email' => Str::lower($this->userStudent['username'] . Str::random(3)) . "@smk.com",
                     'registrationCode' => Date('Y') . Str::random(8),
                     'role_id' => 3,
                     'email_verified_at' => now(),
@@ -147,12 +148,6 @@ class Index extends Component
             $this->resetPass();
         }
     }
-
-    public function importData()
-    {
-        // $data = Excel
-    }
-
     public function render()
     {
         return view('livewire.pages.users.students.index', [

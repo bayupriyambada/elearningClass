@@ -12,7 +12,7 @@ class SubLesson extends Model
     use HasFactory, HasUuids;
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['id', 'lesson_id', 'user_id', 'title', 'content', 'isPublish', 'isStatus'];
+    protected $fillable = ['id', 'lesson_id', 'user_id', 'title', 'content', 'isPublish', 'isStatus', 'isOpen'];
 
     public function user()
     {

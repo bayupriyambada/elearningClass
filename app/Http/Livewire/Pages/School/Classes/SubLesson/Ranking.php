@@ -26,7 +26,7 @@ class Ranking extends Component
             ->where("isStatus", "task")
             ->with(["taskLesson" => function ($q) {
                 $q->where("user_id", auth()->user()->id)
-            ->with("user")
+            ->with("user", "subLesson")
             ->max("grade");
             }])
             ->get();
@@ -57,53 +57,23 @@ class Ranking extends Component
             $grades = $userData['grades'];
             $average = array_sum($grades) / $totalSubLessons;
             $total = array_sum($grades);
-
+            // if ($average > 80) {
+            //     dd("bagus sekali");
+            // } else {
+            //     dd("kurang bagus");
+            // }
             $usersRank[] = [
                 'userId' => $userId,
-                'username' => $userData['username'],
+                // 'username' => $userData['username'],
                 'average' => ceil($average),
                 'totalSublesson' => $totalSubLessons,
                 'total' => $total,
             ];
         }
 
-        usort(
-            $usersRank,
-            function ($a, $b) {
-                if ($b['average'] == $a['average']) {
-                    return 0;
-                }
-                return ($b['average'] < $a['average']) ? -1 : 1;
-            }
-        );
-
-        // beri peringkat pada setiap user
-        $rank = 0;
-        $prevAverage = null;
-        foreach ($usersRank as &$userRank) {
-            if ($userRank['average'] != $prevAverage) {
-                $prevAverage = $userRank['average'];
-                $rank++;
-            }
-            $userRank['rank'] = $rank;
-        }
-
-        $currentUserRank = null;
-        if (Auth::check()) {
-            $currentUserId = Auth::id();
-
-            foreach ($usersRank as $userRank) {
-                if ($userRank['userId'] === $currentUserId) {
-                    $currentUserRank = $userRank;
-                    break;
-                }
-            }
-        }
-
         return view('livewire.pages.school.classes.sub-lesson.ranking', [
             'subLessons' => $subLessons,
             'usersRank' => $usersRank,
-            'currentUserRank' => $currentUserRank,
         ]);
     }
 }

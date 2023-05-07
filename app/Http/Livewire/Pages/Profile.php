@@ -16,7 +16,6 @@ class Profile extends Component
     public $email;
     public $phone;
     public $address;
-    public $avatar;
     public $registrationCode;
     public $password;
     public $oldPassword;
@@ -36,7 +35,6 @@ class Profile extends Component
     protected $rules = [
         'username' => 'required|string|min:1',
         'fullname' => 'required|string|min:1',
-        'avatar' => 'nullable',
         'phone' => 'nullable',
         'address' => 'nullable',
     ];
@@ -53,7 +51,6 @@ class Profile extends Component
                 'username' => $this->username,
                 'fullname' => $this->fullname,
                 'phone' => $this->phone,
-                'avatar' => $this->avatar,
                 'address' => $this->address,
                 'password' => $password
             ]);

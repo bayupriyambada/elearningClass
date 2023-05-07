@@ -19,7 +19,6 @@
                 </div>
             </div>
         </div>
-
         <div class="row row-cards mt-2">
             @forelse ($taskSubmit as $index => $task)
                 <div class="col-md-12">

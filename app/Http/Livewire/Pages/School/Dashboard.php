@@ -61,7 +61,7 @@ class Dashboard extends Component
             ->get();
         $classes = Lesson::where('user_id', auth()->user()->id)
             ->with(["user:id,username", "lessonCategory"])
-            ->withCount("subLesson")
+            ->withCount("subLesson", "joinLesson")
             ->orderByDesc("created_at")
         ->get();
         // dd($classes);
