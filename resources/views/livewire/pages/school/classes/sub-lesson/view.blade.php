@@ -36,34 +36,36 @@
                             {!! $subLesson->content !!}
                         </div>
                     </div>
-                    @if ($subLesson->isStatus === 'task')
-                        <div class="card">
-                            <div class="card-body">
-                                <form wire:submit.prevent="submitTask">
-                                    <div class="modal-body">
-                                        <div class="mb-3">
-                                            <label for="submitTask" class="form-label required">Formulir Tugas</label>
-                                            <input id="submitTask" class="form-control" type="text"
-                                                wire:model="submitTask.url_submit" {{ $readOnly ? 'disabled' : '' }}
-                                                placeholder="Tambahkan jawaban anda" />
-                                            @error('submitTask.url_submit')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
+                    @if ($subLesson->isOpen === 1)
+                        @if ($subLesson->isStatus === 'task')
+                            <div class="card">
+                                <div class="card-body">
+                                    <form wire:submit.prevent="submitTask">
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label for="submitTask" class="form-label required">Formulir Tugas</label>
+                                                <input id="submitTask" class="form-control" type="text"
+                                                    wire:model="submitTask.url_submit" {{ $readOnly ? 'disabled' : '' }}
+                                                    placeholder="Tambahkan jawaban anda" />
+                                                @error('submitTask.url_submit')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary ms-auto"
-                                            {{ $readOnly ? 'hidden' : '' }}>
-                                            {{ $buttonLabel }}
-                                        </button>
-                                        @if ($readOnly)
-                                            <button type="button" class="btn btn-secondary"
-                                                wire:click="enabledEditForm">Ubah</button>
-                                        @endif
-                                    </div>
-                                </form>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary ms-auto"
+                                                {{ $readOnly ? 'hidden' : '' }}>
+                                                {{ $buttonLabel }}
+                                            </button>
+                                            @if ($readOnly)
+                                                <button type="button" class="btn btn-secondary"
+                                                    wire:click="enabledEditForm">Ubah</button>
+                                            @endif
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     @endif
                 </div>
             </div>

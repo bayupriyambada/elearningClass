@@ -15,7 +15,7 @@
                         <button wire:click.prevent="deleteSelected"
                             onclick="confirm('Are you sure?') || event.stopImmediatePropagation()" class="btn btn-danger"
                             @if ($bulkDisabled) disabled @endif>
-                            Pilih Dihapus [{{count($selectedLesson)}}]
+                            Pilih Dihapus [{{ count($selectedLesson) }}]
                         </button>
                     </span>
                     <span class=" d-sm-inline">
@@ -64,6 +64,10 @@
                                             href="{{ route('school.classes.sub.index', [$lesson->id]) }}">
                                             <span>Tambah Sub Materi</span>
                                         </a>
+                                        <a class="dropdown-item"
+                                            href="{{ route('school.classes.sub.index', [$lesson->id]) }}">
+                                            <span>Rata-Rata Siswa</span>
+                                        </a>
                                         <a class="dropdown-item" href="#"
                                             wire:click="edit({{ json_encode($lesson->id) }})">
                                             Ubah
@@ -101,7 +105,7 @@
                     <button type="button" wire:click="close" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <form wire:submit.prevent="save">
+                <form wire:submit.prevent="save" autocomplete="off">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="exampleFormControlSelect2">Example select</label>
@@ -113,6 +117,13 @@
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputNumber" class="form-label required">KKM Pelajaran</label>
+                            <input type="number" wire:model="classes.kkm"
+                                onkeydown="if(event.keyCode === 69 || event.keyCode === 190 || event.keyCode === 189 || event.keyCode === 109) return false;"
+                                min="1" max="100" id="inputNumber" class="form-control"
+                                placeholder="1 / 100" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -188,6 +199,17 @@
                         placeholder: '{{ __('Select your option') }}',
                         allowClear: !el.attr('required'),
                     })
+                }
+            })
+        </script>
+        <script>
+            const inputNumber = document.getElementById("inputNumber")
+
+            inputNumber.addEventListener("input", function() {
+                if (this.value < 0) {
+                    this.value = inputNumber;
+                } else if (this.value > 100) {
+                    this.value = 100;
                 }
             })
         </script>

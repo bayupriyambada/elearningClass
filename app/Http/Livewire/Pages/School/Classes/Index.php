@@ -29,6 +29,7 @@ class Index extends Component
 
     protected $rules = [
         'classes.lesson_categories_id' => 'required',
+        'classes.kkm' => 'required',
     ];
     public function edit($classesId)
     {
@@ -61,7 +62,8 @@ class Index extends Component
                     'lesson_categories_id' => $this->classes['lesson_categories_id'],
                     'passcode' => Str::random(10),
                     'user_id' => auth()->user()->id,
-                    'version' => (int) $latestVersion + 1
+                    'version' => (int) $latestVersion + 1,
+                    "kkm" => $this->classes['kkm']
                 ]);
                 ToastHelpers::success($this, "Berhasil menambahkan pelajaran");
             }

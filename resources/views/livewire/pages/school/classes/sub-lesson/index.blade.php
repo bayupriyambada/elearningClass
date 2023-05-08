@@ -103,9 +103,10 @@
                 <form wire:submit.prevent="save">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <x-input type="text" name="subLesson.title" label="Kategori Pelajaran" required />
+                            <x-input type="text" name="subLesson.title" label="Judul Sub Pelajaran" required />
                         </div>
                         <div class="mb-3" wire:ignore>
+                            <label for="description" class="form-label required">Konten Sub Pelajaran</label>
                             <textarea data-description="@this" wire:model="subLesson.content"
                                 class="form-control @error('subLesson.content') is-invalid @enderror" id="description" name="description"></textarea>
                         </div>

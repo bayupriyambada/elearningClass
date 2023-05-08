@@ -13,7 +13,7 @@ class Lesson extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    protected $fillable = ['id', 'lesson_categories_id', 'user_id', 'passcode', "version"];
+    protected $fillable = ['id', 'lesson_categories_id', 'user_id', 'passcode', "version", "kkm"];
 
     public function user()
     {
